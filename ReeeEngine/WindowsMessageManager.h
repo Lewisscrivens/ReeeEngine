@@ -2,7 +2,9 @@
 #include <Windows.h>
 #include <unordered_map>
 
-/* Class to handle logging messages from a window. */
+/* Class to handle logging messages from a window.
+ * Useful class derived from the planet chilli example projects.
+ * NOTE: creates a map to map DWORD Windows API messages to strings. */
 class WindowsMessageManager
 {
 public:

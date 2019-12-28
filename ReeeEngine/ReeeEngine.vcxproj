@@ -81,6 +81,7 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FloatingPointModel>Fast</FloatingPointModel>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>DXErrors;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,6 +111,7 @@
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpplatest</LanguageStandard>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalIncludeDirectories>DXErrors;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -133,11 +135,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DXErrors\dxerr.cpp" />
+    <ClCompile Include="DxgiMessageManager.cpp" />
+    <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="ReeeException.cpp" />
+    <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowsMessageManager.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DXErrors\dxerr.h" />
+    <ClInclude Include="DxgiMessageManager.h" />
+    <ClInclude Include="Engine.h" />
+    <ClInclude Include="Graphics.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="ReeeException.h" />
+    <ClInclude Include="ReeeWin.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Timer.h" />
+    <ClInclude Include="Window.h" />
     <ClInclude Include="WindowsMessageManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ReeeEngine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\ReeeIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DXErrors\DXGetErrorDescription.inl" />
+    <None Include="DXErrors\DXGetErrorString.inl" />
+    <None Include="DXErrors\DXTrace.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
