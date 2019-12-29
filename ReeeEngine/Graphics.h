@@ -3,23 +3,30 @@
 #include "DxgiMessageManager.h"
 #include <d3d11.h>
 #include <vector>
+#include <wrl.h>
 #include "ReeeException.h"
 
 /* Define macros for throwing graphical exceptions. */
+
+/* Creates a HResult Exception from the given HRESULT. */
 #define GRAPHICS_EXCEPT_NOINFO(hr) Graphics::HResultException(__LINE__, __FILE__, hr)
+/* Throws HResultException from the given HRESULT. */
 #define GRAPHICS_THROW_NOINFO(hr) if (FAILED(hResult = (hr))) throw Graphics::HResultException(__LINE__, __FILE__, hResult)
 
 /* If debug is enabled use the graphics message manager to handle getting messages from the dxgi interface. */
 #ifndef DEBUG_ENABLED
+/* Creates a HResult Exception using the dxgi interface messages. */
 #define GRAPHICS_EXCEPT_INFO(hr) Graphics::HResultException(__LINE__, __FILE__, hr, graphicsMessageManager.GetMessages())
+/* Checks graphics functions and throws exception if failed. */
 #define GRAPHICS_THROW_INFO(hr) if (FAILED(hr)) throw GRAPHICS_EXCEPT_INFO(hr)
+/* Creates and returns a graphics device lost exception along with any dxgi interface messages. */
 #define GRAPHICS_LOST_EXCEPT(hr) Graphics::GrpahicsDeviceLostException(__LINE__, __FILE__, hr, graphicsMessageManager.GetMessages())
 #else
+/* If debug is not enabled throw exceptions without the dxgi interface messages. */
 #define GRAPHICS_EXCEPT_INFO(hr) Graphics::HResultException(__LINE__, __FILE__, hr)
 #define GRAPHICS_THROW_INFO(hr) GRAPHICS_THROW_NOINFO(hr)
 #define GRAPHICS_LOST_EXCEPT(hr) Graphics::GrpahicsDeviceLostException(__LINE__, __FILE__, hr)
 #endif
-
 
 /* Create and handle graphics device. */
 class Graphics
@@ -78,9 +85,7 @@ public:
 	Graphics(HWND hWnd);
 	Graphics(const Graphics&) = delete;
 	Graphics& operator = (const Graphics&) = delete;
-
-	/* Destructor. */
-	~Graphics();
+	~Graphics() = default;
 
 	/* End frame function. */
 	void EndFrame();
@@ -92,10 +97,10 @@ public:
 private:
 
 	/* Create graphics device variables. */
-	ID3D11Device* device = nullptr;
-	IDXGISwapChain* swapChain = nullptr;
-	ID3D11DeviceContext* context = nullptr;
-	ID3D11RenderTargetView* renderTarget = nullptr;
+	Microsoft::WRL::ComPtr<ID3D11Device> device;
+	Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> renderTarget;
 
 	/* If the debug layer is enabled, create an info manager. */
 #ifndef DEBUG_ENABLED

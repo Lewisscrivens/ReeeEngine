@@ -1,8 +1,9 @@
 #include "Graphics.h"
 #include "DXErrors/dxerr.h"
 #include <sstream>
-#pragma comment(lib, "d3d11.lib")// Fix linker error for D3D.
 
+namespace WRL = Microsoft::WRL;// Shorten WRL namespace.
+#pragma comment(lib, "d3d11.lib")// Fix linker error for D3D.
 
 Graphics::Graphics(HWND hWnd)
 {
@@ -47,21 +48,13 @@ Graphics::Graphics(HWND hWnd)
 	GRAPHICS_THROW_INFO(result);
 
 	// Obtain the back buffer module from the swap chain to create a render target.
-	ID3D11Resource* backBuffer = nullptr;
-	result = swapChain->GetBuffer(0, __uuidof(ID3D11Resource), reinterpret_cast<void**>(&backBuffer));
+	WRL::ComPtr<ID3D11Resource> backBuffer;
+	result = swapChain->GetBuffer(0, __uuidof(ID3D11Resource), &backBuffer);
 	GRAPHICS_THROW_INFO(result);
 
 	// Create render target view.
-	result = device->CreateRenderTargetView(backBuffer, nullptr, &renderTarget);
+	result = device->CreateRenderTargetView(backBuffer.Get(), nullptr, &renderTarget);
 	GRAPHICS_THROW_INFO(result);
-}
-
-Graphics::~Graphics()
-{
-	// Destroy/Release all pointers.
-	if (device != nullptr) device->Release();
-	if (context != nullptr) context->Release();
-	if (swapChain != nullptr) swapChain->Release();
 }
 
 void Graphics::EndFrame()
@@ -84,7 +77,7 @@ void Graphics::ClearRenderTarget(float r, float g, float b) noexcept
 {
 	// Clears the render target view 
 	const float color[] = { r, g, b, 1.0f };
-	context->ClearRenderTargetView(renderTarget, color);
+	context->ClearRenderTargetView(renderTarget.Get(), color);
 }
 
 // Initialize HResultException when created.

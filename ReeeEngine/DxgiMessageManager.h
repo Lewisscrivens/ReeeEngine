@@ -2,6 +2,7 @@
 #include "ReeeWin.h"
 #include <wrl.h>
 #include <vector>
+#include <wrl.h>
 #include <dxgidebug.h>
 
 /* DXGI Interface manager for returning messages from debug layer. */
@@ -11,7 +12,7 @@ public:
 
 	/* Constructor and destructor for adding and releasing the Dxgi interface. */
 	DxgiMessageManager();
-	~DxgiMessageManager();
+	~DxgiMessageManager() = default;
 
 	/* Dont allow this class to be set or copied after creation. */
 	DxgiMessageManager(const DxgiMessageManager&) = delete;
@@ -22,6 +23,6 @@ public:
 	std::vector<std::string> GetMessages() const;
 
 	unsigned long long nextMessage = 0u;// Next message to save location in message vector.
-	struct IDXGIInfoQueue* dxgiInterface = nullptr;
+	Microsoft::WRL::ComPtr<IDXGIInfoQueue> dxgiInterface;// Pointer to the dxgi interface.
 };
 

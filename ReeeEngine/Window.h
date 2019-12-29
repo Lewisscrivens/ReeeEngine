@@ -6,7 +6,7 @@
 #include <memory>
 #include "Graphics.h"
 
-/* Helper window macros. */
+/* Helper window macros for exceptions. */
 #define WINDOW_EXCEPT(hr) Window::HrException(__LINE__, __FILE__, hr)
 #define WINDOW_LAST_EXCEPT() Window::HrException(__LINE__, __FILE__, GetLastError())
 #define WINDOW_NOGRAPHICS_EXCEPT() Window::NoGraphicsException(__LINE__, __FILE__)
@@ -19,7 +19,6 @@ public:
 	/* Window exception class to hold static error code translate function. */
 	class Exception : public ReeeException
 	{
-
 		using ReeeException::ReeeException;
 
 	public:

@@ -22,16 +22,9 @@ DxgiMessageManager::DxgiMessageManager()
 	if (dxgiInterfaceLoc == nullptr) throw WINDOW_LAST_EXCEPT();
 
 	// Copy the pointer location for the DxgiInterface from the memory address.
-	HRESULT hResult = dxgiInterfaceLoc(__uuidof(IDXGIInfoQueue), reinterpret_cast<void**>(&dxgiInterface));
+	HRESULT hResult = dxgiInterfaceLoc(__uuidof(IDXGIInfoQueue), &dxgiInterface);
 	GRAPHICS_THROW_NOINFO(hResult);
 }
-
-DxgiMessageManager::~DxgiMessageManager()
-{
-	// Release the pointer on destruction.
-	if (dxgiInterface != nullptr) dxgiInterface->Release();
-}
-
 
 void DxgiMessageManager::ClearMessages()
 {
