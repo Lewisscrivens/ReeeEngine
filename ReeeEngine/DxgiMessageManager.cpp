@@ -60,3 +60,12 @@ std::vector<std::string> DxgiMessageManager::GetMessages() const
 	// Return messages as a vector of strings.
 	return messages;
 }
+
+DxgiMessageManager& DxgiMessageManager::GetMessageManager(Graphics& graphicsClass)
+{
+#if DEBUG_ENABLED
+	return graphicsClass.graphicsMessageManager;
+#else
+	throw std::runtime_error("Tried to access DXGI message manager in the graphics class when DEBUG_ENABLED is false so it was not created...");
+#endif
+}

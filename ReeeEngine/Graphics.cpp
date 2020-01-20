@@ -1,6 +1,6 @@
 #include "Graphics.h"
 #include "DXErrors/dxerr.h"
-#include "GraphicsException.h"
+#include "DxgiMessageManager.h"
 #include <sstream>
 
 namespace WRL = Microsoft::WRL;// Shorten WRL namespace.
@@ -62,7 +62,7 @@ void Graphics::EndFrame()
 {
 	// If in debug mode set graphics message manager to clear last frames messages.
 #ifndef DEBUG_ENABLED
-	graphicsMessageManager.ClearMessages();
+	messageManager.ClearMessages();
 #endif
 
 	// Target 60 fps with no extra flags. Also handle if device is removed / driver crash with correct error code.
@@ -80,5 +80,3 @@ void Graphics::ClearRenderTarget(float r, float g, float b) noexcept
 	const float color[] = { r, g, b, 1.0f };
 	context->ClearRenderTargetView(renderTarget.Get(), color);
 }
-
-

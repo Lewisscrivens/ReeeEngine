@@ -1,11 +1,13 @@
 #include "Engine.h"
 
-// Main window initialized here.
+// Main window created here.
 Engine::Engine() : mainWindow(800, 600, "Reee Engine") {}
 
 void Engine::Begin()
 {
-	// Anything that should be ran before update goes here...1
+	// Anything that should be ran before update goes here...
+
+
 }
 
 int Engine::Update()

@@ -1,9 +1,7 @@
 #include "GraphicsException.h"
+#include "Graphics.h"
 #include "DXErrors/dxerr.h"
 #include <sstream>
-
-namespace WRL = Microsoft::WRL;// Shorten WRL namespace.
-#pragma comment(lib, "d3d11.lib")// Fix linker error for D3D.
 
 // Initialize HResultException when created.
 GraphicsException::HResultException::HResultException(int lineNo, const char* fileName, HRESULT hResult, std::vector<std::string> messages) noexcept : GException(lineNo, fileName), hResult(hResult)
@@ -107,9 +105,3 @@ std::string GraphicsException::DirectException::GetErrorInfo() const noexcept
 	return message;
 }
 
-#if DEBUG_ENABLED
-void GraphicsException::SetMessageManager(Microsoft::WRL::ComPtr<DxgiMessageManager> messageManager)
-{
-	pGraphicsMessageManager = messageManager;
-}
-#endif

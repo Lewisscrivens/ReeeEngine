@@ -1,53 +1,13 @@
 #pragma once
 #include "ReeeWin.h"
-#include "DxgiMessageManager.h"
 #include <d3d11.h>
 #include <vector>
 #include <wrl.h>
 #include "ReeeException.h"
 
-//////////////////////////////////////////////////////
-/* Define macros for throwing graphical exceptions. */
-//////////////////////////////////////////////////////
-
-/* Creates a HResult Exception from the given HRESULT. */
-#define GRAPHICS_EXCEPT_NOINFO(hr) GraphicsException::HResultException(__LINE__, __FILE__, hr)
-
-/* Throws HResultException from the given HRESULT. */
-#define GRAPHICS_THROW_NOINFO(hr) if (FAILED(hResult = (hr))) throw GraphicsException::HResultException(__LINE__, __FILE__, hResult)
-
-/* If debug is enabled use the graphics message manager to handle getting messages from the dxgi interface. */
-#ifndef DEBUG_ENABLED
-
-/* Creates a HResult Exception using the dxgi interface messages and any found error information from the hresult. */
-#define GRAPHICS_EXCEPT_INFO(hr) GraphicsException::HResultException(__LINE__, __FILE__, hr, pGraphicsMessageManager.Get().GetMessages())
-/* Checks graphics functions and throws exception if failed. */
-#define GRAPHICS_THROW_INFO(hr) if (FAILED(hr)) throw GRAPHICS_EXCEPT_INFO(hr)
-/* Throw dxgi error message info only. */
-#define GRAPHICS_THROW_DIRECT3D_INFO(call) (call); {auto messages = pGraphicsMessageManager.Get().GetMessages(); if(!messages.empty()) {throw GraphicsException::DirectException( __LINE__,__FILE__,v);}}
-/* Creates and returns a graphics device lost exception along with any dxgi interface messages. */
-#define GRAPHICS_LOST_EXCEPT(hr) GraphicsException::GraphicsDeviceLostException(__LINE__, __FILE__, hr, pGraphicsMessageManager.Get().GetMessages())
-
-#else
-
-/* If debug is not enabled throw exceptions without the dxgi interface messages. */
-#define GRAPHICS_EXCEPT_INFO(hr) GraphicsException::HResultException(__LINE__, __FILE__, hr)
-#define GRAPHICS_THROW_INFO(hr) GRAPHICS_THROW_NOINFO(hr)
-#define GFX_THROW_INFO_ONLY(call) (call)
-#define GRAPHICS_LOST_EXCEPT(hr) GraphicsException::GraphicsDeviceLostException(__LINE__, __FILE__, hr)
-
-#endif
-
-/* Class holding any functionality for throwing graphics based engine exceptions. */
+/* Holds the exception classes/structures for the graphics class. */
 class GraphicsException
 {
-public:
-
-#if DEBUG_ENABLED
-	/* Constructor. */
-	void SetMessageManager(Microsoft::WRL::ComPtr<DxgiMessageManager> messageManager);
-#endif
-
 public:
 
 	/* Base graphics exception class. */
@@ -111,12 +71,5 @@ public:
 		/* Reason that the graphics device was lost? */
 		std::string exceptionInfo;
 	};
-
-public:
-
-#ifndef DEBUG_ENABLED
-	/* Graphics message manager pointer from graphics class for macros. */
-	Microsoft::WRL::ComPtr<DxgiMessageManager> pGraphicsMessageManager;
-#endif
 };
 

@@ -42,10 +42,10 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DxgiMessageManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DXErrors\dxerr.cpp">
+      <Filter>Dxerr</Filter>
+    </ClCompile>
+    <ClCompile Include="DxgiMessageManager.cpp">
       <Filter>Dxerr</Filter>
     </ClCompile>
     <ClCompile Include="GraphicsException.cpp">

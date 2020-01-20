@@ -11,7 +11,8 @@
 #define WINDOW_LAST_EXCEPT() Window::HrException(__LINE__, __FILE__, GetLastError())
 #define WINDOW_NOGRAPHICS_EXCEPT() Window::NoGraphicsException(__LINE__, __FILE__)
 
-/* Class to manage registration and cleanup for a given window. */
+/* Class to manage registration and cleanup for a given window.
+ * Also will handle any input and messages passed to the window and call sub functions for engine input, error messages etc. */
 class Window
 {
 public:
@@ -136,6 +137,5 @@ public:
 
 	/* Return the windows hWnd. */
 	HWND GetHwnd();
-
 };
 

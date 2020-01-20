@@ -2,7 +2,6 @@
 #include <sstream>
 #include "resource.h"
 
-// Static window class.
 Window::WindowClass Window::WindowClass::windowClass;
 
 Window::WindowClass::WindowClass() noexcept : hInstance(GetModuleHandle(nullptr))
