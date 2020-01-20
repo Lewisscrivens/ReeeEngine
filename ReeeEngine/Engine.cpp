@@ -5,7 +5,7 @@ Engine::Engine() : mainWindow(800, 600, "Reee Engine") {}
 
 void Engine::Begin()
 {
-	// Anything that should be ran before update goes here...
+	// Anything that should be ran before update goes here...1
 }
 
 int Engine::Update()
