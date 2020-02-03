@@ -6,9 +6,9 @@
 #include <vector>
 #include <wrl.h>
 
-//////////////////////////////////////////////////////
-/* Define macros for throwing graphical exceptions. */
-//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+/* Define macros for throwing graphical exceptions from the graphics class. */
+//////////////////////////////////////////////////////////////////////////////
 
 /* Creates a HResult Exception from the given HRESULT. */
 #define GRAPHICS_EXCEPT_NOINFO(hr) GraphicsException::HResultException(__LINE__, __FILE__, hr)
@@ -59,6 +59,7 @@ public:
 private:
 
 	/* Create graphics device variables. */
+	/* NOTE: ComPtr handles releasing after application shutdown making destructor's unnecessary. */
 	Microsoft::WRL::ComPtr<ID3D11Device> device;
 	Microsoft::WRL::ComPtr<IDXGISwapChain> swapChain;
 	Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;

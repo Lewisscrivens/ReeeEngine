@@ -6,8 +6,8 @@
 #define KEYBOARD_ENABLED 1;
 #define MOUSE_ENABLED 1;
 
-/* Class to receive and manage input from the keyboard through the window class. */
-class Input
+/* Class to receive and manage input from the keyboard through the window class. Each window has a window input and graphics class. */
+class WindowsInput
 {
 	friend class Window;
 
@@ -80,7 +80,7 @@ public:
 
 		/* Default constructors for the mouse event. */
 		MouseEvent() : eventType(Type::Invalid), leftDown(false), rightDown(false), middleDown(false), x(0), y(0) {}
-		MouseEvent(Type type, const Input& parent) noexcept : eventType(type), leftDown(parent.leftMouseDown), rightDown(parent.rightMouseDown), middleDown(parent.middleMouseDown), x(parent.mouseX), y(parent.mouseY) {}
+		MouseEvent(Type type, const WindowsInput& parent) noexcept : eventType(type), leftDown(parent.leftMouseDown), rightDown(parent.rightMouseDown), middleDown(parent.middleMouseDown), x(parent.mouseX), y(parent.mouseY) {}
 
 		/* Functions to check event type / state. */
 		bool IsValid() const noexcept { return eventType != Type::Invalid; }
@@ -96,9 +96,9 @@ public:
 public:
 
 	/* Constructors. */
-	Input() = default;
-	Input(const Input&) = delete;
-	Input& operator = (const Input&) = delete;
+	WindowsInput() = default;
+	WindowsInput(const WindowsInput&) = delete;
+	WindowsInput& operator = (const WindowsInput&) = delete;
 
 	/* MOUSE FUNCTIONALITY. */
 
@@ -118,7 +118,7 @@ public:
 	int GetMouseDelta() noexcept;// Returns the current mouse delta val.
 	bool IsMouseInWindow() const noexcept; // Is the mouse within the owning window for this input.
 	std::string GetMousePositionString() noexcept;// Return the current mouse position as a formated string.
-	Input::MouseEvent ReadMouseEvent() noexcept;// Return the first event on the buffer if there is one.
+	WindowsInput::MouseEvent ReadMouseEvent() noexcept;// Return the first event on the buffer if there is one.
 	bool IsMouseBufferEmpty() const noexcept;// Return if the mouse button buffer is empty.
 	void ResetMouseBuffer() noexcept;// Reset the buffer.
 

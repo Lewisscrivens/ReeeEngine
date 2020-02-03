@@ -1,34 +1,34 @@
-#include "Input.h"
+#include "WindowsInput.h"
 #include "Window.h"
 #include <sstream>
 
-std::pair<int, int> Input::GetMousePosition() const noexcept
+std::pair<int, int> WindowsInput::GetMousePosition() const noexcept
 {
 	return {mouseX, mouseY};
 }
 
-int Input::GetMouseXPosition() const noexcept
+int WindowsInput::GetMouseXPosition() const noexcept
 {
 	return mouseX;
 }
 
-int Input::GetMouseYPosition() const noexcept
+int WindowsInput::GetMouseYPosition() const noexcept
 {
 	return mouseY;
 }
 
-bool Input::IsMouseDown(EMouseButton button) const noexcept
+bool WindowsInput::IsMouseDown(EMouseButton button) const noexcept
 {
 	// Return if the mouse button is currently down.
 	switch (button)
 	{
-	case Input::EMouseButton::Left:
+	case WindowsInput::EMouseButton::Left:
 		return leftMouseDown;
 	break;
-	case Input::EMouseButton::Right:
+	case WindowsInput::EMouseButton::Right:
 		return rightMouseDown;
 	break;
-	case Input::EMouseButton::Middle:
+	case WindowsInput::EMouseButton::Middle:
 		return middleMouseDown;
 	break;
 	}
@@ -37,7 +37,7 @@ bool Input::IsMouseDown(EMouseButton button) const noexcept
 	return false;
 }
 
-bool Input::IsMouseMoving() noexcept
+bool WindowsInput::IsMouseMoving() noexcept
 {
 	// While the buffer is not empty.
 	while (!IsMouseBufferEmpty())
@@ -53,57 +53,57 @@ bool Input::IsMouseMoving() noexcept
 	return false;
 }
 
-int Input::GetMouseDelta() noexcept
+int WindowsInput::GetMouseDelta() noexcept
 {
 	return wheelDelta;
 }
 
-bool Input::IsMouseInWindow() const noexcept
+bool WindowsInput::IsMouseInWindow() const noexcept
 {
 	return mouseInsideWindow;
 }
 
-std::string Input::GetMousePositionString() noexcept
+std::string WindowsInput::GetMousePositionString() noexcept
 {
 	std::ostringstream mouseStringStream;
 	mouseStringStream << "Mouse Position: (" << mouseX << ", " << mouseY;
 	return mouseStringStream.str();
 }
 
-Input::MouseEvent Input::ReadMouseEvent() noexcept
+WindowsInput::MouseEvent WindowsInput::ReadMouseEvent() noexcept
 {
 	// If there are any events stored in the mouse buffer read front event.
 	if (mouseBuffer.size() > 0u)
 	{
-		Input::MouseEvent newMouseEvent = mouseBuffer.front(); // Use newest event.
+		WindowsInput::MouseEvent newMouseEvent = mouseBuffer.front(); // Use newest event.
 		mouseBuffer.pop(); // Remove oldest event.
 		return newMouseEvent;
 	}
-	else return Input::MouseEvent(); // Otherwise return default empty event.
+	else return WindowsInput::MouseEvent(); // Otherwise return default empty event.
 }
 
-bool Input::IsMouseBufferEmpty() const noexcept
+bool WindowsInput::IsMouseBufferEmpty() const noexcept
 {
 	return mouseBuffer.empty();
 }
 
-void Input::ResetMouseBuffer() noexcept
+void WindowsInput::ResetMouseBuffer() noexcept
 {
 	mouseBuffer = std::queue<MouseEvent>();
 }
 
-void Input::OnMouseMove(int x, int y) noexcept
+void WindowsInput::OnMouseMove(int x, int y) noexcept
 {
 	// Update mouse x and y.
 	mouseX = x;
 	mouseY = y;
 
 	// Add new event to mouse buffer and remove oldest event.
-	mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::Move, *this));
+	mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::Move, *this));
 	TrimMouseBuffer();
 }
 
-void Input::OnMouseInside() noexcept
+void WindowsInput::OnMouseInside() noexcept
 {
 	// Update mouse inside window event.
 	mouseInsideWindow = true;
@@ -111,7 +111,7 @@ void Input::OnMouseInside() noexcept
 	TrimMouseBuffer();
 }
 
-void Input::OnMouseOutside() noexcept
+void WindowsInput::OnMouseOutside() noexcept
 {
 	// Update mouse inside window event.
 	mouseInsideWindow = false;
@@ -119,22 +119,22 @@ void Input::OnMouseOutside() noexcept
 	TrimMouseBuffer();
 }
 
-void Input::OnMousePressed(EMouseButton buttonPressed) noexcept
+void WindowsInput::OnMousePressed(EMouseButton buttonPressed) noexcept
 {
 	// Add event to mouse buffer.
 	switch (buttonPressed)
 	{
-	case Input::EMouseButton::Left:
+	case WindowsInput::EMouseButton::Left:
 		leftMouseDown = true;
-		mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::LeftDown, *this));
+		mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::LeftDown, *this));
 	break;
-	case Input::EMouseButton::Right:
+	case WindowsInput::EMouseButton::Right:
 		rightMouseDown = true;
-		mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::RightDown, *this));
+		mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::RightDown, *this));
 	break;
-	case Input::EMouseButton::Middle:
+	case WindowsInput::EMouseButton::Middle:
 		middleMouseDown = true;
-		mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::MiddleDown, *this));
+		mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::MiddleDown, *this));
 	break;
 	}
 
@@ -142,22 +142,22 @@ void Input::OnMousePressed(EMouseButton buttonPressed) noexcept
 	TrimMouseBuffer();
 }
 
-void Input::OnMouseReleased(EMouseButton buttonReleased) noexcept
+void WindowsInput::OnMouseReleased(EMouseButton buttonReleased) noexcept
 {
 	// Add event to mouse buffer.
 	switch (buttonReleased)
 	{
-	case Input::EMouseButton::Left:
+	case WindowsInput::EMouseButton::Left:
 		leftMouseDown = false;
-		mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::LeftUp, *this));
+		mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::LeftUp, *this));
 		break;
-	case Input::EMouseButton::Right:
+	case WindowsInput::EMouseButton::Right:
 		rightMouseDown = false;
-		mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::RightUp, *this));
+		mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::RightUp, *this));
 		break;
-	case Input::EMouseButton::Middle:
+	case WindowsInput::EMouseButton::Middle:
 		middleMouseDown = false;
-		mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::MiddleUp, *this));
+		mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::MiddleUp, *this));
 		break;
 	}
 
@@ -165,23 +165,23 @@ void Input::OnMouseReleased(EMouseButton buttonReleased) noexcept
 	TrimMouseBuffer();
 }
 
-void Input::OnMouseWheelUp() noexcept
+void WindowsInput::OnMouseWheelUp() noexcept
 {
-	mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::ScrollUp, *this));
+	mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::ScrollUp, *this));
 
 	// Remove oldest event from mouse buffer.
 	TrimMouseBuffer();
 }
 
-void Input::OnMouseWheelDown() noexcept
+void WindowsInput::OnMouseWheelDown() noexcept
 {
-	mouseBuffer.push(Input::MouseEvent(MouseEvent::Type::ScrollDown, *this));
+	mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::ScrollDown, *this));
 
 	// Remove oldest event from mouse buffer.
 	TrimMouseBuffer();
 }
 
-void Input::OnMouseWheelDelta(int delta) noexcept
+void WindowsInput::OnMouseWheelDelta(int delta) noexcept
 {
 	wheelDelta += delta;
 
@@ -198,7 +198,7 @@ void Input::OnMouseWheelDelta(int delta) noexcept
 	}
 }
 
-void Input::TrimMouseBuffer() noexcept
+void WindowsInput::TrimMouseBuffer() noexcept
 {
 	// Remove oldest mouse event from buffer until its within the desired buffer size.
 	while (mouseBuffer.size() > bufferSize)
@@ -207,35 +207,35 @@ void Input::TrimMouseBuffer() noexcept
 	}
 }
 
-bool Input::IsKeyDown(unsigned char keyCode) const noexcept
+bool WindowsInput::IsKeyDown(unsigned char keyCode) const noexcept
 {
 	return keySet[keyCode];
 }
 
-Input::KeyboardEvent Input::ReadKeyEvent() noexcept
+WindowsInput::KeyboardEvent WindowsInput::ReadKeyEvent() noexcept
 {
 	// If there is any keys in the buffer read and return event.
 	if (keyBuffer.size() > 0u)
 	{
-		Input::KeyboardEvent event = keyBuffer.front();
+		WindowsInput::KeyboardEvent event = keyBuffer.front();
 		keyBuffer.pop();// Remove oldest element.
 		return event;
 	}
 	// Otherwise return an empty event which is default set to invalid.
-	else return Input::KeyboardEvent();
+	else return WindowsInput::KeyboardEvent();
 }
 
-bool Input::IsKeyEmpty() const noexcept
+bool WindowsInput::IsKeyEmpty() const noexcept
 {
 	return keyBuffer.empty();
 }
 
-void Input::ResetKeyBuffer() noexcept
+void WindowsInput::ResetKeyBuffer() noexcept
 {
 	keyBuffer = std::queue<KeyboardEvent>();
 }
 
-char Input::ReadChar() noexcept
+char WindowsInput::ReadChar() noexcept
 {
 	// If the charBuffer has chars inside get most recent char pressed and return it.
 	if (charBuffer.size() > 0u)
@@ -247,58 +247,58 @@ char Input::ReadChar() noexcept
 	else return 0;
 }
 
-bool Input::IsCharEmpty() const noexcept
+bool WindowsInput::IsCharEmpty() const noexcept
 {
 	return charBuffer.empty();
 }
 
-void Input::ResetCharBuffer() noexcept
+void WindowsInput::ResetCharBuffer() noexcept
 {
 	charBuffer = std::queue<char>();
 }
 
-void Input::ResetBuffers() noexcept
+void WindowsInput::ResetBuffers() noexcept
 {
 	ResetKeyBuffer();
 	ResetCharBuffer();
 }
 
-void Input::EnableAutorepeat() noexcept
+void WindowsInput::EnableAutorepeat() noexcept
 {
 	autorepeatEnabled = true;
 }
 
-void Input::DisableAutorepeat() noexcept
+void WindowsInput::DisableAutorepeat() noexcept
 {
 	autorepeatEnabled = false;
 }
 
-bool Input::IsAutorepeatEnabled() const noexcept
+bool WindowsInput::IsAutorepeatEnabled() const noexcept
 {
 	return autorepeatEnabled;
 }
 
-void Input::OnKeyPressed(unsigned char keyCode) noexcept
+void WindowsInput::OnKeyPressed(unsigned char keyCode) noexcept
 {
 	// Set key pressed to true in keySet and add the event to the key buffer.
 	keySet[keyCode] = true;
-	keyBuffer.push(Input::KeyboardEvent{ Input::KeyboardEvent::Type::Down, keyCode });
+	keyBuffer.push(WindowsInput::KeyboardEvent{ WindowsInput::KeyboardEvent::Type::Down, keyCode });
 
 	// Trim of the oldest key event in the key buffer.
 	TrimKeyboardBuffer(keyBuffer);
 }
 
-void Input::OnKeyReleased(unsigned char keyCode) noexcept
+void WindowsInput::OnKeyReleased(unsigned char keyCode) noexcept
 {
 	// Set key pressed to false in keySet and add the event to the key buffer.
 	keySet[keyCode] = false;
-	keyBuffer.push(Input::KeyboardEvent{ Input::KeyboardEvent::Type::Up, keyCode });
+	keyBuffer.push(WindowsInput::KeyboardEvent{ WindowsInput::KeyboardEvent::Type::Up, keyCode });
 
 	// Trim off oldest key event in the key buffer.
 	TrimKeyboardBuffer(keyBuffer);
 }
 
-void Input::OnCharPressed(char character) noexcept
+void WindowsInput::OnCharPressed(char character) noexcept
 {
 	// Add character pressed to charBuffer.
 	charBuffer.push(character);
@@ -307,13 +307,13 @@ void Input::OnCharPressed(char character) noexcept
 	TrimKeyboardBuffer(charBuffer);
 }
 
-void Input::ClearKeySet() noexcept
+void WindowsInput::ClearKeySet() noexcept
 {
 	keySet.reset();
 }
 
 template<typename T>
-void Input::TrimKeyboardBuffer(std::queue<T>& buffer) noexcept
+void WindowsInput::TrimKeyboardBuffer(std::queue<T>& buffer) noexcept
 {
 	// When the buffer becomes too big, trim down to the correct buffer size.
 	while (buffer.size() > bufferSize)

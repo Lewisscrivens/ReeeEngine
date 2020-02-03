@@ -7,7 +7,6 @@ void Engine::Begin()
 {
 	// Anything that should be ran before update goes here...
 
-
 }
 
 int Engine::Update()

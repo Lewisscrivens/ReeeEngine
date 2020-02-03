@@ -1,73 +1,21 @@
 #pragma once
 #include "ReeeWin.h"
 #include "ReeeException.h"
-#include "Input.h"
+#include "WindowsInput.h"
 #include <optional>
 #include <memory>
 #include "Graphics.h"
+#include "WindowException.h"
 
-/* Helper window macros for exceptions. */
-#define WINDOW_EXCEPT(hr) Window::HrException(__LINE__, __FILE__, hr)
-#define WINDOW_LAST_EXCEPT() Window::HrException(__LINE__, __FILE__, GetLastError())
-#define WINDOW_NOGRAPHICS_EXCEPT() Window::NoGraphicsException(__LINE__, __FILE__)
+/* Helper window macros for throwing exceptions from the window class. */
+#define WINDOW_EXCEPT(hr) WindowException::HrException(__LINE__, __FILE__, hr)
+#define WINDOW_LAST_EXCEPT() WindowException::HrException(__LINE__, __FILE__, GetLastError())
+#define WINDOW_NOGRAPHICS_EXCEPT() WindowException::NoGraphicsException(__LINE__, __FILE__)
 
 /* Class to manage registration and cleanup for a given window.
  * Also will handle any input and messages passed to the window and call sub functions for engine input, error messages etc. */
 class Window
 {
-public:
-
-	/* Window exception class to hold static error code translate function. */
-	class Exception : public ReeeException
-	{
-		using ReeeException::ReeeException;
-
-	public:
-
-		/* Returns formated error code string from HRESULT exception. */
-		static std::string TranslateErrorMessage(HRESULT hResult) noexcept;
-
-	};
-
-	/* Create another error exception for the window for HRESULT failures. */
-	class HrException : public Exception
-	{
-	public:
-
-		/* Constructor. */
-		HrException(int line, const char* file, HRESULT hResult) noexcept;
-
-		/* Exception message override. */
-		const char* what() const noexcept override;
-
-		/* Type of message override. */
-		virtual const char* GetType() const noexcept override;
-
-		/* Gets the hResult from an error code. */
-		HRESULT GetErrorCode() const noexcept;
-
-		/* Returns a string describing the error. Translates this exceptions hResult to a string. */
-		std::string GetErrorInfo() const noexcept;
-
-	private:
-
-		/* Pointer to the hResult. */
-		HRESULT hResult;
-	};
-
-	/* No graphics exception class to indicate what exception was hit. */
-	class NoGraphicsException : public Exception
-	{
-
-		/* Use exception classes constructor. */
-		using Exception::Exception;
-
-	public:
-
-		/* Return the type of exception in this case a no graphics exception. */
-		const char* GetType() const noexcept override;
-	};
-
 private:
 
 	/* Static window class to hold initialized windows variables. */
@@ -133,7 +81,7 @@ private:
 public:
 
 	/* Public input manager/receiver. */
-	Input input;
+	WindowsInput input;
 
 	/* Return the windows hWnd. */
 	HWND GetHwnd();
