@@ -54,12 +54,6 @@
     <ClCompile Include="WindowException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ReeeMath.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageManager.h">
@@ -99,9 +93,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="WindowException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameInput.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ReeeMath.h">

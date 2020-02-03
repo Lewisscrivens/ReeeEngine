@@ -2,19 +2,19 @@
 #include "Window.h"
 #include <sstream>
 
-std::pair<int, int> WindowsInput::GetMousePosition() const noexcept
+FVector2D WindowsInput::GetMousePosition() const noexcept
 {
-	return {mouseX, mouseY};
+	return currMousePos;
 }
 
 int WindowsInput::GetMouseXPosition() const noexcept
 {
-	return mouseX;
+	return currMousePos.X;
 }
 
 int WindowsInput::GetMouseYPosition() const noexcept
 {
-	return mouseY;
+	return currMousePos.Y;
 }
 
 bool WindowsInput::IsMouseDown(EMouseButton button) const noexcept
@@ -66,7 +66,7 @@ bool WindowsInput::IsMouseInWindow() const noexcept
 std::string WindowsInput::GetMousePositionString() noexcept
 {
 	std::ostringstream mouseStringStream;
-	mouseStringStream << "Mouse Position: (" << mouseX << ", " << mouseY;
+	mouseStringStream << "Mouse Position: (" << currMousePos.X << ", " << currMousePos.Y;
 	return mouseStringStream.str();
 }
 
@@ -95,8 +95,7 @@ void WindowsInput::ResetMouseBuffer() noexcept
 void WindowsInput::OnMouseMove(int x, int y) noexcept
 {
 	// Update mouse x and y.
-	mouseX = x;
-	mouseY = y;
+	currMousePos = FVector2D(x, y);
 
 	// Add new event to mouse buffer and remove oldest event.
 	mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::Move, *this));

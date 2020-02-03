@@ -1,6 +1,7 @@
 #pragma once
 #include <queue>
 #include <bitset>
+#include "ReeeMath.h"
 
 /* Declare mouse and keyboard input macros for disabling input functionality for both. */
 #define KEYBOARD_ENABLED 1;
@@ -74,20 +75,20 @@ public:
 		/* Declare event variables for handling mouse input. */
 		Type eventType;
 		bool leftDown, rightDown, middleDown;
-		int x, y;
+		FVector2D mousePosition;
 
 	public:
 
 		/* Default constructors for the mouse event. */
-		MouseEvent() : eventType(Type::Invalid), leftDown(false), rightDown(false), middleDown(false), x(0), y(0) {}
-		MouseEvent(Type type, const WindowsInput& parent) noexcept : eventType(type), leftDown(parent.leftMouseDown), rightDown(parent.rightMouseDown), middleDown(parent.middleMouseDown), x(parent.mouseX), y(parent.mouseY) {}
+		MouseEvent() : eventType(Type::Invalid), leftDown(false), rightDown(false), middleDown(false), mousePosition(FVector2D(0.0f, 0.0f)) {}
+		MouseEvent(Type type, const WindowsInput& parent) noexcept : eventType(type), leftDown(parent.leftMouseDown), rightDown(parent.rightMouseDown), middleDown(parent.middleMouseDown), mousePosition(FVector2D(parent.currMousePos.X, parent.currMousePos.Y)) {}
 
 		/* Functions to check event type / state. */
 		bool IsValid() const noexcept { return eventType != Type::Invalid; }
 		Type GetType() const noexcept { return eventType; }
-		std::pair<int, int> GetPosition() const noexcept { return { x, y }; }// Returns mouse position.
-		int GetXPosition() const noexcept { return x; }// Returns mouses X position.
-		int GetYPosition() const noexcept { return y; }// Returns mouses Y position.
+		FVector2D GetPosition() const noexcept { return { mousePosition }; }// Returns mouse position.
+		int GetXPosition() const noexcept { return mousePosition.X; }// Returns mouses X position.
+		int GetYPosition() const noexcept { return mousePosition.Y; }// Returns mouses Y position.
 		bool IsLeftDown() const noexcept { return leftDown; }// Is the left mouse button down.
 		bool IsRightDown() const noexcept { return rightDown; }// Is the right mouse button down.
 		bool IsMiddleDown() const noexcept { return middleDown; }// Is the middle mouse button down.
@@ -110,7 +111,7 @@ public:
 		Middle
 	};
 
-	std::pair<int, int> GetMousePosition() const noexcept;// Returns the mouse position.
+	FVector2D GetMousePosition() const noexcept;// Returns the mouse position.
 	int GetMouseXPosition() const noexcept;// Returns the mouse x position.
 	int GetMouseYPosition() const noexcept;// Returns the mouse y position.
 	bool IsMouseDown(EMouseButton button) const noexcept;// Returns if the specified mouse button is pressed.
@@ -137,7 +138,7 @@ private:
 private:
 
 	/* Mouse event variables to hold current states. */
-	int mouseX, mouseY;
+	FVector2D currMousePos = FVector2D(0.0f, 0.0f);
 	int wheelDelta = 0;
 	bool leftMouseDown, rightMouseDown, middleMouseDown = false;
 	bool mouseInsideWindow = false;
