@@ -2,32 +2,35 @@
 #include "Window.h"
 #include "Timer.h"
 
-/* Engine macros. */
-#define DEBUG_ENABLED 1;
-
-/* Main application class to handle updating modules within the engine. */
-class Engine
+namespace ReeeEngine
 {
-public:
+	/* Engine macros. */
+	#define DEBUG_ENABLED 1;
 
-	/* Constructor. NOTE: Creates mainWindow instance and timer instance. */
-	Engine();
+	/* Main application class to handle updating modules within the engine. */
+	class Engine
+	{
+	public:
 
-	/* Ran on engine start. */
-	void Begin();
+		/* Constructor. NOTE: Creates mainWindow instance and timer instance. */
+		Engine();
 
-	/* Looped until application is exited. */
-	int Update();
+		/* Ran on engine start. */
+		void Begin();
 
-private:
+		/* Starting function with while Loop which loops until application is exited through error or user. */
+		int Start();
 
-	/* Frame. */
-	void Tick();
+	private:
 
-private:
+		/* Frame. */
+		void Tick();
 
-	/* Reference to the main window class. */
-	Window mainWindow;
-	Timer timer;
-};
+	private:
+
+		/* Reference to the main window class. */
+		Window mainWindow;
+		Timer timer;
+	};
+}
 

@@ -1,12 +1,15 @@
 #include "Engine.h"
 
-/* Entry state for the App. Create a window and enter while loop to receive and dispatch messages for created window class. */
+// Using ReeeEnigne namespace.
+using namespace ReeeEngine;
+
+/* Entry state for the Windows Application. Create a window and enter while loop to receive and dispatch messages for created window class. */
 int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviewInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	// Catch any exceptions while updating the engine.
 	try
 	{
-		return Engine{}.Update();
+		return Engine{}.Start();
 	}
 	catch (const ReeeException& e)
 	{

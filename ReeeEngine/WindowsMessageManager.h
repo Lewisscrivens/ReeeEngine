@@ -2,23 +2,23 @@
 #include <Windows.h>
 #include <unordered_map>
 
-/* Class to handle logging messages from a window.
- * Useful class derived from the planet chilli example projects.
- * NOTE: creates a map to map DWORD Windows API messages to strings. */
-class WindowsMessageManager
+namespace ReeeEngine
 {
-public:
+	/* Class to handle logging messages from a window. */
+	class WindowsMessageManager
+	{
+	public:
 
-	/* Constructor */
-	WindowsMessageManager();
+		/* Constructor */
+		WindowsMessageManager();
 
-	/* Operator to format messages to a string. */
-	std::string operator()(DWORD msg, LPARAM lp, WPARAM wp) const noexcept;
+		/* Operator to format messages to a string. */
+		std::string operator()(DWORD msg, LPARAM lp, WPARAM wp) const noexcept;
 
-private:
+	private:
 
-	/* Map of messages for opened window. */
-	std::unordered_map<DWORD, std::string> messageMap;
-
-};
+		/* Map of messages for opened window. */
+		std::unordered_map<DWORD, std::string> messageMap;
+	};
+}
 

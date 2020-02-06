@@ -1,39 +1,43 @@
 #include "ReeeException.h"
 #include <sstream>
 
-// Default initializer.
-ReeeException::ReeeException(int line, const char* file) noexcept : lineNo(line), fileName(file) {}
-
-const char* ReeeException::what() const noexcept
+namespace ReeeEngine
 {
-	// Create the exception string using a string steam.
-	std::ostringstream exceptionString;
-	exceptionString << GetType() << std::endl << GetOriginString();
+	// Default initializer.
+	ReeeException::ReeeException(int line, const char* file) noexcept : lineNo(line), fileName(file) {}
 
-	// Set the exception buffer to last known exception string.
-	exceptionBuffer = exceptionString.str();
-	return exceptionBuffer.c_str(); 
-}
+	const char* ReeeException::what() const noexcept
+	{
+		// Create the exception string using a string steam.
+		std::ostringstream exceptionString;
+		exceptionString << GetType() << std::endl << GetOriginString();
 
-const char* ReeeException::GetType() const noexcept
-{
-	return "Reee Exception";
-}
+		// Set the exception buffer to last known exception string.
+		exceptionBuffer = exceptionString.str();
+		return exceptionBuffer.c_str();
+	}
 
-int ReeeException::GetLineNumber() const noexcept
-{
-	return lineNo;
-}
+	const char* ReeeException::GetType() const noexcept
+	{
+		return "Reee Exception";
+	}
 
-const std::string& ReeeException::GetFileName() const noexcept
-{
-	return fileName;
-}
+	int ReeeException::GetLineNumber() const noexcept
+	{
+		return lineNo;
+	}
 
-std::string ReeeException::GetOriginString() const noexcept
-{
-	// Create and format a string to return then return it.
-	std::ostringstream originString;
-	originString << "[File] " << fileName << std::endl << "[LineNo] " << lineNo;
-	return originString.str();
+	const std::string& ReeeException::GetFileName() const noexcept
+	{
+		return fileName;
+	}
+
+	std::string ReeeException::GetOriginString() const noexcept
+	{
+		// Create and format a string to return then return it.
+		std::ostringstream originString;
+		originString << "[File] " << fileName << std::endl << "[LineNo] " << lineNo;
+		return originString.str();
+	}
+
 }
