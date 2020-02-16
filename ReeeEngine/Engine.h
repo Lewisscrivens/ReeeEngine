@@ -29,7 +29,7 @@ namespace ReeeEngine
 	private:
 
 		/* Reference to the main window class. */
-		Window mainWindow;
+		Window engineWindow;
 		Timer timer;
 	};
 }
