@@ -6,7 +6,7 @@
 namespace ReeeEngine
 {
 	// Initialize HResultException when created.
-	GraphicsException::HResultException::HResultException(int lineNo, const char* fileName, HRESULT hResult, std::vector<std::string> messages) noexcept : GException(lineNo, fileName), hResult(hResult)
+	GraphicsException::HrException::HrException(int lineNo, const char* fileName, HRESULT hResult, std::vector<std::string> messages) noexcept : Exception(lineNo, fileName), hResult(hResult)
 	{
 		// For each message in the messages list join then together into a larger message string.
 		for (auto i = 0; i < messages.size(); i++)
@@ -17,7 +17,7 @@ namespace ReeeEngine
 		}
 	}
 
-	const char* GraphicsException::HResultException::what() const noexcept
+	const char* GraphicsException::HrException::what() const noexcept
 	{
 		// Format error exception into string.
 		std::ostringstream formatedError;
@@ -40,27 +40,27 @@ namespace ReeeEngine
 		return exceptionBuffer.c_str();
 	}
 
-	const char* GraphicsException::HResultException::GetType() const noexcept
+	const char* GraphicsException::HrException::GetType() const noexcept
 	{
 		return "Reee Graphics Class Exception.";
 	}
 
-	HRESULT GraphicsException::HResultException::GetErrorCode() const noexcept
+	HRESULT GraphicsException::HrException::GetErrorCode() const noexcept
 	{
 		return hResult;
 	}
 
-	std::string GraphicsException::HResultException::GetErrorString() const noexcept
+	std::string GraphicsException::HrException::GetErrorString() const noexcept
 	{
 		return DXGetErrorString(hResult);
 	}
 
-	std::string GraphicsException::HResultException::GetGraphicsMessage() const noexcept
+	std::string GraphicsException::HrException::GetGraphicsMessage() const noexcept
 	{
 		return message;
 	}
 
-	std::string GraphicsException::HResultException::GetErrorInfo() const noexcept
+	std::string GraphicsException::HrException::GetErrorInfo() const noexcept
 	{
 		char infoChar[512];
 		DXGetErrorDescription(hResult, infoChar, sizeof(infoChar));
@@ -72,7 +72,7 @@ namespace ReeeEngine
 		return "Reeee Graphics Exception -- Device was removed or lost. DXGI_ERROR_DEVICE_REMOVED.";
 	}
 
-	GraphicsException::DirectException::DirectException(int lineNo, const char* fileName, std::vector<std::string> messages) noexcept : GException(lineNo, fileName)
+	GraphicsException::DirectException::DirectException(int lineNo, const char* fileName, std::vector<std::string> messages) noexcept : Exception(lineNo, fileName)
 	{
 		// For each message in the messages list join then together into a larger message string.
 		for (auto i = 0; i < messages.size(); i++)

@@ -13,19 +13,19 @@ namespace ReeeEngine
 	public:
 
 		/* Base graphics exception class. */
-		class GException : public ReeeException
+		class Exception : public ReeeException
 		{
 			// Default graphics exception.
 			using ReeeException::ReeeException;
 		};
 
 		/* HResult exceptions for the graphics class to throw errors using the HResult and the dxgi interface if DEBUG_ENABLED == 1 */
-		class HResultException : public GException
+		class HrException : public Exception
 		{
 		public:
 
 			/* HResult exception where error information is derived from the hResult. */
-			HResultException(int lineNo, const char* fileName, HRESULT hResult, std::vector<std::string> messages = {}) noexcept;
+			HrException(int lineNo, const char* fileName, HRESULT hResult, std::vector<std::string> messages = {}) noexcept;
 			const char* what() const noexcept override;
 			const char* GetType() const noexcept override;
 			HRESULT GetErrorCode() const noexcept;
@@ -40,7 +40,7 @@ namespace ReeeEngine
 		};
 
 		/* Direct 3D exception to pass messages from the dxgi interface only. */
-		class DirectException : public GException
+		class DirectException : public Exception
 		{
 		public:
 
@@ -57,11 +57,11 @@ namespace ReeeEngine
 		};
 
 		/* On device removed or lost exception. */
-		class GraphicsDeviceLostException : public HResultException
+		class GraphicsDeviceLostException : public HrException
 		{
 
 			/* Use functions from HResultException. */
-			using HResultException::HResultException;
+			using HrException::HrException;
 
 		public:
 
