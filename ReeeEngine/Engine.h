@@ -15,11 +15,11 @@ namespace ReeeEngine
 		/* Constructor. NOTE: Creates mainWindow instance and timer instance. */
 		Engine();
 
-		/* Ran on engine start. */
-		void Begin();
-
 		/* Starting function with while Loop which loops until application is exited through error or user. */
 		int Start();
+
+		/* Ran on engine start for initialisation of certain engine components. */
+		void Begin();
 
 	private:
 

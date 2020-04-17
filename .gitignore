@@ -51,6 +51,7 @@ artifacts/
 *.ilk
 *.meta
 *.obj
+*.dll
 !hw3d/Models/**/*.obj
 !hw3d/assimp/bin/*
 *.pch

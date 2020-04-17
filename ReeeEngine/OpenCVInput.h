@@ -3,7 +3,7 @@
 #include "opencv2\highgui\highgui.hpp"
 #include "opencv2\opencv.hpp"
 #include "opencv2/video/tracking.hpp"
-#include <wrl.h>
+#include <memory>
 
 namespace ReeeEngine
 {
@@ -24,7 +24,7 @@ namespace ReeeEngine
 	private:
 
 		/* Pointer to a web-cam once created. */
-		Microsoft::WRL::ComPtr<cv::VideoCapture> pWebcam;
+		std::shared_ptr<class cv::VideoCapture> pWebcam;
 
 	public:
 

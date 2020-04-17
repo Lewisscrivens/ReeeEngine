@@ -60,6 +60,9 @@
     <ClCompile Include="OpenCVInput.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ReeeLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WindowsMessageManager.h">
@@ -105,6 +108,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OpenCVInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ReeeLog.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

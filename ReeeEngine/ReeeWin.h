@@ -3,11 +3,11 @@
 /* Windows include class that removes unneeded aspects of the windows API. */
 #define REMOVE_BULLSHIT 1
 
-// Target Windows 7 or later
+/* Target Windows 7 or later. */
 #define _WIN32_WINNT 0x0601
 #include <sdkddkver.h>
 
-// Define needed and unneeded aspects of the windows API to reduce build time.
+/* Define needed and unneeded aspects of the windows API to reduce build time. */
 #ifndef REMOVE_BULLSHIT
 
 #define WIN32_LEAN_AND_MEAN
@@ -46,9 +46,9 @@
 
 #endif
 
-// Alwasys remove the MINMAX macros.
+/* Alwasys remove the MINMAX macros. */
 #define NOMINMAX
 #define STRICT
 
-// Include windows api header.
+/* Include windows api header. */
 #include <Windows.h>

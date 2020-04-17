@@ -9,8 +9,8 @@ namespace ReeeEngine
 
 	void OpenCVInput::InitialiseCamera()
 	{
-		pWebcam = &cv::VideoCapture(0);
-		if (!pWebcam.Get()->isOpened())
+		pWebcam = std::make_shared<cv::VideoCapture>(cv::VideoCapture(0));
+		if (!pWebcam->isOpened())
 		{
 
 		}

@@ -1,15 +1,10 @@
 #include "Engine.h"
+#include "ReeeLog.h"
 
 namespace ReeeEngine
 {
 	// Main window created here.
 	Engine::Engine() : engineWindow(800, 600, "Reee Editor") {}
-
-	void Engine::Begin()
-	{
-		// Anything that should be ran before update goes here...
-
-	}
 
 	int Engine::Start()
 	{
@@ -29,6 +24,15 @@ namespace ReeeEngine
 			// Update frame.
 			Tick();
 		}
+	}
+
+	void Engine::Begin()
+	{
+		// Initalise the logging system.
+		ReeeLog::InitaliseLogging();
+
+
+
 	}
 
 	void Engine::Tick()
