@@ -13,137 +13,117 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Dxerr">
-      <UniqueIdentifier>{1a587d36-e331-40c5-816d-e44262252f0b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Shader Files">
-      <UniqueIdentifier>{4d0c7fe2-df59-460c-a3be-7a8304e274ff}</UniqueIdentifier>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{236cc7df-a6c8-4f10-ac12-b13b7e44e6dc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="WinMain.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowsMessageManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ReeeException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DXErrors\dxerr.cpp">
-      <Filter>Dxerr</Filter>
-    </ClCompile>
-    <ClCompile Include="DxgiMessageManager.cpp">
-      <Filter>Dxerr</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowsInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WindowException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OpenCVInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ReeeLog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="WindowsMessageManager.h">
+    <ClInclude Include="src\ReeeEngine\Globals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ReeeWin.h">
+    <ClInclude Include="src\ReeeEngine\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Window.h">
+    <ClInclude Include="src\ReeeEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ReeeException.h">
+    <ClInclude Include="src\ReeeEngine\Entry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\ReeeEngine\Windows\ReeeWin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Engine.h">
+    <ClInclude Include="src\ReeeEngine\Timer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Graphics.h">
+    <ClInclude Include="src\ReeeEngine\Rendering\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Timer.h">
+    <ClInclude Include="src\ReeeEngine\Exceptions\DXErrors\dxerr.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DxgiMessageManager.h">
-      <Filter>Dxerr</Filter>
-    </ClInclude>
-    <ClInclude Include="DXErrors\dxerr.h">
-      <Filter>Dxerr</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsException.h">
+    <ClInclude Include="src\ReeeEngine\Exceptions\GraphicsException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowsInput.h">
+    <ClInclude Include="src\ReeeEngine\Exceptions\ReeeException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WindowException.h">
+    <ClInclude Include="src\ReeeEngine\Exceptions\WindowException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ReeeMath.h">
+    <ClInclude Include="src\ReeeEngine\Math\ReeeMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OpenCVInput.h">
+    <ClInclude Include="src\ReeeEngine\Windows\DxgiMessageManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ReeeLog.h">
+    <ClInclude Include="src\ReeeEngine\Windows\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Globals.h">
+    <ClInclude Include="src\ReeeEngine\Windows\WindowsInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Windows\WindowsMessageManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ReeeEngine.rc">
+    <ClCompile Include="src\ReeeEngine\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Graphics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Exceptions\DXErrors\dxerr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Exceptions\GraphicsException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Exceptions\ReeeException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Exceptions\WindowException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Windows\DxgiMessageManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Windows\Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Windows\WindowsInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Windows\WindowsMessageManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PixelShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\VertexShader.hlsl">
+      <Filter>Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXGetErrorDescription.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXGetErrorString.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXTrace.inl">
+      <Filter>Header Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="src\ReeeEngine\Resources\ReeeIcon.ico">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\ReeeIcon.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DXErrors\DXTrace.inl">
-      <Filter>Header Files</Filter>
-    </None>
-    <None Include="DXErrors\DXGetErrorString.inl">
-      <Filter>Dxerr</Filter>
-    </None>
-    <None Include="DXErrors\DXGetErrorDescription.inl">
-      <Filter>Dxerr</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="Resources\DXShaders\VertexShader.hlsl">
-      <Filter>Shader Files</Filter>
-    </FxCompile>
-    <FxCompile Include="Resources\DXShaders\PixelShader.hlsl">
-      <Filter>Shader Files</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>
