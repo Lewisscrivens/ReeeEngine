@@ -7,3 +7,7 @@
 /* Entry point include. */
 
 #include "ReeeEngine/Entry.h"
+
+/* Log include. */
+
+#include "ReeeEngine/ReeeLog.h"

@@ -13,9 +13,6 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviewInstance, LPSTR lpCm
 	// Start app.
 	auto application = ReeeEngine::CreateApp();
 	return application->Start();
-
-	// Return.
-	return -1;
 }
 
 #endif

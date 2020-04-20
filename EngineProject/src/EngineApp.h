@@ -9,6 +9,14 @@ public:
 	/* Constructor and Destructor. */
 	EngineApp();
 	~EngineApp();
+
+	/* Ran at the start of the engine initialization. */
+	virtual void Init() override;
+
+private:
+
+	/* Ran on engine frame. */
+	virtual void Tick() override;
 };
 
 /* Define create app function to return this app to the engine entry point. */

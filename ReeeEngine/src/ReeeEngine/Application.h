@@ -14,15 +14,15 @@ namespace ReeeEngine
 		~Application();
 
 		/* Starting function with while Loop which loops until application is exited through error or user. */
-		int Start();
+		virtual int Start();
 
 		/* Ran on engine start for initialization of certain engine components. */
-		void Init();
+		virtual void Init();
 
-	private:
+	protected:
 
 		/* Frame. */
-		void Tick();
+		virtual void Tick();
 
 	private:
 

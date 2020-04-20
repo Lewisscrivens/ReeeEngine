@@ -57,7 +57,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <PostBuildEvent>
@@ -74,7 +74,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -96,6 +96,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\Exceptions\WindowException.h" />
     <ClInclude Include="src\ReeeEngine\Globals.h" />
     <ClInclude Include="src\ReeeEngine\Math\ReeeMath.h" />
+    <ClInclude Include="src\ReeeEngine\ReeeLog.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Graphics.h" />
     <ClInclude Include="src\ReeeEngine\Timer.h" />
     <ClInclude Include="src\ReeeEngine\Windows\DxgiMessageManager.h" />
@@ -110,6 +111,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\Exceptions\GraphicsException.cpp" />
     <ClCompile Include="src\ReeeEngine\Exceptions\ReeeException.cpp" />
     <ClCompile Include="src\ReeeEngine\Exceptions\WindowException.cpp" />
+    <ClCompile Include="src\ReeeEngine\ReeeLog.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Graphics.cpp" />
     <ClCompile Include="src\ReeeEngine\Timer.cpp" />
     <ClCompile Include="src\ReeeEngine\Windows\DxgiMessageManager.cpp" />

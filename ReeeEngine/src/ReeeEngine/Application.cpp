@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "ReeeLog.h"
 #include <iostream>
 
 namespace ReeeEngine
@@ -53,9 +54,9 @@ namespace ReeeEngine
 	void Application::Init()
 	{
 		// Initalise the logging system.
-		//ReeeLog::InitaliseLogging();
+		ReeeLog::InitaliseLogging();
 
-
+		REEE_LOG(Log, "Intialised Engine....");
 	}
 
 	void Application::Tick()
