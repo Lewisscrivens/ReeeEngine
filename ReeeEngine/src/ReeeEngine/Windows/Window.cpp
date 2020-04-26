@@ -48,34 +48,30 @@ namespace ReeeEngine
 		windowRect.right = width + windowRect.left;
 		windowRect.top = 100;
 		windowRect.bottom = height + windowRect.top;
-		if (!AdjustWindowRect(&windowRect, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE))
-		{
-			throw WINDOW_LAST_EXCEPT();
-		}
+		bool result = AdjustWindowRect(&windowRect, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
+		WINDOW_EXCEPT(result, "Failed to adjust the windows size in the window class.");
+
+		// Add default settings to the window.
+		auto windowSettings = WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU | WS_THICKFRAME;
 
 		// Create the window and get the hWnd value.
-		hWnd = CreateWindow(
-			WindowClass::GetName(), name,
-			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
-			CW_USEDEFAULT, CW_USEDEFAULT,
-			windowRect.right - windowRect.left,
-			windowRect.bottom - windowRect.top,
-			nullptr, nullptr, WindowClass::GetInstance(), this);
+		hWnd = CreateWindow(WindowClass::GetName(), name, windowSettings, CW_USEDEFAULT, CW_USEDEFAULT, 
+			windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, WindowClass::GetInstance(), this);
 
 		// Check if creating the window failed.
-		if (hWnd == nullptr) throw WINDOW_LAST_EXCEPT();
+		if (hWnd == nullptr) WINDOW_THROW_EXCEPT("Failed to create a new window!!!");
 
 		// Show the window.
 		ShowWindow(hWnd, SW_SHOWDEFAULT);
 
 		// Create graphics object.
-		graphics = std::make_unique<Graphics>(hWnd);
+		graphics = CreateReff<Graphics>(hWnd, width, height);
 	}
 
 	void Window::SetTitle(const std::string& newTitle)
 	{
 		// Set new title and if it failed throw exception.
-		if (SetWindowText(hWnd, newTitle.c_str()) == 0) throw WINDOW_LAST_EXCEPT();
+		if (SetWindowText(hWnd, newTitle.c_str()) == 0) WINDOW_THROW_EXCEPT("Failed to set the windows title text.");
 	}
 
 	std::optional<int> Window::DispatchMessages() noexcept
@@ -99,7 +95,7 @@ namespace ReeeEngine
 	Graphics& Window::GetGraphics()
 	{
 		// If there is no graphics found throw no graphics exception otherwise return the graphics.
-		if (!graphics) throw WINDOW_NOGRAPHICS_EXCEPT();
+		if (!graphics) WINDOW_THROW_EXCEPT("Failed to get the graphics device from the window.");
 		return *graphics;
 	}
 
@@ -147,10 +143,18 @@ namespace ReeeEngine
 		// Handle messages being sent from the window class.
 		switch (msg)
 		{
+		// On application closed.
 		case WM_CLOSE:
-			PostQuitMessage(0);// Exit code one on close.
+			PostQuitMessage(0);
 			return 0;
 			break;
+		// On window resize.
+		case WM_SIZE:
+		{
+			// Create window resized event for other classes to use.
+			//graphics->ResizeRenderTargets(LOWORD(lParam), HIWORD(lParam));
+			break;
+		}
 
 	/* KEYBOARD INPUT UPDATE MESSAGES. */
 	#if KEYBOARD_ENABLED
@@ -240,7 +244,6 @@ namespace ReeeEngine
 			input.OnMouseWheelDelta(wheelDelta);
 		}
 		break;
-
 	#endif
 		}
 

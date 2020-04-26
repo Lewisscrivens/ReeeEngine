@@ -26,12 +26,17 @@
 	#error Windows only!!!
 #endif
 
-/* Engine debugging macros. */
-#define DEBUG_ENABLED 1;
-
-/* Reference to pointer functions. */
+/* Reference to pointer and reference functions. */
 namespace ReeeEngine
 {
+	template<typename T>
+	using Refference = std::unique_ptr<T>;
+	template<typename T, typename ... Args>
+	constexpr Refference<T> CreateReff(Args&& ... args)
+	{
+		return std::make_unique<T>(std::forward<Args>(args)...);
+	}
+
 	template<typename T>
 	using Pointer = std::shared_ptr<T>;
 	template<typename T, typename ... Args>

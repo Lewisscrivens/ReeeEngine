@@ -1,13 +1,19 @@
 #include "Application.h"
 #include "ReeeLog.h"
+#include "Rendering/Renderables/RenderableMesh.h"
+#include "Rendering/Renderables/Shapes/Box.h"
+#include "Rendering/Renderables/Shapes/Sphere.h"
 #include <iostream>
 
 namespace ReeeEngine
 {
 	// Main window created here.
-	Application::Application() : engineWindow(800, 600, "Reee Editor")
+	Application::Application() : engineWindow(1280, 720, "Reee Editor")
 	{
-		//...
+		// Add a box and setup the projection matrix.
+		renderables.push_back(CreateReff<Box>(engineWindow.GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f)));
+		renderables.push_back(CreateReff<Sphere>(engineWindow.GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f)));
+		engineWindow.GetGraphics().SetProjectionMatrix(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
 	}
 
 	Application::~Application()
@@ -17,7 +23,7 @@ namespace ReeeEngine
 
 	int Application::Start()
 	{
-		// Catch any exceptions while updating the engine.
+		// Catch any unhandled exceptions from the engine while running.
 		try
 		{
 			// Run begin first and once.
@@ -37,36 +43,40 @@ namespace ReeeEngine
 				Tick();
 			}
 		}
-		catch (const ReeeException& e)
-		{
-			MessageBox(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
-		}
 		catch (const std::exception& e)
 		{
 			MessageBox(nullptr, e.what(), "Default Exception", MB_OK | MB_ICONEXCLAMATION);
 		}
 		catch (...)
 		{
-			MessageBox(nullptr, "No information found", "Unknown Exception", MB_OK | MB_ICONEXCLAMATION);
+			MessageBox(nullptr, "No information found", "Unhandled Exception", MB_OK | MB_ICONEXCLAMATION);
 		}	
+
+		// Return failed if gets to this point.
+		return -1;
 	}
 
 	void Application::Init()
 	{
-		// Initalise the logging system.
-		ReeeLog::InitaliseLogging();
-
 		REEE_LOG(Log, "Intialised Engine....");
+
+
 	}
 
 	void Application::Tick()
 	{
-		// Change background color over time.
-		const float newBackgroundCol = std::abs((float)(sin(timer.GetTime()) / 2.0f + 0.5f));
-		engineWindow.GetGraphics().ClearRenderBuffer(newBackgroundCol, newBackgroundCol - (newBackgroundCol / 2.0f), 1.0f);
+		// Create delta time.
+		const auto deltaTime = timer.GetDeltaTime();
 
-		// Draw cube each frame using the graphics class.
-		engineWindow.GetGraphics().DrawCube(timer.GetTime(), engineWindow.input.GetMousePosition().X / 400.0f - 1.0f, -engineWindow.input.GetMousePosition().Y / 300.0f + 1.0f);
+		// Clear render buffer before each render call.
+		engineWindow.GetGraphics().ClearRenderBuffer();
+
+		// Tick and render each renderable object active in the engine window.
+		for (auto& renderable : renderables)
+		{
+			renderable->Tick(deltaTime);
+			renderable->Render(engineWindow.GetGraphics());
+		}
 
 		// Present the frame to the window after dispatching input messages.
 		engineWindow.GetGraphics().EndFrame();

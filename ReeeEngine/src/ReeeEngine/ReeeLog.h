@@ -4,7 +4,7 @@
 #include "spdlog/fmt/ostr.h"
 
 /* Define logging macros for logging to the engine or app logging system. */
-#define REEE_LOG(LogType, ...) ReeeLog::CreateLog(LogType, __VA_ARGS__);
+#define REEE_LOG(LogType, ...) ReeeEngine::ReeeLog::CreateLog(LogType, __VA_ARGS__);
 
 namespace ReeeEngine
 {

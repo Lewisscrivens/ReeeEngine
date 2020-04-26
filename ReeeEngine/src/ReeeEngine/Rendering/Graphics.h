@@ -1,52 +1,66 @@
 #pragma once
 #include "../Windows/ReeeWin.h"
-#include "../Windows/DxgiMessageManager.h"
-#include "../Exceptions/GraphicsException.h"
 #include "../Globals.h"
+#include "../ReeeLog.h"
+#include "../Math/ReeeMath.h"
+#include "../Math/Vector2D.h"
+#include "DXErrors/dxerr.h"
 #include <d3d11.h>
+#include <d3dcompiler.h>
 #include <vector>
 #include <wrl.h>
+#include <memory>
+#include <random>
+
+/* Macros for throwing errors when DirectX functions are not working as intended. */
+#define LOG_DX_ERROR(hr) if(FAILED(hr)) { REEE_LOG(Error, "DirectX Error: {0}: {1} (Line: {2}, File: {3})", DXGetErrorString(hr), DXError::GetDescription(hr), __LINE__, __FILE__); DXError::ThrowErrorBox(hr, __LINE__, __FILE__);  __debugbreak(); }
 
 namespace ReeeEngine
 {
-	//////////////////////////////////////////////////////////////////////////////
-	/* Define macros for throwing graphical exceptions from the graphics class. */
-	//////////////////////////////////////////////////////////////////////////////
+	/* Define quick class for getting error descriptions from the dxgi interface. */
+	static class REEE_API DXError
+	{
+	public:
+		static std::string GetDescription(HRESULT result)
+		{
+			char buf[512];
+			DXGetErrorDescription(result, buf, sizeof(buf));
+			return buf;
+		}
 
-	/* Creates a HResult Exception from the given HRESULT. */
-	#define GRAPHICS_EXCEPT_NOINFO(hr) GraphicsException::HrException(__LINE__, __FILE__, hr)
-	/* Throws HResultException from the given HRESULT. */
-	#define GRAPHICS_THROW_NOINFO(hr) if (FAILED(hResult = (hr))) throw GraphicsException::HrException(__LINE__, __FILE__, hResult)
+		static void ThrowErrorBox(HRESULT result, int lineNo, std::string fileName)
+		{
+			// Create the exception string for the window using a string steam.
+			std::ostringstream exceptionString;
+			exceptionString << "DirectX Graphics Exception: " << std::endl
+				<< "[Error Code] " << result << std::endl
+				<< "[Error String] " << DXGetErrorString(result) << std::endl
+				<< "[Description] " << GetDescription(result) << std::endl
+				<< "[LineNo] " << lineNo << std::endl
+				<< "[File] " << fileName;		
 
-	/* If debug is enabled use the graphics message manager to handle getting messages from the dxgi interface. */
-	#ifndef DEBUG_ENABLED
-		/* Creates a HResult Exception using the dxgi interface messages and any found error information from the hresult. */
-		#define GRAPHICS_EXCEPT_INFO(hr) GraphicsException::HrException(__LINE__, __FILE__, hr, messageManager.GetMessages())
-		/* Checks graphics functions and throws exception if failed. */
-		#define GRAPHICS_THROW_INFO(hr) if (FAILED(hr)) throw GRAPHICS_EXCEPT_INFO(hr)
-		/* Throw dxgi error message info only. */
-		#define GRAPHICS_THROW_INFO_ONLY(call) messageManager.ClearMessages(); (call); {auto v = messageManager.GetMessages(); if (!v.empty()) { throw GraphicsException::DirectException(__LINE__, __FILE__, v); }}
-		/* Creates and returns a graphics device lost exception along with any dxgi interface messages. */
-		#define GRAPHICS_LOST_EXCEPT(hr) GraphicsException::GraphicsDeviceLostException(__LINE__, __FILE__, hr, messageManager.GetMessages())
-	#else
-		/* If debug is not enabled throw exceptions without the dxgi interface messages. */
-		#define GRAPHICS_EXCEPT_INFO(hr) GraphicsException::HrException(__LINE__, __FILE__, hr)
-		#define GRAPHICS_THROW_INFO(hr) GRAPHICS_THROW_NOINFO(hr)
-		#define GRAPHICS_THROW_INFO_ONLY(call) (call)
-		#define GRAPHICS_LOST_EXCEPT(hr) GraphicsException::GraphicsDeviceLostException(__LINE__, __FILE__, hr)
-	#endif
+			// Open message box.
+			MessageBox(nullptr, exceptionString.str().c_str(), "Unhandled Exception", MB_OK | MB_ICONEXCLAMATION);
+		}
+	};
 
 	/* Create and handle graphics device. */
-	class Graphics
+	class REEE_API Graphics
 	{
+		/* Allow to access private variables. */
+		friend class ContextData;
+
 	public:
 
 		/* Constructor. Initialize and create the device, swap chain and context objects.
 		 * NOTE: Disable copying and moving of a graphics class as we do not need that functionality. */
-		Graphics(HWND hWnd);
+		Graphics(HWND hWnd, int width, int height);
 		Graphics(const Graphics&) = delete;
 		Graphics& operator = (const Graphics&) = delete;
 		~Graphics() = default;
+
+		/* Function for resizing the render targets when the window size is changed. */
+		void ResizeRenderTargets(int width, int height);
 
 		/* End frame function. */
 		void EndFrame();
@@ -55,10 +69,19 @@ namespace ReeeEngine
 		 * NOTE: By default with no input it is cleared to black. */
 		void ClearRenderBuffer(float r = 0.0f, float g = 0.0f, float b = 0.0f) noexcept;
 
-		/* Draw a cube at a given angle. */
-		void DrawCube(float angle, float x, float y);
+		/* Draw any context data binded to the rendering pipeline. */
+		void Draw(UINT numberOfIndex);
+
+		/* Set the current rendering projection matrix. */
+		void SetProjectionMatrix(DirectX::FXMMATRIX projectionMatrix) noexcept;
+
+		/* Return the current projection matrix. */
+		DirectX::XMMATRIX GetProjectionMatrix() const noexcept;
 
 	private:
+
+		/* Save viewport size. */
+		Vector2D viewportSize;
 
 		/* Create graphics device variables. */
 		/* NOTE: ComPtr handles releasing after application shutdown making destructor's unnecessary. */
@@ -68,12 +91,7 @@ namespace ReeeEngine
 		Microsoft::WRL::ComPtr<ID3D11RenderTargetView> renderTarget;
 		Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depthStencil;
 
-		/* Define HR for macros. NOTE: Incomplete class without this declared... */
-		HRESULT hResult;
-
-	public:
-
-		/* Message management class for handling DirectX messages from its message buffer. */
-		DxgiMessageManager messageManager;
+		/* Current projection matrix. */
+		DirectX::XMMATRIX projectionMatrix;
 	};
 }

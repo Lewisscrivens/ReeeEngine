@@ -56,7 +56,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;DEBUG_ENABLED;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -87,37 +87,59 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ReeeEngine\Events\Event.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\ContextIncludes.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.h" />
+    <ClInclude Include="src\ReeeEngine\Math\Vector2D.h" />
+    <ClInclude Include="src\ReeeEngine\Math\Vector3D.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\PixelShader.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Renderable.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\RenderableMesh.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\ConstantBuffer.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\InputLayout.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\IndexData.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\ContextData.h" />
     <ClInclude Include="src\ReeeEngine.h" />
     <ClInclude Include="src\ReeeEngine\Application.h" />
     <ClInclude Include="src\ReeeEngine\Entry.h" />
-    <ClInclude Include="src\ReeeEngine\Exceptions\DXErrors\dxerr.h" />
-    <ClInclude Include="src\ReeeEngine\Exceptions\GraphicsException.h" />
-    <ClInclude Include="src\ReeeEngine\Exceptions\ReeeException.h" />
-    <ClInclude Include="src\ReeeEngine\Exceptions\WindowException.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\DXErrors\dxerr.h" />
     <ClInclude Include="src\ReeeEngine\Globals.h" />
     <ClInclude Include="src\ReeeEngine\Math\ReeeMath.h" />
     <ClInclude Include="src\ReeeEngine\ReeeLog.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Graphics.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Shapes.h" />
     <ClInclude Include="src\ReeeEngine\Timer.h" />
-    <ClInclude Include="src\ReeeEngine\Windows\DxgiMessageManager.h" />
     <ClInclude Include="src\ReeeEngine\Windows\ReeeWin.h" />
     <ClInclude Include="src\ReeeEngine\Windows\Window.h" />
     <ClInclude Include="src\ReeeEngine\Windows\WindowsInput.h" />
     <ClInclude Include="src\ReeeEngine\Windows\WindowsMessageManager.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexData.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\Topology.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\TransformData.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ReeeEngine\Events\Event.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\PixelShader.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\RenderableMesh.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\InputLayout.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\IndexData.cpp" />
     <ClCompile Include="src\ReeeEngine\Application.cpp" />
-    <ClCompile Include="src\ReeeEngine\Exceptions\DXErrors\dxerr.cpp" />
-    <ClCompile Include="src\ReeeEngine\Exceptions\GraphicsException.cpp" />
-    <ClCompile Include="src\ReeeEngine\Exceptions\ReeeException.cpp" />
-    <ClCompile Include="src\ReeeEngine\Exceptions\WindowException.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\DXErrors\dxerr.cpp" />
     <ClCompile Include="src\ReeeEngine\ReeeLog.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\ContextData.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Graphics.cpp" />
     <ClCompile Include="src\ReeeEngine\Timer.cpp" />
-    <ClCompile Include="src\ReeeEngine\Windows\DxgiMessageManager.cpp" />
     <ClCompile Include="src\ReeeEngine\Windows\Window.cpp" />
     <ClCompile Include="src\ReeeEngine\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\ReeeEngine\Windows\WindowsMessageManager.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexData.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\Topology.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\TransformData.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexShader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PixelShader.hlsl">
@@ -134,9 +156,9 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXGetErrorDescription.inl" />
-    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXGetErrorString.inl" />
-    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXTrace.inl" />
+    <None Include="src\ReeeEngine\Rendering\DXErrors\DXGetErrorDescription.inl" />
+    <None Include="src\ReeeEngine\Rendering\DXErrors\DXGetErrorString.inl" />
+    <None Include="src\ReeeEngine\Rendering\DXErrors\DXTrace.inl" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="src\ReeeEngine\Resources\ReeeIcon.ico">

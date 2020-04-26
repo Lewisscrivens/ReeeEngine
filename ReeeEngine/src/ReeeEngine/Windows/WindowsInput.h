@@ -1,7 +1,7 @@
 #pragma once
 #include <queue>
 #include <bitset>
-#include "../Math/ReeeMath.h"
+#include "../Math/Vector2D.h"
 
 namespace ReeeEngine
 {
@@ -77,18 +77,18 @@ namespace ReeeEngine
 			/* Declare event variables for handling mouse input. */
 			Type eventType;
 			bool leftDown, rightDown, middleDown;
-			FVector2D mousePosition;
+			Vector2D mousePosition;
 
 		public:
 
 			/* Default constructors for the mouse event. */
-			MouseEvent() : eventType(Type::Invalid), leftDown(false), rightDown(false), middleDown(false), mousePosition(FVector2D(0.0f, 0.0f)) {}
-			MouseEvent(Type type, const WindowsInput& parent) noexcept : eventType(type), leftDown(parent.leftMouseDown), rightDown(parent.rightMouseDown), middleDown(parent.middleMouseDown), mousePosition(FVector2D(parent.currMousePos.X, parent.currMousePos.Y)) {}
+			MouseEvent() : eventType(Type::Invalid), leftDown(false), rightDown(false), middleDown(false), mousePosition(Vector2D(0.0f, 0.0f)) {}
+			MouseEvent(Type type, const WindowsInput& parent) noexcept : eventType(type), leftDown(parent.leftMouseDown), rightDown(parent.rightMouseDown), middleDown(parent.middleMouseDown), mousePosition(Vector2D(parent.currMousePos.X, parent.currMousePos.Y)) {}
 
 			/* Functions to check event type / state. */
 			bool IsValid() const noexcept { return eventType != Type::Invalid; }
 			Type GetType() const noexcept { return eventType; }
-			FVector2D GetPosition() const noexcept { return { mousePosition }; }// Returns mouse position.
+			Vector2D GetPosition() const noexcept { return { mousePosition }; }// Returns mouse position.
 			float GetXPosition() const noexcept { return mousePosition.X; }// Returns mouses X position.
 			float GetYPosition() const noexcept { return mousePosition.Y; }// Returns mouses Y position.
 			bool IsLeftDown() const noexcept { return leftDown; }// Is the left mouse button down.
@@ -113,7 +113,7 @@ namespace ReeeEngine
 			Middle
 		};
 
-		FVector2D GetMousePosition() const noexcept;// Returns the mouse position.
+		Vector2D GetMousePosition() const noexcept;// Returns the mouse position.
 		float GetMouseXPosition() const noexcept;// Returns the mouse x position.
 		float GetMouseYPosition() const noexcept;// Returns the mouse y position.
 		bool IsMouseDown(EMouseButton button) const noexcept;// Returns if the specified mouse button is pressed.
@@ -140,7 +140,7 @@ namespace ReeeEngine
 	private:
 
 		/* Mouse event variables to hold current states. */
-		FVector2D currMousePos = FVector2D(0.0f, 0.0f);
+		Vector2D currMousePos = Vector2D(0.0f, 0.0f);
 		float wheelDelta = 0.0f;
 		bool leftMouseDown, rightMouseDown, middleMouseDown = false;
 		bool mouseInsideWindow = false;

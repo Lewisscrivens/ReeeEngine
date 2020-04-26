@@ -4,7 +4,7 @@
 
 namespace ReeeEngine
 {
-	FVector2D WindowsInput::GetMousePosition() const noexcept
+	Vector2D WindowsInput::GetMousePosition() const noexcept
 	{
 		return currMousePos;
 	}
@@ -67,9 +67,7 @@ namespace ReeeEngine
 
 	std::string WindowsInput::GetMousePositionString() noexcept
 	{
-		std::ostringstream mouseStringStream;
-		mouseStringStream << "Mouse Position: (" << currMousePos.X << ", " << currMousePos.Y;
-		return mouseStringStream.str();
+		return currMousePos.GetString();
 	}
 
 	WindowsInput::MouseEvent WindowsInput::ReadMouseEvent() noexcept
@@ -97,7 +95,7 @@ namespace ReeeEngine
 	void WindowsInput::OnMouseMove(int x, int y) noexcept
 	{
 		// Update mouse x and y.
-		currMousePos = FVector2D(x, y);
+		currMousePos = Vector2D(x, y);
 
 		// Add new event to mouse buffer and remove oldest event.
 		mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::Move, *this));

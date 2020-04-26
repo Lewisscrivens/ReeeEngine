@@ -29,6 +29,9 @@ namespace ReeeEngine
 		/* Reference to the main window class. */
 		Window engineWindow;
 		Timer timer;
+
+		/* Reference to all renderable's within the current application to be rendered by graphics. */
+		std::vector<Refference<class RenderableMesh>> renderables;
 	};
 
 	/* Define in the sub application. */

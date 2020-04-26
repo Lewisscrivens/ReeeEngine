@@ -39,22 +39,7 @@
     <ClInclude Include="src\ReeeEngine\Rendering\Graphics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Exceptions\DXErrors\dxerr.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Exceptions\GraphicsException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Exceptions\ReeeException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Exceptions\WindowException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ReeeEngine\Math\ReeeMath.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Windows\DxgiMessageManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ReeeEngine\Windows\Window.h">
@@ -69,6 +54,63 @@
     <ClInclude Include="src\ReeeEngine\ReeeLog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\IndexData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\ContextData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\InputLayout.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\Topology.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\TransformData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\ConstantBuffer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\RenderableMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Renderable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\PixelShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Math\Vector2D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Math\Vector3D.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Shapes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\ContextIncludes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\DXErrors\dxerr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Events\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ReeeEngine\Application.cpp">
@@ -78,21 +120,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ReeeEngine\Rendering\Graphics.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Exceptions\DXErrors\dxerr.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Exceptions\GraphicsException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Exceptions\ReeeException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Exceptions\WindowException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Windows\DxgiMessageManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ReeeEngine\Windows\Window.cpp">
@@ -107,6 +134,45 @@
     <ClCompile Include="src\ReeeEngine\ReeeLog.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\IndexData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\ContextData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\InputLayout.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\Topology.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\TransformData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\RenderableMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\PixelShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexShader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\DXErrors\dxerr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Events\Event.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PixelShader.hlsl">
@@ -117,13 +183,13 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXGetErrorDescription.inl">
+    <None Include="src\ReeeEngine\Rendering\DXErrors\DXGetErrorDescription.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXGetErrorString.inl">
+    <None Include="src\ReeeEngine\Rendering\DXErrors\DXGetErrorString.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="src\ReeeEngine\Exceptions\DXErrors\DXTrace.inl">
+    <None Include="src\ReeeEngine\Rendering\DXErrors\DXTrace.inl">
       <Filter>Header Files</Filter>
     </None>
   </ItemGroup>
