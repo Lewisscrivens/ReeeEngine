@@ -8,17 +8,23 @@
 namespace ReeeEngine
 {
 	// Main window created here.
-	Application::Application() : engineWindow(1280, 720, "Reee Editor")
+	Application::Application()
 	{
+		// Create engine window.
+		engineWindow = CreateReff<Window>(1280, 720, "Reee Editor");
+		engineWindow->SetDelegateCallback(BIND_DELEGATE(Application::OnDelegate));
+
 		// Add a box and setup the projection matrix.
-		renderables.push_back(CreateReff<Box>(engineWindow.GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f)));
-		renderables.push_back(CreateReff<Sphere>(engineWindow.GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f)));
-		engineWindow.GetGraphics().SetProjectionMatrix(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
+		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Vector3D(0.0f), Vector3D(5.0f)));
+		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f)));
+		engineWindow->GetGraphics().SetProjectionMatrix(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
 	}
 
 	Application::~Application()
 	{
 		//...
+
+
 	}
 
 	int Application::Start()
@@ -33,7 +39,7 @@ namespace ReeeEngine
 			while (true)
 			{
 				// Update message processing.
-				if (const std::optional<int> optionalReturn = engineWindow.DispatchMessages())
+				if (const std::optional<int> optionalReturn = engineWindow->DispatchMessages())
 				{
 					// If the optional function returned anything return for update.
 					return *optionalReturn;
@@ -69,16 +75,38 @@ namespace ReeeEngine
 		const auto deltaTime = timer.GetDeltaTime();
 
 		// Clear render buffer before each render call.
-		engineWindow.GetGraphics().ClearRenderBuffer();
+		engineWindow->GetGraphics().ClearRenderBuffer();
 
 		// Tick and render each renderable object active in the engine window.
 		for (auto& renderable : renderables)
 		{
 			renderable->Tick(deltaTime);
-			renderable->Render(engineWindow.GetGraphics());
+			renderable->Render(engineWindow->GetGraphics());
 		}
 
 		// Present the frame to the window after dispatching input messages.
-		engineWindow.GetGraphics().EndFrame();
+		engineWindow->GetGraphics().EndFrame();
+	}
+
+	void Application::OnDelegate(Delegate& del)
+	{
+		DelegateDispatcher dispatcher(del);
+		dispatcher.Dispatch<WindowResizedDelegate>(BIND_DELEGATE(Application::OnWindowResized));
+		dispatcher.Dispatch<WindowClosedDelegate>(BIND_DELEGATE(Application::OnWindowClosed));
+
+		//...
+	}
+
+	bool Application::OnWindowResized(WindowResizedDelegate& del)
+	{
+		REEE_LOG(Log, "{0}", del.ToString());
+		return false;
+	}
+
+	bool Application::OnWindowClosed(WindowClosedDelegate& del)
+	{
+		REEE_LOG(Log, "Engine closed.");
+		PostQuitMessage(0);
+		return true;
 	}
 }

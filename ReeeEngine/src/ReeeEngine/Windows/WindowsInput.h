@@ -2,6 +2,7 @@
 #include <queue>
 #include <bitset>
 #include "../Math/Vector2D.h"
+#include "WindowsKeyCodes.h"
 
 namespace ReeeEngine
 {

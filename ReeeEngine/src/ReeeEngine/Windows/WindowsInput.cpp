@@ -67,7 +67,7 @@ namespace ReeeEngine
 
 	std::string WindowsInput::GetMousePositionString() noexcept
 	{
-		return currMousePos.GetString();
+		return currMousePos.ToString();
 	}
 
 	WindowsInput::MouseEvent WindowsInput::ReadMouseEvent() noexcept

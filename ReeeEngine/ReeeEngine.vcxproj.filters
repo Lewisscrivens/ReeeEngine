@@ -108,7 +108,16 @@
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Events\Event.h">
+    <ClInclude Include="src\ReeeEngine\Delegates\Delegate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Delegates\InputDelegates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Windows\WindowsKeyCodes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Delegates\WindowDelegates.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,7 +179,10 @@
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Events\Event.cpp">
+    <ClCompile Include="src\ReeeEngine\Delegates\InputDelegates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Delegates\WindowDelegates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

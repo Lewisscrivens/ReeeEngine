@@ -1,5 +1,6 @@
 #include "Window.h"
 #include <sstream>
+#include "../Delegates/WindowDelegates.h"
 
 namespace ReeeEngine
 {
@@ -74,6 +75,11 @@ namespace ReeeEngine
 		if (SetWindowText(hWnd, newTitle.c_str()) == 0) WINDOW_THROW_EXCEPT("Failed to set the windows title text.");
 	}
 
+	void Window::SetDelegateCallback(const std::function<void(Delegate&)>& callback)
+	{
+		callbackDel = callback;
+	}
+
 	std::optional<int> Window::DispatchMessages() noexcept
 	{
 		// Perform and dispatch message events from the window.
@@ -140,19 +146,24 @@ namespace ReeeEngine
 
 	LRESULT Window::HandleMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
+		// Create empty delegate to be handled using switch.
+		Delegate* del = nullptr;
+
 		// Handle messages being sent from the window class.
 		switch (msg)
 		{
 		// On application closed.
 		case WM_CLOSE:
-			PostQuitMessage(0);
-			return 0;
+		{
+			WindowClosedDelegate closedDel;
+			del = &closedDel;
 			break;
+		}	
 		// On window resize.
 		case WM_SIZE:
 		{
-			// Create window resized event for other classes to use.
-			//graphics->ResizeRenderTargets(LOWORD(lParam), HIWORD(lParam));
+			WindowResizedDelegate resizedDel(LOWORD(lParam), HIWORD(lParam));
+			del = &resizedDel;
 			break;
 		}
 
@@ -242,9 +253,15 @@ namespace ReeeEngine
 			// Pass and handle wheel scrolling into the input class.
 			const int wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
 			input.OnMouseWheelDelta(wheelDelta);
-		}
-		break;
+			break;
+		}	
 	#endif
+		}
+
+		// If there are any delegates waiting to be handled call them.
+		if (del && callbackDel)
+		{
+			callbackDel(*del);
 		}
 
 		// Handle any messages not being handled in this function.

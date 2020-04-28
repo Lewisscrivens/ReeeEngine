@@ -87,7 +87,8 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ReeeEngine\Events\Event.h" />
+    <ClInclude Include="src\ReeeEngine\Delegates\InputDelegates.h" />
+    <ClInclude Include="src\ReeeEngine\Delegates\Delegate.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\ContextIncludes.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.h" />
@@ -113,14 +114,16 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\Windows\ReeeWin.h" />
     <ClInclude Include="src\ReeeEngine\Windows\Window.h" />
     <ClInclude Include="src\ReeeEngine\Windows\WindowsInput.h" />
+    <ClInclude Include="src\ReeeEngine\Windows\WindowsKeyCodes.h" />
     <ClInclude Include="src\ReeeEngine\Windows\WindowsMessageManager.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexData.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\Topology.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\TransformData.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexShader.h" />
+    <ClInclude Include="src\ReeeEngine\Delegates\WindowDelegates.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ReeeEngine\Events\Event.cpp" />
+    <ClCompile Include="src\ReeeEngine\Delegates\InputDelegates.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\PixelShader.cpp" />
@@ -140,6 +143,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\Rendering\Context\Topology.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\TransformData.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexShader.cpp" />
+    <ClCompile Include="src\ReeeEngine\Delegates\WindowDelegates.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PixelShader.hlsl">

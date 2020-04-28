@@ -15,6 +15,7 @@ namespace ReeeEngine
 
 		/* Default constructor's. */
 		Vector3D() : X(0.0f), Y(0.0f), Z(0.0f) {}
+		Vector3D(float val) : X(val), Y(val), Z(val) {}
 		Vector3D(float x, float y, float z) : X(x), Y(y), Z(z) {}
 
 		////////////////////////////////////////////////
@@ -143,7 +144,7 @@ namespace ReeeEngine
 		}
 
 		/* Returns a string of this vector. */
-		std::string GetString()
+		std::string ToString()
 		{
 			std::stringstream stream;
 			stream << "Vector3D(" << X << ", " << Y << ", " << Z << ")";

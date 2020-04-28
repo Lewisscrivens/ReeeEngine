@@ -15,7 +15,10 @@ namespace ReeeEngine
 
 		/* Default constructor's. */
 		Vector2D() : X(0.0f), Y(0.0f) {}
+		Vector2D(float val) : X(val), Y(val) {}
+		Vector2D(int val) : X((float)val), Y((float)val) {}
 		Vector2D(float x, float y) : X(x), Y(y) {}
+		Vector2D(int x, int y) : X((float)x), Y((float)y) {}
 
 		////////////////////////////////////////////////
 		/* Functions to help work with the FVector2D. */
@@ -137,7 +140,7 @@ namespace ReeeEngine
 		}
 
 		/* Returns a string of this vector. */
-		std::string GetString()
+		std::string ToString()
 		{
 			std::stringstream stream;
 			stream << "Vector2D(" << X << ", " << Y << ")";

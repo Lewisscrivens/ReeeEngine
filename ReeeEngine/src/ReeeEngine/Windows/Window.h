@@ -1,6 +1,7 @@
 #pragma once
 #include "../Globals.h"
 #include "../Rendering/Graphics.h"
+#include "../Delegates/Delegate.h"
 #include "ReeeWin.h"
 #include "WindowsInput.h"
 #include <optional>
@@ -59,6 +60,9 @@ namespace ReeeEngine
 		/* Window functions. NOTE: Set the windows title. */
 		void SetTitle(const std::string& newTitle);
 
+		/* Set the initial delegate callback on window creation. */
+		void SetDelegateCallback(const std::function<void(Delegate&)>& callback);
+
 		/* Window message processor. */
 		static std::optional<int> DispatchMessages() noexcept;
 
@@ -66,6 +70,9 @@ namespace ReeeEngine
 		Graphics& GetGraphics();
 
 	private:
+
+		/* Create callback function for windows message events. */
+		std::function<void(Delegate&)> callbackDel;
 
 		/* Message handling functions to perform actions based of user input with the window class. */
 		static LRESULT CALLBACK HandleMessageEntry(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
