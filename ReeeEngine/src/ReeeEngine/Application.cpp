@@ -94,18 +94,19 @@ namespace ReeeEngine
 		dispatcher.Dispatch<WindowResizedDelegate>(BIND_DELEGATE(Application::OnWindowResized));
 		dispatcher.Dispatch<WindowClosedDelegate>(BIND_DELEGATE(Application::OnWindowClosed));
 
-		//...
+		// Send delegate events to each module within the engine in a given update order.
+
 	}
 
 	bool Application::OnWindowResized(WindowResizedDelegate& del)
 	{
-		REEE_LOG(Log, "{0}", del.ToString());
+		//REEE_LOG(Log, "{0}", del.ToString());
 		return false;
 	}
 
 	bool Application::OnWindowClosed(WindowClosedDelegate& del)
 	{
-		REEE_LOG(Log, "Engine closed.");
+		//REEE_LOG(Log, "Engine closed.");
 		PostQuitMessage(0);
 		return true;
 	}

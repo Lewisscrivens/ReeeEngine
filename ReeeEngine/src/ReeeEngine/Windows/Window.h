@@ -85,6 +85,9 @@ namespace ReeeEngine
 		HWND hWnd;
 		Refference<Graphics> graphics;
 
+		/* Extra input variables. */
+		int keyRepeatCount = 0;
+
 	public:
 
 		/* Public input manager/receiver. */

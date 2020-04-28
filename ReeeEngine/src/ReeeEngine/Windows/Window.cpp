@@ -1,6 +1,8 @@
 #include "Window.h"
 #include <sstream>
+#include <vector>
 #include "../Delegates/WindowDelegates.h"
+#include "../Delegates/InputDelegates.h"
 
 namespace ReeeEngine
 {
@@ -146,8 +148,8 @@ namespace ReeeEngine
 
 	LRESULT Window::HandleMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
-		// Create empty delegate to be handled using switch.
-		Delegate* del = nullptr;
+		// Create delegate array.
+		std::vector<Delegate*> delegates;
 
 		// Handle messages being sent from the window class.
 		switch (msg)
@@ -156,14 +158,14 @@ namespace ReeeEngine
 		case WM_CLOSE:
 		{
 			WindowClosedDelegate closedDel;
-			del = &closedDel;
+			delegates.push_back(&closedDel);
 			break;
 		}	
 		// On window resize.
 		case WM_SIZE:
 		{
 			WindowResizedDelegate resizedDel(LOWORD(lParam), HIWORD(lParam));
-			del = &resizedDel;
+			delegates.push_back(&resizedDel);
 			break;
 		}
 
@@ -172,26 +174,49 @@ namespace ReeeEngine
 
 		// On window focus lost clear the current keySet to prevent ghost key presses.
 		case WM_KILLFOCUS:
-			input.ClearKeySet();
-		break;
-
+		{
+			input.ResetKeyState();
+			KeyboardFocusLostDelegate keyboardStateLost;
+			delegates.push_back(&keyboardStateLost);
+			break;
+		}
 		// Pass any keyboard events to the keyboard class for this window.
 		case WM_KEYDOWN:
 		case WM_SYSKEYDOWN:
+		{
 			// Only run key pressed event repeatedly if autorepeat is enabled or its the first keyboard press for the key.
-			if (!(lParam & 0x40000000) || input.IsAutorepeatEnabled()) input.OnKeyPressed(static_cast<unsigned char>(wParam));
-		break;
-
+			bool isRepeat = (lParam & 0x40000000);
+			if (isRepeat) keyRepeatCount++;
+			else keyRepeatCount = 0;
+			if (!isRepeat || input.IsAutorepeatEnabled())
+			{
+				auto keycode = static_cast<unsigned char>(wParam);
+				input.OnKeyPressed(keycode, keyRepeatCount);
+				KeyPressedDelegate keyPressed(keycode, keyRepeatCount);
+				delegates.push_back(&keyPressed);
+			}
+			break;
+		}	
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
-			input.OnKeyReleased(static_cast<unsigned char>(wParam));
-		break;
-
+		{
+			auto keycode = static_cast<unsigned char>(wParam);
+			input.OnKeyReleased(keycode);
+			KeyReleasedDelegate keyReleased(keycode);
+			delegates.push_back(&keyReleased);
+			break;
+		}		
 		case WM_CHAR:
-			input.OnCharPressed(static_cast<unsigned char>(wParam));
-		break;
-
+		{
+			auto keycode = static_cast<unsigned char>(wParam);
+			input.OnCharPressed(keycode);
+			CharPressedDelegate charPressed(keycode);
+			delegates.push_back(&charPressed);
+			break;
+		}
+		
 	#endif
+
 	/* MOUSE INPUT UPDATE MESSAGES. */
 	#if MOUSE_ENABLED
 
@@ -205,12 +230,16 @@ namespace ReeeEngine
 			if (mousePos.x >= 0 && mousePos.x < width && mousePos.y >= 0 && mousePos.y < height)
 			{
 				input.OnMouseMove(mousePos.x, mousePos.y);
+				MouseMovedDelegate mouseMoved(mousePos.x, mousePos.y);
+				delegates.push_back(&mouseMoved);
 
 				// If the mouse is registered as not being in the window toggle it.
 				if (!input.IsMouseInWindow())
 				{
 					SetCapture(hWnd);
 					input.OnMouseInside();
+					MouseEnteredDelegate mouseEntered;
+					delegates.push_back(&mouseEntered);
 				}
 			}
 			// If the mouse has left the window use mouse capture to track movement.
@@ -220,48 +249,81 @@ namespace ReeeEngine
 				if (wParam & (MK_LBUTTON | MK_RBUTTON))
 				{
 					input.OnMouseMove(mousePos.x, mousePos.y);
+					MouseMovedDelegate mouseMoved(mousePos.x, mousePos.y);
+					delegates.push_back(&mouseMoved);
 				}
 				// Otherwise end mouse capture and set the mouse as outside of the window.
 				else
 				{
 					ReleaseCapture();
 					input.OnMouseOutside();
+					MouseExitDelegate mouseExited;
+					delegates.push_back(&mouseExited);
 				}
 			}
+			break;
 		}
-		break;
 		case WM_LBUTTONDOWN:
+		{
 			input.OnMousePressed(WindowsInput::EMouseButton::Left);
+			MousePressedDelegate mousePressed(EMouseKey::Left);
+			delegates.push_back(&mousePressed);
 			break;
+		}
 		case WM_RBUTTONDOWN:
+		{
 			input.OnMousePressed(WindowsInput::EMouseButton::Right);
+			MousePressedDelegate mousePressed(EMouseKey::Right);
+			delegates.push_back(&mousePressed);
 			break;
+		}
 		case WM_MBUTTONDOWN:
+		{
 			input.OnMousePressed(WindowsInput::EMouseButton::Middle);
+			MousePressedDelegate mousePressed(EMouseKey::Middle);
+			delegates.push_back(&mousePressed);
 			break;
+		}
 		case WM_LBUTTONUP:
+		{
 			input.OnMouseReleased(WindowsInput::EMouseButton::Left);
+			MouseReleasedDelegate mouseReleased(EMouseKey::Left);
+			delegates.push_back(&mouseReleased);
 			break;
+		}	
 		case WM_RBUTTONUP:
+		{
 			input.OnMouseReleased(WindowsInput::EMouseButton::Right);
+			MouseReleasedDelegate mouseReleased(EMouseKey::Right);
+			delegates.push_back(&mouseReleased);
 			break;
+		}
 		case WM_MBUTTONUP:
+		{
 			input.OnMouseReleased(WindowsInput::EMouseButton::Middle);
+			MouseReleasedDelegate mouseReleased(EMouseKey::Middle);
+			delegates.push_back(&mouseReleased);
 			break;
+		}
 		case WM_MOUSEWHEEL:
 		{
 			// Pass and handle wheel scrolling into the input class.
-			const int wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+			const int wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam) / 120;
 			input.OnMouseWheelDelta(wheelDelta);
+			MouseScrolledDelegate mouseScrolled(wheelDelta);
+			delegates.push_back(&mouseScrolled);
 			break;
 		}	
 	#endif
 		}
 
-		// If there are any delegates waiting to be handled call them.
-		if (del && callbackDel)
+		// Disperse delegates from window messages to the application callback event.
+		if (!delegates.empty() && callbackDel)
 		{
-			callbackDel(*del);
+			for (Delegate* del : delegates)
+			{
+				callbackDel(*del);
+			}
 		}
 
 		// Handle any messages not being handled in this function.

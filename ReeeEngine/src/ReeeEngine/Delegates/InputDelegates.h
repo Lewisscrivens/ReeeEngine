@@ -5,13 +5,43 @@
 
 namespace ReeeEngine
 {
+	/* Define delegate for mouse being moved out of the window. */
+	class REEE_API MouseExitDelegate : public Delegate
+	{
+	public:
+
+		// Setup for a new delegate call when the mouse exits the window.
+		MouseExitDelegate() = default;
+
+		// Return the delegate type.
+		virtual DelegateType GetType() const override { return DelegateType::Input; };
+
+		// Return description of delegate event.
+		std::string ToString() override;
+	};
+
+	/* Define delegate for mouse being moved back into the window. */
+	class REEE_API MouseEnteredDelegate : public Delegate
+	{
+	public:
+
+		// Setup for a new delegate call when the mouse enters back into the window.
+		MouseEnteredDelegate() = default;
+
+		// Return the delegate type.
+		virtual DelegateType GetType() const override { return DelegateType::Input; };
+
+		// Return description of delegate event.
+		std::string ToString() override;
+	};
+
 	/* Define delegate for mouse being moved. */
 	class REEE_API MouseMovedDelegate : public Delegate
 	{
 	public:
 
 		// Setup for a new delegate call when the mouse is moved.
-		MouseMovedDelegate(Vector2D mousePos);
+		MouseMovedDelegate(int X, int Y);
 
 		// Return the delegate type.
 		virtual DelegateType GetType() const override { return DelegateType::Input; };
@@ -105,6 +135,9 @@ namespace ReeeEngine
 	{
 	public:
 
+		// Default mouse pressed delegate constructor.
+		MousePressedDelegate(EMouseKey button) : MouseButtonDelegate(button) {}
+
 		// Return description of delegate event.
 		std::string ToString() override;
 	};
@@ -114,8 +147,26 @@ namespace ReeeEngine
 	{
 	public:
 
+		// Default mouse released delegate constructor.
+		MouseReleasedDelegate(EMouseKey button) : MouseButtonDelegate(button) {}
+
 		// Return description of delegate event.
 		std::string ToString() override;
+	};
+
+	/* Delegate for when the keyboard focus is lost. */
+	class REEE_API KeyboardFocusLostDelegate : public Delegate
+	{
+	public:
+
+		// Use default constructor.
+		KeyboardFocusLostDelegate() = default;
+
+		// Return description of delegate event.
+		std::string ToString() override;
+
+		// Return the delegate type.
+		virtual DelegateType GetType() const override { return DelegateType::Input; };
 	};
 
 	/* Delegate base class for keyboard input. */

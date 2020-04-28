@@ -208,7 +208,7 @@ namespace ReeeEngine
 
 	bool WindowsInput::IsKeyDown(unsigned char keyCode) const noexcept
 	{
-		return keySet[keyCode];
+		return keyState[keyCode];
 	}
 
 	WindowsInput::KeyboardEvent WindowsInput::ReadKeyEvent() noexcept
@@ -277,11 +277,11 @@ namespace ReeeEngine
 		return autorepeatEnabled;
 	}
 
-	void WindowsInput::OnKeyPressed(unsigned char keyCode) noexcept
+	void WindowsInput::OnKeyPressed(unsigned char keyCode, int keyCount) noexcept
 	{
 		// Set key pressed to true in keySet and add the event to the key buffer.
-		keySet[keyCode] = true;
-		keyBuffer.push(WindowsInput::KeyboardEvent{ WindowsInput::KeyboardEvent::Type::Down, keyCode });
+		keyState[keyCode] = true;
+		keyBuffer.push(WindowsInput::KeyboardEvent{ WindowsInput::KeyboardEvent::Type::Down, keyCode, keyCount });
 
 		// Trim of the oldest key event in the key buffer.
 		TrimKeyboardBuffer(keyBuffer);
@@ -290,8 +290,8 @@ namespace ReeeEngine
 	void WindowsInput::OnKeyReleased(unsigned char keyCode) noexcept
 	{
 		// Set key pressed to false in keySet and add the event to the key buffer.
-		keySet[keyCode] = false;
-		keyBuffer.push(WindowsInput::KeyboardEvent{ WindowsInput::KeyboardEvent::Type::Up, keyCode });
+		keyState[keyCode] = false;
+		keyBuffer.push(WindowsInput::KeyboardEvent{ WindowsInput::KeyboardEvent::Type::Up, keyCode, 0 });
 
 		// Trim off oldest key event in the key buffer.
 		TrimKeyboardBuffer(keyBuffer);
@@ -306,9 +306,9 @@ namespace ReeeEngine
 		TrimKeyboardBuffer(charBuffer);
 	}
 
-	void WindowsInput::ClearKeySet() noexcept
+	void WindowsInput::ResetKeyState() noexcept
 	{
-		keySet.reset();
+		keyState.reset();
 	}
 
 	template<typename T>

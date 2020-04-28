@@ -1,10 +1,11 @@
 #include "InputDelegates.h"
+#include "../Windows/WindowsInput.h"
 
 namespace ReeeEngine
 {
-	MouseMovedDelegate::MouseMovedDelegate(Vector2D mousePos)
+	MouseMovedDelegate::MouseMovedDelegate(int X, int Y)
 	{
-		mousePosition = mousePos;
+		mousePosition = Vector2D(X, Y);
 	}
 
 	Vector2D MouseMovedDelegate::GetMousePos()
@@ -106,4 +107,26 @@ namespace ReeeEngine
 		newString << "Char typed: " << currKeyCode;
 		return newString.str();
 	}
+
+	std::string KeyboardFocusLostDelegate::ToString()
+	{
+		std::stringstream newString;
+		newString << "Keyboard focus has been lost";
+		return newString.str();
+	}
+
+	std::string MouseExitDelegate::ToString()
+	{
+		std::stringstream newString;
+		newString << "Mouse exited window.";
+		return newString.str();
+	}
+
+	std::string MouseEnteredDelegate::ToString()
+	{
+		std::stringstream newString;
+		newString << "Mouse entered window.";
+		return newString.str();
+	}
+
 }

@@ -35,12 +35,13 @@ namespace ReeeEngine
 			/* Declare event vars. */
 			Type eventType;
 			unsigned char eventCode;
+			int eventCount; // Key count of how many times its been ran while held.
 
 		public:
 
 			/* Default constructors. */
 			KeyboardEvent() : eventType(Type::Invalid), eventCode(0u) {}
-			KeyboardEvent(Type type, unsigned char code) noexcept : eventType(type), eventCode(code) {}
+			KeyboardEvent(Type type, unsigned char code, int keyCount) noexcept : eventType(type), eventCode(code), eventCount (keyCount) {}
 
 			/* Functions to check event type / state. */
 			bool IsDown() const noexcept { return eventType == Type::Down; }
@@ -169,10 +170,10 @@ namespace ReeeEngine
 	private:
 
 		/* Key and char pressed/released event functions. */
-		void OnKeyPressed(unsigned char keyCode) noexcept;
+		void OnKeyPressed(unsigned char keyCode, int keyCount) noexcept;
 		void OnKeyReleased(unsigned char keyCode) noexcept;
 		void OnCharPressed(char character) noexcept;
-		void ClearKeySet() noexcept; // Reset the key set.
+		void ResetKeyState() noexcept; // Reset the key set.
 
 		/* Trims down the given buffer in terms of the oldest elements to the bufferSize variable. */
 		template<typename T>
@@ -183,8 +184,8 @@ namespace ReeeEngine
 		/* Keyboard variables to convert key names to events etc. */
 		static constexpr unsigned int keyNum = 256u;
 		static constexpr unsigned int bufferSize = 16u;
-		bool autorepeatEnabled = false;
-		std::bitset<keyNum> keySet;
+		bool autorepeatEnabled = true;
+		std::bitset<keyNum> keyState;
 		std::queue<KeyboardEvent> keyBuffer;
 		std::queue<char> charBuffer;
 	};
