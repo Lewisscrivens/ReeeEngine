@@ -49,7 +49,6 @@ namespace ReeeEngine
 		template<typename T>
 		bool Dispatch(Function<T> function)
 		{
-			// NOTE: NEEDS PROFILING TO ENSURE THIS ISNT A BIG MISTAKE....
 			// Ensure that the current delegate is the correct type dispatched.
 			if (!dynamic_cast<T*>(&currDelegate)) return false;
 

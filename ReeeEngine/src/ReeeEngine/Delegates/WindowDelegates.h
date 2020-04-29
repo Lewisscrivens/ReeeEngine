@@ -34,7 +34,7 @@ namespace ReeeEngine
 	{
 	public:
 
-		// Default constructor. Not currently in use.
+		// Default constructor.
 		WindowClosedDelegate() = default;
 
 		// Return a description of the delegate/event.

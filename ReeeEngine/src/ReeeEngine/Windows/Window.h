@@ -2,7 +2,6 @@
 #include "../Globals.h"
 #include "../Rendering/Graphics.h"
 #include "../Delegates/Delegate.h"
-#include "ReeeWin.h"
 #include "WindowsInput.h"
 #include <optional>
 #include <memory>
@@ -61,7 +60,7 @@ namespace ReeeEngine
 		void SetTitle(const std::string& newTitle);
 
 		/* Set the initial delegate callback on window creation. */
-		void SetDelegateCallback(const std::function<void(Delegate&)>& callback);
+		void SetDelegateCallbackEvent(const std::function<void(Delegate&)>& callback);
 
 		/* Window message processor. */
 		static std::optional<int> DispatchMessages() noexcept;
@@ -80,10 +79,13 @@ namespace ReeeEngine
 		LRESULT HandleMessage(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
 
 		/* Window variables. */
-		int width;
-		int height;
+		int currWidth;
+		int currHeight;
 		HWND hWnd;
 		Refference<Graphics> graphics;
+
+		/* Saved window's settings for adjusting rect at runtime. */
+		long windowSettings;
 
 		/* Extra input variables. */
 		int keyRepeatCount = 0;

@@ -53,8 +53,9 @@ namespace ReeeEngine
 		/* Engine module manager. */
 		ModuleManager modules;
 
-		/* Is the application running. */
+		/* Information about the state of the application. */
 		bool appRunning = true;
+		bool minimised = false;
 	};
 
 	/* Define in the sub application. */

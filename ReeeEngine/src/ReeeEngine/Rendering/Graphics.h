@@ -1,5 +1,4 @@
 #pragma once
-#include "../Windows/ReeeWin.h"
 #include "../Globals.h"
 #include "../ReeeLog.h"
 #include "../Math/ReeeMath.h"
@@ -72,7 +71,8 @@ namespace ReeeEngine
 		/* Draw any context data binded to the rendering pipeline. */
 		void Draw(UINT numberOfIndex);
 
-		/* Set the current rendering projection matrix. */
+		/* Set the current rendering projection matrix functions. */
+		void SetProjectionMatrix(float fov = 60.0f, float newWidth = 1280.0f, float newHeight = 720.0f, float nearClip = 0.5f, float farClip = 2000.0f) noexcept;
 		void SetProjectionMatrix(DirectX::FXMMATRIX projectionMatrix) noexcept;
 
 		/* Return the current projection matrix. */

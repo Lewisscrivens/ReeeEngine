@@ -1,22 +1,14 @@
 #pragma once
 
-/* Include api. */
-#include <iostream>
-#include <memory>
-#include <utility>
-#include <algorithm>
-#include <functional>
+/* Include PCH. */
+#include "../PCH.h"
 
-/* Include common types. */
-#include <string>
-#include <sstream>
-#include <array>
-#include <vector>
-#include <unordered_map>
-#include <unordered_set>
+/* Is profiling enabled? */
+#define PROFILING 0
 
 /* Platform definitions. */
 #ifdef PLATFORM_WINDOWS
+	// Define Engine API.
 	#ifdef REEE_BUILD
 		#define REEE_API __declspec(dllexport)
 	#else

@@ -76,6 +76,8 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
       <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -87,10 +89,12 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\PCH.h" />
     <ClInclude Include="src\ReeeEngine\Module\Module.h" />
     <ClInclude Include="src\ReeeEngine\Delegates\InputDelegates.h" />
     <ClInclude Include="src\ReeeEngine\Delegates\Delegate.h" />
     <ClInclude Include="src\ReeeEngine\Module\ModuleManager.h" />
+    <ClInclude Include="src\ReeeEngine\Profiling\DebugTimer.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\ContextIncludes.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.h" />
@@ -117,7 +121,6 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\Windows\Window.h" />
     <ClInclude Include="src\ReeeEngine\Windows\WindowsInput.h" />
     <ClInclude Include="src\ReeeEngine\Windows\WindowsKeyCodes.h" />
-    <ClInclude Include="src\ReeeEngine\Windows\WindowsMessageManager.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexData.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\Topology.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\TransformData.h" />
@@ -125,6 +128,9 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\Delegates\WindowDelegates.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\PCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\ReeeEngine\Delegates\InputDelegates.cpp" />
     <ClCompile Include="src\ReeeEngine\Module\ModuleManager.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.cpp" />
@@ -141,7 +147,6 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\Timer.cpp" />
     <ClCompile Include="src\ReeeEngine\Windows\Window.cpp" />
     <ClCompile Include="src\ReeeEngine\Windows\WindowsInput.cpp" />
-    <ClCompile Include="src\ReeeEngine\Windows\WindowsMessageManager.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexData.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\Topology.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\TransformData.cpp" />

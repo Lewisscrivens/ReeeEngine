@@ -25,8 +25,8 @@ namespace ReeeEngine
 
 		// Create and define swap chain options for the swap chain.
 		DXGI_SWAP_CHAIN_DESC swapChainOptions = {};
-		swapChainOptions.BufferDesc.Width = width;
-		swapChainOptions.BufferDesc.Height = height;
+		swapChainOptions.BufferDesc.Width = (UINT)width;
+		swapChainOptions.BufferDesc.Height = (UINT)height;
 		swapChainOptions.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		swapChainOptions.BufferDesc.RefreshRate.Numerator = 0;
 		swapChainOptions.BufferDesc.RefreshRate.Denominator = 0;
@@ -39,7 +39,7 @@ namespace ReeeEngine
 		swapChainOptions.OutputWindow = hWnd;
 		swapChainOptions.Windowed = TRUE;
 		swapChainOptions.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
-		swapChainOptions.Flags = 0;
+		swapChainOptions.Flags = 0u;
 
 		// Create debug flags only if debug is enabled.
 		UINT debugFlags = 0u;
@@ -129,26 +129,26 @@ namespace ReeeEngine
 		// Prepare the render target to be overwritten.
 		context->OMSetRenderTargets(0, 0, 0);
 		renderTarget->Release();
-		HRESULT result = swapChain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, 0);
+		HRESULT result = swapChain->ResizeBuffers(1, (UINT)width, (UINT)height, DXGI_FORMAT_R8G8B8A8_UNORM, 0u);
 		LOG_DX_ERROR(result);
 
 		// Re-create back buffer to create the RT.
-		WRL::ComPtr<ID3D11Resource> backBuffer;
-		result = swapChain->GetBuffer(0, __uuidof(ID3D11Resource), &backBuffer);
+		WRL::ComPtr<ID3D11Resource> buffer = nullptr;
+		result = swapChain->GetBuffer(0, __uuidof(ID3D11Resource), &buffer);
 		LOG_DX_ERROR(result);
 
 		// Create render target view.
-		result = device->CreateRenderTargetView(backBuffer.Get(), nullptr, &renderTarget);
+		result = device->CreateRenderTargetView(buffer.Get(), nullptr, renderTarget.GetAddressOf());
 		LOG_DX_ERROR(result);
 
 		// Prepare the depth stencil to be overwritten.
 		depthStencil->Release();
 
 		// Create new depth stencil texture.
-		WRL::ComPtr<ID3D11Texture2D> depthStencilTexture;
+		WRL::ComPtr<ID3D11Texture2D> depthStencilTexture = nullptr;
 		D3D11_TEXTURE2D_DESC depthStencilTextureOptions = {};
-		depthStencilTextureOptions.Width = (UINT)width;
-		depthStencilTextureOptions.Height = (UINT)height;
+		depthStencilTextureOptions.Width = width;
+		depthStencilTextureOptions.Height = height;
 		depthStencilTextureOptions.MipLevels = 1u;
 		depthStencilTextureOptions.ArraySize = 1u;
 		depthStencilTextureOptions.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -164,7 +164,7 @@ namespace ReeeEngine
 		depthStencilViewOptions.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 		depthStencilViewOptions.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 		depthStencilViewOptions.Texture2D.MipSlice = 0u;
-		result = device->CreateDepthStencilView(depthStencilTexture.Get(), &depthStencilViewOptions, &depthStencil);
+		result = device->CreateDepthStencilView(depthStencilTexture.Get(), &depthStencilViewOptions, depthStencil.GetAddressOf());
 		LOG_DX_ERROR(result);
 
 		// Bind stencil view to the render target binded to the window class....
@@ -193,12 +193,18 @@ namespace ReeeEngine
 		// Clears the render target view 
 		const float color[] = { r, g, b, 1.0f };
 		context->ClearRenderTargetView(renderTarget.Get(), color);
-		context->ClearDepthStencilView(depthStencil.Get(), D3D11_CLEAR_DEPTH, 1.0f, 0u);
+		context->ClearDepthStencilView(depthStencil.Get(), D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0u);
 	}
 
 	void Graphics::Draw(UINT numberOfIndex)
 	{
 		context->DrawIndexed(numberOfIndex, 0u, 0u);
+	}
+
+	void Graphics::SetProjectionMatrix(float fov, float newWidth, float newHeight, float nearClip, float farClip) noexcept
+	{
+		auto newMatrix = DirectX::XMMatrixPerspectiveFovLH(ReeeMath::Radians(fov), ReeeMath::GetAspectRatio(newWidth, newHeight), nearClip, farClip);
+		SetProjectionMatrix(newMatrix);
 	}
 
 	void Graphics::SetProjectionMatrix(DirectX::FXMMATRIX projectionMat) noexcept

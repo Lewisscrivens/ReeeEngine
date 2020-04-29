@@ -3,7 +3,7 @@
 #include "Rendering/Renderables/RenderableMesh.h"
 #include "Rendering/Renderables/Shapes/Box.h"
 #include "Rendering/Renderables/Shapes/Sphere.h"
-#include <iostream>
+#include "Profiling/DebugTimer.h"
 
 namespace ReeeEngine
 {
@@ -12,12 +12,14 @@ namespace ReeeEngine
 	{
 		// Create engine window.
 		engineWindow = CreateReff<Window>(1280, 720, "Reee Editor");
-		engineWindow->SetDelegateCallback(BIND_DELEGATE(Application::OnDelegate));
+		engineWindow->SetDelegateCallbackEvent(BIND_DELEGATE(Application::OnDelegate));
 
 		// Add a box and setup the projection matrix.
 		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Vector3D(0.0f), Vector3D(5.0f)));
-		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f)));
-		engineWindow->GetGraphics().SetProjectionMatrix(DirectX::XMMatrixPerspectiveLH(1.0f, 3.0f / 4.0f, 0.5f, 40.0f));
+		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f), Vector3D(0.0f), Vector3D(-50.0f)));
+		
+		// Set default projection matrix.
+		engineWindow->GetGraphics().SetProjectionMatrix();
 	}
 
 	Application::~Application()
@@ -122,13 +124,32 @@ namespace ReeeEngine
 
 	bool Application::OnWindowResized(WindowResizedDelegate& del)
 	{
-		//REEE_LOG(Log, "{0}", del.ToString());
+		// Update if the window has been minimised.
+		if (del.GetNewHeight() == 0 || del.GetNewWidth() == 0)
+		{
+			minimised = true;
+			return true;
+		}
+		else if (minimised)
+		{
+			minimised = false;
+		}
+
+		// Update render target size's in graphics.
+		engineWindow->GetGraphics().ResizeRenderTargets(del.GetNewWidth(), del.GetNewHeight());
+
+		// Update application while its being resized.
+		// NOTE: Stuck in dispach message so has to be updates this way while being resized.
+		Tick();
+
+		// Return false as we want the windows resized delegate to be 
+		// handled by all engine modules not just the first one to handle it.
 		return false;
 	}
 
 	bool Application::OnWindowClosed(WindowClosedDelegate& del)
 	{
-		//REEE_LOG(Log, "Engine closed.");
+		REEE_LOG(Log, "Engine closed.");
 		appRunning = false;
 		return true;
 	}

@@ -3,7 +3,7 @@
 #ifdef PLATFORM_WINDOWS
 #include "Windows/ReeeWin.h"
 #include "ReeeLog.h"
-	
+
 /* Needs creating in each sub application to this engine. */
 extern ReeeEngine::Application* ReeeEngine::CreateApp();
 
@@ -13,9 +13,14 @@ int CALLBACK WinMain(HINSTANCE hInstance, HINSTANCE hPreviewInstance, LPSTR lpCm
 	// Initalise logging system.
 	ReeeEngine::ReeeLog::InitaliseLogging();
 
-	// Start app.
+	// Initalise application.
 	auto application = ReeeEngine::CreateApp();
-	return application->Start();
+
+	// Start the application loop.
+	application->Start();
+
+	// Once loop has exited delete the application.
+	delete application;
 }
 
 #endif

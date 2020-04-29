@@ -20,7 +20,7 @@ namespace ReeeEngine
 		windowsClass.hInstance = GetInstance();
 		HICON windowIcon = (HICON)LoadImage(hInstance, "../bin/Debug-x64/ReeeEngine/ReeeIcon.ico", IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE | LR_SHARED);
 		windowsClass.hIcon = windowIcon;
-		windowsClass.hCursor = nullptr;
+		windowsClass.hCursor = LoadCursor(NULL, IDC_ARROW);
 		windowsClass.hbrBackground = nullptr;
 		windowsClass.lpszMenuName = nullptr;
 		windowsClass.lpszClassName = GetName();
@@ -43,7 +43,7 @@ namespace ReeeEngine
 		return windowClass.hInstance;
 	}
 
-	Window::Window(int width, int height, const char* name) : width(width), height(height)
+	Window::Window(int width, int height, const char* name) : currWidth(width), currHeight(height)
 	{
 		// Calculate the size of the window for current client region.
 		RECT windowRect;
@@ -51,15 +51,15 @@ namespace ReeeEngine
 		windowRect.right = width + windowRect.left;
 		windowRect.top = 100;
 		windowRect.bottom = height + windowRect.top;
-		bool result = AdjustWindowRect(&windowRect, WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU, FALSE);
-		WINDOW_EXCEPT(result, "Failed to adjust the windows size in the window class.");
 
 		// Add default settings to the window.
-		auto windowSettings = WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU | WS_THICKFRAME;
+	    windowSettings = WS_CAPTION | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_SYSMENU | WS_THICKFRAME;
+		bool result = AdjustWindowRect(&windowRect, windowSettings, TRUE);
+		WINDOW_EXCEPT(result, "Failed to adjust the windows size of the window rect.");
 
 		// Create the window and get the hWnd value.
-		hWnd = CreateWindow(WindowClass::GetName(), name, windowSettings, CW_USEDEFAULT, CW_USEDEFAULT, 
-			windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, nullptr, nullptr, WindowClass::GetInstance(), this);
+		hWnd = CreateWindowEx(0, WindowClass::GetName(), name, windowSettings, CW_USEDEFAULT, CW_USEDEFAULT, windowRect.right - windowRect.left, 
+			windowRect.bottom - windowRect.top, nullptr, nullptr, WindowClass::GetInstance(), this);
 
 		// Check if creating the window failed.
 		if (hWnd == nullptr) WINDOW_THROW_EXCEPT("Failed to create a new window!!!");
@@ -77,7 +77,7 @@ namespace ReeeEngine
 		if (SetWindowText(hWnd, newTitle.c_str()) == 0) WINDOW_THROW_EXCEPT("Failed to set the windows title text.");
 	}
 
-	void Window::SetDelegateCallback(const std::function<void(Delegate&)>& callback)
+	void Window::SetDelegateCallbackEvent(const std::function<void(Delegate&)>& callback)
 	{
 		callbackDel = callback;
 	}
@@ -89,7 +89,10 @@ namespace ReeeEngine
 		while (PeekMessage(&message, nullptr, 0, 0, PM_REMOVE))// Hwnd was where nullptr is now...
 		{
 			// Return the post quit message.
-			if (message.message == WM_QUIT) return message.wParam;
+			if (message.message == WM_QUIT)
+			{
+				return (int)message.wParam;
+			}
 	
 			// Translate then dispatch message.
 			TranslateMessage(&message);
@@ -109,11 +112,13 @@ namespace ReeeEngine
 
 	Window::~Window()
 	{
-		DestroyWindow(hWnd);// Window destructor.
+		// Shutdown the window.
+		DestroyWindow(hWnd);
 	}
 
 	HWND Window::GetHwnd()
 	{
+		// Return the window.
 		return hWnd;
 	}
 
@@ -128,13 +133,12 @@ namespace ReeeEngine
 
 			// Store the pointer within the WindowAPI data set for the windowClass and runtime message handling function.
 			SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(windowPointer));
+			SetWindowLongPtr(hWnd, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(&Window::HandleMessageRuntime));
 
-			// Return handled message from found window pointer.
+			// Custom handling of messages.
 			return windowPointer->HandleMessage(hWnd, msg, wParam, lParam);
 		}
-
-		// Send message to the main message handler to obtain the window class from Windows API user data.
-		return HandleMessageRuntime(hWnd, msg, wParam, lParam);
+		else return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
 	LRESULT CALLBACK Window::HandleMessageRuntime(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -154,25 +158,27 @@ namespace ReeeEngine
 		// Handle messages being sent from the window class.
 		switch (msg)
 		{
-		// On application closed.
+			// On application closed.
 		case WM_CLOSE:
 		{
 			WindowClosedDelegate closedDel;
 			delegates.push_back(&closedDel);
 			break;
-		}	
+		}
 		// On window resize.
 		case WM_SIZE:
 		{
-			WindowResizedDelegate resizedDel(LOWORD(lParam), HIWORD(lParam));
+			currWidth = LOWORD(lParam);
+			currHeight = HIWORD(lParam);
+			WindowResizedDelegate resizedDel(currWidth, currHeight);
 			delegates.push_back(&resizedDel);
 			break;
 		}
 
-	/* KEYBOARD INPUT UPDATE MESSAGES. */
-	#if KEYBOARD_ENABLED
+		/* KEYBOARD INPUT UPDATE MESSAGES. */
+#if KEYBOARD_ENABLED
 
-		// On window focus lost clear the current keySet to prevent ghost key presses.
+	// On window focus lost clear the current keySet to prevent ghost key presses.
 		case WM_KILLFOCUS:
 		{
 			input.ResetKeyState();
@@ -196,7 +202,7 @@ namespace ReeeEngine
 				delegates.push_back(&keyPressed);
 			}
 			break;
-		}	
+		}
 		case WM_KEYUP:
 		case WM_SYSKEYUP:
 		{
@@ -205,7 +211,7 @@ namespace ReeeEngine
 			KeyReleasedDelegate keyReleased(keycode);
 			delegates.push_back(&keyReleased);
 			break;
-		}		
+		}
 		case WM_CHAR:
 		{
 			auto keycode = static_cast<unsigned char>(wParam);
@@ -214,11 +220,11 @@ namespace ReeeEngine
 			delegates.push_back(&charPressed);
 			break;
 		}
-		
-	#endif
 
-	/* MOUSE INPUT UPDATE MESSAGES. */
-	#if MOUSE_ENABLED
+#endif
+
+		/* MOUSE INPUT UPDATE MESSAGES. */
+#if MOUSE_ENABLED
 
 		// Capture mouse movement inside and outside of the window if the mouse buttons are held.
 		case WM_MOUSEMOVE:
@@ -227,7 +233,7 @@ namespace ReeeEngine
 			POINTS mousePos = MAKEPOINTS(lParam);
 
 			// If the mouse is within the window update mouse move as normal.
-			if (mousePos.x >= 0 && mousePos.x < width && mousePos.y >= 0 && mousePos.y < height)
+			if (mousePos.x >= 0 && mousePos.x < currWidth && mousePos.y >= 0 && mousePos.y < currHeight)
 			{
 				input.OnMouseMove(mousePos.x, mousePos.y);
 				MouseMovedDelegate mouseMoved(mousePos.x, mousePos.y);
@@ -290,7 +296,7 @@ namespace ReeeEngine
 			MouseReleasedDelegate mouseReleased(EMouseKey::Left);
 			delegates.push_back(&mouseReleased);
 			break;
-		}	
+		}
 		case WM_RBUTTONUP:
 		{
 			input.OnMouseReleased(WindowsInput::EMouseButton::Right);
@@ -313,8 +319,8 @@ namespace ReeeEngine
 			MouseScrolledDelegate mouseScrolled(wheelDelta);
 			delegates.push_back(&mouseScrolled);
 			break;
-		}	
-	#endif
+		}
+#endif
 		}
 
 		// Disperse delegates from window messages to the application callback event.
@@ -329,5 +335,4 @@ namespace ReeeEngine
 		// Handle any messages not being handled in this function.
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
-
 }

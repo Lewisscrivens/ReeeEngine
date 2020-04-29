@@ -55,6 +55,18 @@ namespace ReeeEngine
 			return temp;
 		}
 
+		/* Convert floating point degrees value to radians. */
+		static float Radians(const float degrees)
+		{
+			return (degrees * (PI/180.0f));
+		}
+
+		/* Return a given aspect ratio from a new screen width/height. */
+		static float GetAspectRatio(const float width, const float height)
+		{
+			return ((float)width / height);
+		}
+
 		/* Clamp a given float value between two points. */
 		template<class T>
 		static T Clamp(T value, T min, T max)
