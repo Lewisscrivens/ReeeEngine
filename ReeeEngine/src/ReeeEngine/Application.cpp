@@ -36,7 +36,7 @@ namespace ReeeEngine
 			Init();
 
 			// Enter infinite loop.
-			while (true)
+			while (appRunning)
 			{
 				// Update message processing.
 				if (const std::optional<int> optionalReturn = engineWindow->DispatchMessages())
@@ -86,6 +86,12 @@ namespace ReeeEngine
 
 		// Present the frame to the window after dispatching input messages.
 		engineWindow->GetGraphics().EndFrame();
+
+		// Update tick event for each module in order.
+		for (Module* module : modules)
+		{
+			module->Tick(deltaTime);
+		}
 	}
 
 	void Application::OnDelegate(Delegate& del)
@@ -95,7 +101,23 @@ namespace ReeeEngine
 		dispatcher.Dispatch<WindowClosedDelegate>(BIND_DELEGATE(Application::OnWindowClosed));
 
 		// Send delegate events to each module within the engine in a given update order.
+		for (auto it = modules.end(); it != modules.begin();)
+		{
+			(*--it)->OnDelegate(del);
+			if (del.handled) break;
+		}
+	}
 
+	void Application::AddModule(Module* newModule)
+	{
+		modules.AddModule(newModule);
+		newModule->InitModule();
+	}
+
+	void Application::AddModuleFront(Module* newModule)
+	{
+		modules.AddModuleFront(newModule);
+		newModule->InitModule();
 	}
 
 	bool Application::OnWindowResized(WindowResizedDelegate& del)
@@ -107,7 +129,7 @@ namespace ReeeEngine
 	bool Application::OnWindowClosed(WindowClosedDelegate& del)
 	{
 		//REEE_LOG(Log, "Engine closed.");
-		PostQuitMessage(0);
+		appRunning = false;
 		return true;
 	}
 }

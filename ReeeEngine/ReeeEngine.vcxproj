@@ -87,8 +87,10 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ReeeEngine\Module\Module.h" />
     <ClInclude Include="src\ReeeEngine\Delegates\InputDelegates.h" />
     <ClInclude Include="src\ReeeEngine\Delegates\Delegate.h" />
+    <ClInclude Include="src\ReeeEngine\Module\ModuleManager.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\ContextIncludes.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.h" />
@@ -124,6 +126,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ReeeEngine\Delegates\InputDelegates.cpp" />
+    <ClCompile Include="src\ReeeEngine\Module\ModuleManager.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\PixelShader.cpp" />

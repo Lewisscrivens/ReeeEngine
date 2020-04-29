@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "Windows/Window.h"
 #include "Delegates/WindowDelegates.h"
+#include "Module/ModuleManager.h"
 
 namespace ReeeEngine
 {
@@ -22,6 +23,10 @@ namespace ReeeEngine
 
 		/* Ran when a delegate is called so it can be handled. */
 		void OnDelegate(Delegate& del);
+
+		/* Helper functions for adding modules to the engine and initializing them. */
+		void AddModule(Module* newModule);
+		void AddModuleFront(Module* newModule);
 
 		/* Ran when the window is resized. */
 		bool OnWindowResized(WindowResizedDelegate& del);
@@ -44,6 +49,12 @@ namespace ReeeEngine
 
 		/* Reference to all renderable's within the current application to be rendered by graphics. */
 		std::vector<Refference<class RenderableMesh>> renderables;
+
+		/* Engine module manager. */
+		ModuleManager modules;
+
+		/* Is the application running. */
+		bool appRunning = true;
 	};
 
 	/* Define in the sub application. */
