@@ -16,6 +16,16 @@
 
 namespace ReeeEngine
 {
+	/* Define the default projection settings. */
+	struct ProjectionSettings
+	{
+		float fov = 60.0f;
+		float width = 1280.0f;
+		float height = 720.0f;
+		float nearClip = 0.5f;
+		float farClip = 2000.0f;
+	};
+
 	/* Define quick class for getting error descriptions from the dxgi interface. */
 	static class REEE_API DXError
 	{
@@ -72,13 +82,16 @@ namespace ReeeEngine
 		void Draw(UINT numberOfIndex);
 
 		/* Set the current rendering projection matrix functions. */
-		void SetProjectionMatrix(float fov = 60.0f, float newWidth = 1280.0f, float newHeight = 720.0f, float nearClip = 0.5f, float farClip = 2000.0f) noexcept;
+		void SetProjectionSettings(float fov = 0.0f, float newWidth = 0.0f, float newHeight = 0.0f, float nearClip = 0.0f, float farClip = 0.0f) noexcept;
 		void SetProjectionMatrix(DirectX::FXMMATRIX projectionMatrix) noexcept;
 
 		/* Return the current projection matrix. */
 		DirectX::XMMATRIX GetProjectionMatrix() const noexcept;
 
 	private:
+
+		/* Saved projection matrix settings. */
+		ProjectionSettings projectionSettings;
 
 		/* Save viewport size. */
 		Vector2D viewportSize;

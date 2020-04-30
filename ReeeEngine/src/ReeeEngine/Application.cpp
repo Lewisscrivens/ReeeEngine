@@ -17,9 +17,6 @@ namespace ReeeEngine
 		// Add a box and setup the projection matrix.
 		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Vector3D(0.0f), Vector3D(5.0f)));
 		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f), Vector3D(0.0f), Vector3D(-50.0f)));
-		
-		// Set default projection matrix.
-		engineWindow->GetGraphics().SetProjectionMatrix();
 	}
 
 	Application::~Application()
@@ -139,7 +136,7 @@ namespace ReeeEngine
 		engineWindow->GetGraphics().ResizeRenderTargets(del.GetNewWidth(), del.GetNewHeight());
 
 		// Update application while its being resized.
-		// NOTE: Stuck in dispach message so has to be updates this way while being resized.
+		// NOTE: Stuck in dispatch message so has to be updates this way while being resized.
 		Tick();
 
 		// Return false as we want the windows resized delegate to be 
