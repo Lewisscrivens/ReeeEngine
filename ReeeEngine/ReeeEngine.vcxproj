@@ -116,6 +116,14 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\ReeeLog.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Graphics.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Shapes.h" />
+    <ClInclude Include="src\ReeeEngine\ThirdParty\imgui\imconfig.h" />
+    <ClInclude Include="src\ReeeEngine\ThirdParty\imgui\imgui.h" />
+    <ClInclude Include="src\ReeeEngine\ThirdParty\imgui\imgui_impl_dx11.h" />
+    <ClInclude Include="src\ReeeEngine\ThirdParty\imgui\imgui_impl_win32.h" />
+    <ClInclude Include="src\ReeeEngine\ThirdParty\imgui\imgui_internal.h" />
+    <ClInclude Include="src\ReeeEngine\ThirdParty\imgui\imstb_rectpack.h" />
+    <ClInclude Include="src\ReeeEngine\ThirdParty\imgui\imstb_textedit.h" />
+    <ClInclude Include="src\ReeeEngine\ThirdParty\imgui\imstb_truetype.h" />
     <ClInclude Include="src\ReeeEngine\Timer.h" />
     <ClInclude Include="src\ReeeEngine\Windows\ReeeWin.h" />
     <ClInclude Include="src\ReeeEngine\Windows\Window.h" />
@@ -126,6 +134,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\Rendering\Context\TransformData.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexShader.h" />
     <ClInclude Include="src\ReeeEngine\Delegates\WindowDelegates.h" />
+    <ClInclude Include="src\ReeeEngine\Module\UserInterfaceModule.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PCH.cpp">
@@ -144,6 +153,12 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\ReeeLog.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\ContextData.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Graphics.cpp" />
+    <ClCompile Include="src\ReeeEngine\ThirdParty\imgui\imgui.cpp" />
+    <ClCompile Include="src\ReeeEngine\ThirdParty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="src\ReeeEngine\ThirdParty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="src\ReeeEngine\ThirdParty\imgui\imgui_impl_dx11.cpp" />
+    <ClCompile Include="src\ReeeEngine\ThirdParty\imgui\imgui_impl_win32.cpp" />
+    <ClCompile Include="src\ReeeEngine\ThirdParty\imgui\imgui_widgets.cpp" />
     <ClCompile Include="src\ReeeEngine\Timer.cpp" />
     <ClCompile Include="src\ReeeEngine\Windows\Window.cpp" />
     <ClCompile Include="src\ReeeEngine\Windows\WindowsInput.cpp" />
@@ -152,6 +167,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\Rendering\Context\TransformData.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexShader.cpp" />
     <ClCompile Include="src\ReeeEngine\Delegates\WindowDelegates.cpp" />
+    <ClCompile Include="src\ReeeEngine\Module\UserInterfaceModule.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PixelShader.hlsl">

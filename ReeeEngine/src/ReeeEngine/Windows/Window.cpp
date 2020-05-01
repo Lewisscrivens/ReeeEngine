@@ -71,15 +71,21 @@ namespace ReeeEngine
 		graphics = CreateReff<Graphics>(hWnd, width, height);
 	}
 
+	Window::~Window()
+	{
+		// Shutdown the window.
+		DestroyWindow(hWnd);
+	}
+
 	void Window::SetTitle(const std::string& newTitle)
 	{
 		// Set new title and if it failed throw exception.
 		if (SetWindowText(hWnd, newTitle.c_str()) == 0) WINDOW_THROW_EXCEPT("Failed to set the windows title text.");
 	}
 
-	void Window::SetDelegateCallbackEvent(const std::function<void(Delegate&)>& callback)
+	void Window::SetDelegateBroadcastEvent(const std::function<void(Delegate&)>& callback)
 	{
-		callbackDel = callback;
+		BroadcastDel = callback;
 	}
 
 	std::optional<int> Window::DispatchMessages() noexcept
@@ -110,16 +116,28 @@ namespace ReeeEngine
 		return *graphics;
 	}
 
-	Window::~Window()
+	int Window::GetWidth()
 	{
-		// Shutdown the window.
-		DestroyWindow(hWnd);
+		return currWidth;
+	}
+
+	int Window::GetHeight()
+	{
+		return currHeight;
 	}
 
 	HWND Window::GetHwnd()
 	{
 		// Return the window.
 		return hWnd;
+	}
+
+	void Window::ForceResizeWindow(int newWidth, int newHeight)
+	{
+		currWidth = newWidth == 0 ? currWidth : newWidth;
+		currHeight = newHeight == 0 ? currHeight : newHeight;
+		SetWindowPos(hWnd, 0, 0, 0, currWidth, currHeight, SWP_SHOWWINDOW | SWP_NOMOVE);
+		graphics->ResizeRenderTargets(currWidth, currHeight);
 	}
 
 	LRESULT CALLBACK Window::HandleMessageEntry(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
@@ -324,11 +342,11 @@ namespace ReeeEngine
 		}
 
 		// Disperse delegates from window messages to the application callback event.
-		if (!delegates.empty() && callbackDel)
+		if (!delegates.empty() && BroadcastDel)
 		{
 			for (Delegate* del : delegates)
 			{
-				callbackDel(*del);
+				BroadcastDel(*del);
 			}
 		}
 

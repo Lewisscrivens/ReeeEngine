@@ -60,7 +60,7 @@ namespace ReeeEngine
 		void SetTitle(const std::string& newTitle);
 
 		/* Set the initial delegate callback on window creation. */
-		void SetDelegateCallbackEvent(const std::function<void(Delegate&)>& callback);
+		void SetDelegateBroadcastEvent(const std::function<void(Delegate&)>& callback);
 
 		/* Window message processor. */
 		static std::optional<int> DispatchMessages() noexcept;
@@ -68,10 +68,20 @@ namespace ReeeEngine
 		/* Returns pointer to graphics. */
 		Graphics& GetGraphics();
 
+		/* Getters for the window height and width. */
+		int GetWidth();
+		int GetHeight();
+
+		/* Return the windows hWnd. */
+		HWND GetHwnd();
+
+		/* Resize the given window. */
+		void ForceResizeWindow(int newWidth = 0, int newHeight = 0);
+
 	private:
 
 		/* Create callback function for windows message events. */
-		std::function<void(Delegate&)> callbackDel;
+		std::function<void(Delegate&)> BroadcastDel;
 
 		/* Message handling functions to perform actions based of user input with the window class. */
 		static LRESULT CALLBACK HandleMessageEntry(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
@@ -94,8 +104,5 @@ namespace ReeeEngine
 
 		/* Public input manager/receiver. */
 		WindowsInput input;
-
-		/* Return the windows hWnd. */
-		HWND GetHwnd();
 	};
 }

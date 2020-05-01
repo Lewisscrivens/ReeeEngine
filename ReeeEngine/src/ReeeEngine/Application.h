@@ -4,6 +4,7 @@
 #include "Windows/Window.h"
 #include "Delegates/WindowDelegates.h"
 #include "Module/ModuleManager.h"
+#include "Module/UserInterfaceModule.h"
 
 namespace ReeeEngine
 {
@@ -34,6 +35,12 @@ namespace ReeeEngine
 		/* Ran when the window is closed. */
 		bool OnWindowClosed(WindowClosedDelegate& del);
 
+		/* Window getter. */
+		Window& GetWindow() { return *engineWindow; };
+
+		/* Static getters for the application for access by subclasses. */
+		static Application& GetApp() { return *app; }
+
 	protected:
 
 		/* Frame. */
@@ -41,8 +48,14 @@ namespace ReeeEngine
 
 	private:
 
+		/* Static pointer to this app. */
+		static Application* app;
+
 		/* Reference to the main window class. */
 		Refference<Window> engineWindow;
+
+		/* Refference to the user interface module. */
+		UserInterfaceModule* userInterface;
 
 		/* Timer for calculating engine time and delta time. */
 		Timer timer;

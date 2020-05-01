@@ -21,7 +21,7 @@ namespace ReeeEngine
 	Graphics::Graphics(HWND hWnd, int width, int height)
 	{
 		// Save viewport size.
-		viewportSize = Vector2D(width, height);
+		viewportSize = Vector2D((float)width, (float)height);
 
 		// Create and define swap chain options for the swap chain.
 		DXGI_SWAP_CHAIN_DESC swapChainOptions = {};
@@ -129,12 +129,15 @@ namespace ReeeEngine
 	void Graphics::ResizeRenderTargets(int width, int height)
 	{
 		// Save new viewport size.
-		viewportSize = Vector2D((float)width, (float)height);
+		if (width != 0 && height != 0)
+		{
+			viewportSize = Vector2D((float)width, (float)height);
+		}
 
 		// Prepare the render target to be overwritten.
 		context->OMSetRenderTargets(0, 0, 0);
 		renderTarget->Release();
-		HRESULT result = swapChain->ResizeBuffers(1, (UINT)width, (UINT)height, DXGI_FORMAT_R8G8B8A8_UNORM, 0u);
+		HRESULT result = swapChain->ResizeBuffers(1, (UINT)viewportSize.X, (UINT)viewportSize.Y, DXGI_FORMAT_R8G8B8A8_UNORM, 0u);
 		LOG_DX_ERROR(result);
 
 		// Re-create back buffer to create the RT.
@@ -152,8 +155,8 @@ namespace ReeeEngine
 		// Create new depth stencil texture.
 		WRL::ComPtr<ID3D11Texture2D> depthStencilTexture = nullptr;
 		D3D11_TEXTURE2D_DESC depthStencilTextureOptions = {};
-		depthStencilTextureOptions.Width = width;
-		depthStencilTextureOptions.Height = height;
+		depthStencilTextureOptions.Width = (UINT)viewportSize.X;
+		depthStencilTextureOptions.Height = (UINT)viewportSize.Y;
 		depthStencilTextureOptions.MipLevels = 1u;
 		depthStencilTextureOptions.ArraySize = 1u;
 		depthStencilTextureOptions.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
@@ -177,8 +180,8 @@ namespace ReeeEngine
 
 		// Setup the viewport
 		D3D11_VIEWPORT viewport;
-		viewport.Width = (float)width;
-		viewport.Height = (float)height;
+		viewport.Width = viewportSize.X;
+		viewport.Height = viewportSize.Y;
 		viewport.MinDepth = 0.0f;
 		viewport.MaxDepth = 1.0f;
 		viewport.TopLeftX = 0.0f;
@@ -186,8 +189,8 @@ namespace ReeeEngine
 		context->RSSetViewports(1u, &viewport);
 
 		// Setup new projection matrix values and re-initalise.
-		projectionSettings.width = (float)width;
-		projectionSettings.height = (float)height;
+		projectionSettings.width = viewportSize.X;
+		projectionSettings.height = viewportSize.Y;
 		SetProjectionSettings();
 	}
 

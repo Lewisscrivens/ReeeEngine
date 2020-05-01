@@ -68,8 +68,9 @@ namespace ReeeEngine
 		Graphics& operator = (const Graphics&) = delete;
 		~Graphics() = default;
 
-		/* Function for resizing the render targets when the window size is changed. */
-		void ResizeRenderTargets(int width, int height);
+		/* Function for resizing the render targets when the window size is changed.
+		 * NOTE: No input will simply re-initalise the current width and height. */
+		void ResizeRenderTargets(int width = 0, int height = 0);
 
 		/* End frame function. */
 		void EndFrame();
@@ -87,6 +88,12 @@ namespace ReeeEngine
 
 		/* Return the current projection matrix. */
 		DirectX::XMMATRIX GetProjectionMatrix() const noexcept;
+
+		/* Device getter. */
+		ID3D11Device* GetDevice() { return device.Get(); }
+
+		/* Context getter. */
+		ID3D11DeviceContext* GetContext() { return context.Get(); }
 
 	private:
 

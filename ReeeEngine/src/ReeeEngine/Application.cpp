@@ -7,16 +7,19 @@
 
 namespace ReeeEngine
 {
+	// Declare static app.
+	Application* Application::app = nullptr;
+
 	// Main window created here.
 	Application::Application()
 	{
+		// Set static pointer.
+		app = this;
+
 		// Create engine window.
 		engineWindow = CreateReff<Window>(1280, 720, "Reee Editor");
-		engineWindow->SetDelegateCallbackEvent(BIND_DELEGATE(Application::OnDelegate));
-
-		// Add a box and setup the projection matrix.
-		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Vector3D(0.0f), Vector3D(5.0f)));
-		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f), Vector3D(0.0f), Vector3D(-50.0f)));
+		auto delegateDispatcher = BIND_DELEGATE(Application::OnDelegate);
+		engineWindow->SetDelegateBroadcastEvent(delegateDispatcher);
 	}
 
 	Application::~Application()
@@ -65,7 +68,13 @@ namespace ReeeEngine
 	{
 		REEE_LOG(Log, "Intialised Engine....");
 
+		// Initalise the imgui module.
+		userInterface = new UserInterfaceModule();
+		AddModuleFront(userInterface);
 
+		// Add a box and setup the projection matrix.
+		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Vector3D(0.0f), Vector3D(5.0f)));
+		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f), Vector3D(0.0f), Vector3D(-50.0f)));
 	}
 
 	void Application::Tick()
@@ -83,14 +92,17 @@ namespace ReeeEngine
 			renderable->Render(engineWindow->GetGraphics());
 		}
 
-		// Present the frame to the window after dispatching input messages.
-		engineWindow->GetGraphics().EndFrame();
-
-		// Update tick event for each module in order.
+		// Update user interface module and each other module. Also run tick events.
+		userInterface->BeginFrame();
 		for (Module* module : modules)
 		{
+			module->OnImGuiRender();
 			module->Tick(deltaTime);
 		}
+		userInterface->EndFrame();
+
+		// Present the frame to the window after dispatching input messages.
+		engineWindow->GetGraphics().EndFrame();
 	}
 
 	void Application::OnDelegate(Delegate& del)
@@ -135,8 +147,7 @@ namespace ReeeEngine
 		// Update render target size's in graphics.
 		engineWindow->GetGraphics().ResizeRenderTargets(del.GetNewWidth(), del.GetNewHeight());
 
-		// Update application while its being resized.
-		// NOTE: Stuck in dispatch message so has to be updates this way while being resized.
+		// Update ticking function so the rendering updates while scaling....
 		Tick();
 
 		// Return false as we want the windows resized delegate to be 
