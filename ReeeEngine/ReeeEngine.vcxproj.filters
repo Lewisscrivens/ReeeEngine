@@ -156,6 +156,21 @@
     <ClInclude Include="src\ReeeEngine\Module\UserInterfaceModule.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Math\Rotator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Objects\Core\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Objects\Core\Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Objects\Components\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Objects\Components\SceneComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ReeeEngine\Application.cpp">
@@ -243,6 +258,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ReeeEngine\Module\UserInterfaceModule.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Objects\Core\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Objects\Components\Component.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Objects\Components\SceneComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

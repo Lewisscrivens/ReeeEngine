@@ -73,8 +73,8 @@ namespace ReeeEngine
 		AddModuleFront(userInterface);
 
 		// Add a box and setup the projection matrix.
-		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Vector3D(0.0f), Vector3D(5.0f)));
-		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f), Vector3D(0.0f), Vector3D(-50.0f)));
+		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Rotator(0.0f), Vector3D(5.0f)));
+		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f), Rotator(0.0f), Vector3D(-50.0f)));
 	}
 
 	void Application::Tick()

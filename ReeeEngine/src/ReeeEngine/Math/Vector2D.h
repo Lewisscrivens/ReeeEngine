@@ -143,7 +143,7 @@ namespace ReeeEngine
 		std::string ToString()
 		{
 			std::stringstream stream;
-			stream << "Vector2D(" << X << ", " << Y << ")";
+			stream << "Vector2D(X: " << X << ", Y: " << Y << ")";
 			return stream.str();
 		}
 

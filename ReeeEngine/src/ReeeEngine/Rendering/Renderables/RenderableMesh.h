@@ -2,6 +2,7 @@
 #include "../Graphics.h"
 #include "../../Math/ReeeMath.h"
 #include "../../Math/Vector3D.h"
+#include "../../Math/Rotator.h"
 
 namespace ReeeEngine
 {
@@ -36,7 +37,7 @@ namespace ReeeEngine
 
 		/* Set rotation after init.
 		 * NOTE: In degrees. GetTransform will convert it to radians. */
-		void SetRotation(Vector3D newRotation);
+		void SetRotation(Rotator newRotation);
 
 		/* Function to adjust mesh scale after initializations. */
 		void SetScale(Vector3D newScale);
@@ -45,7 +46,7 @@ namespace ReeeEngine
 		Vector3D GetLocation();
 
 		/* Get rotation in the world. */
-		Vector3D GetRotation();
+		Rotator GetRotation();
 
 		/* Get scale in the world. */
 		Vector3D GetScale();
@@ -73,9 +74,8 @@ namespace ReeeEngine
 		Vector3D worldLocation = Vector3D(0.0f, 0.0f, 0.0f);
 
 		// Rotation of the mesh around its own origin.
-		// NOTE: Where rotation vector x = roll, y = pitch and z = yaw
-		// NOTE: In degrees. GetTransform will convert it to radians.
-		Vector3D worldRotation = Vector3D(0.0f, 0.0f, 0.0f);
+		// NOTE: In degrees. Use ToRadians function to convert to radian rotator.
+		Rotator worldRotation = Rotator(0.0f, 0.0f, 0.0f);
 
 		// Scale of the mesh within the world.
 		Vector3D worldScale = Vector3D(0.0f, 0.0f, 0.0f);

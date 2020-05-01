@@ -30,13 +30,19 @@ namespace ReeeEngine
 			Z = newZ;
 		}
 
-		/* Returns the size of the vector. (Length.) */
+		/* Distance between this vector and other vector. */
+		float Distance(Vector3D& otherVector)
+		{
+			return Abs(Vector3D(X - otherVector.X, Y - otherVector.Y, Z - otherVector.Z)).Size();
+		}
+
+		/* Returns the size of the vector. */
 		float Size() const
 		{
 			return std::sqrt(X * X + Y * Y + Z * Z);
 		}
 
-		/* Returns the size of the vector squared. (Length squared) */
+		/* Returns the size of the vector squared. */
 		float SizeSquared() const
 		{
 			return X * X + Y * Y + Z * Z;
@@ -147,7 +153,7 @@ namespace ReeeEngine
 		std::string ToString()
 		{
 			std::stringstream stream;
-			stream << "Vector3D(" << X << ", " << Y << ", " << Z << ")";
+			stream << "Vector3D(X: " << X << ", Y: " << Y << ", Z: " << Z << ")";
 			return stream.str();
 		}
 

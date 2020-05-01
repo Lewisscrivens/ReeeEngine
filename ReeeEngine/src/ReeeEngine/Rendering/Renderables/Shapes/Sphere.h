@@ -10,7 +10,7 @@ namespace ReeeEngine
 
 		/* Init function for setting transform of the sphere.
 		 * NOTE: Where rotation vector x = roll, y = pitch and z = yaw */
-		Sphere(Graphics& graphics, float sphereRadius = 1.0f, Vector3D location = Vector3D(0.0f, 0.0f, 0.0f), Vector3D rotation = Vector3D(0.0f, 0.0f, 0.0f), Vector3D scale = Vector3D(1.0f, 1.0f, 1.0f));
+		Sphere(Graphics& graphics, float sphereRadius = 1.0f, Vector3D location = Vector3D(0.0f, 0.0f, 0.0f), Rotator rotation = Rotator(0.0f, 0.0f, 0.0f), Vector3D scale = Vector3D(1.0f, 1.0f, 1.0f));
 
 		/* Tick override for updating the sphere per engine frame. */
 		virtual void Tick(float deltaTime) noexcept override;

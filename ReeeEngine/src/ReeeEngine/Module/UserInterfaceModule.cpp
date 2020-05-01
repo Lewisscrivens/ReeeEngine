@@ -80,9 +80,12 @@ namespace ReeeEngine
 
 	void UserInterfaceModule::OnImGuiRender()
 	{
-		// NOTE: TEST CODE COMMENTED OUT.
-		static bool show_demo_window = true;
-		ImGui::ShowDemoWindow(&show_demo_window);
+		// NOTE: Demo imgui code for testing...
+		//static bool show_demo_window = true;
+		//if (show_demo_window)
+		//{
+		//	ImGui::ShowDemoWindow(&show_demo_window);
+		//}
 	}
 
 	void UserInterfaceModule::EndFrame()
@@ -104,7 +107,6 @@ namespace ReeeEngine
 		ImGuiIO& io = ImGui::GetIO();
 		io.MouseDown[(int)del.GetButton()] = true;
 		if (io.WantCaptureMouse) return true;
-
 		return false;
 	}
 
@@ -118,7 +120,6 @@ namespace ReeeEngine
 		io.MouseDown[(int)del.GetButton()] = false;
 		if (!ImGui::IsAnyMouseDown() && ::GetCapture() == currWindow->GetHwnd())
 			::ReleaseCapture();
-
 		return false;
 	}
 

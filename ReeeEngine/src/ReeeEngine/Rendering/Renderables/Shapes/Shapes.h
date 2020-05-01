@@ -123,7 +123,7 @@ namespace ReeeEngine
 
 			// Create indices for each vertex.
 			std::vector<unsigned short> indices;
-			indices.reserve(ReeeMath::Sqrt(xDiv * yDiv) * 6);
+			indices.reserve(ReeeMath::Squared(xDiv * yDiv) * 6);
 			
 			// Lambda define for returning an index position for each division.
 			const auto GetIndexPosition = [vertNumX](size_t x, size_t y)

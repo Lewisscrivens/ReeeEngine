@@ -5,7 +5,7 @@
 
 namespace ReeeEngine
 {
-	Box::Box(Graphics& graphics, Vector3D location, Vector3D rotation, Vector3D scale)
+	Box::Box(Graphics& graphics, Vector3D location, Rotator rotation, Vector3D scale)
 	{
 		// Set starting world location/rotation/scale.
 		SetLocation(location);

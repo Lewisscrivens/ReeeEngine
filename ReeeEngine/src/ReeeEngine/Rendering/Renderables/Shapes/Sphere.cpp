@@ -5,7 +5,7 @@
 
 namespace ReeeEngine
 {
-	Sphere::Sphere(Graphics& graphics, float sphereRadius, Vector3D location , Vector3D rotation , Vector3D scale)
+	Sphere::Sphere(Graphics& graphics, float sphereRadius, Vector3D location , Rotator rotation , Vector3D scale)
 	{
 		// Set starting world location/rotation/scale.
 		SetLocation(location);
@@ -66,6 +66,6 @@ namespace ReeeEngine
 	void Sphere::Tick(float deltaTime) noexcept
 	{
 		// TESTING RENDERING.
-		SetRotation(GetRotation() + Vector3D(0.5f, 0.0f, 0.0f));
+		SetRotation(GetRotation() + Rotator(0.5f, 0.0f, 0.0f));
 	}
 }

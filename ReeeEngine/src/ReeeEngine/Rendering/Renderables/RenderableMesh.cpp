@@ -23,7 +23,8 @@ namespace ReeeEngine
 	
 	DirectX::XMMATRIX RenderableMesh::GetTransform() const noexcept
 	{
-		return DirectX::XMMatrixScaling(worldScale.X, worldScale.Y, worldScale.Z) * DirectX::XMMatrixRotationRollPitchYaw(worldRotation.X * (PI / 180), worldRotation.Y * (PI / 180), worldRotation.Z * (PI / 180)) *
+		Rotator rotRad = worldRotation.ToRadians();
+		return DirectX::XMMatrixScaling(worldScale.X, worldScale.Y, worldScale.Z) * DirectX::XMMatrixRotationRollPitchYaw(rotRad.Pitch, rotRad.Yaw, rotRad.Roll) *
 			DirectX::XMMatrixTranslation(worldLocation.X, worldLocation.Y, worldLocation.X) * DirectX::XMMatrixTranslation(0.0f, 0.0f, 20.0f);
 	}
 
@@ -32,7 +33,7 @@ namespace ReeeEngine
 		worldLocation = newLocation;
 	}
 
-	void RenderableMesh::SetRotation(Vector3D newRotation)
+	void RenderableMesh::SetRotation(Rotator newRotation)
 	{
 		worldRotation = newRotation;
 	}
@@ -47,7 +48,7 @@ namespace ReeeEngine
 		return worldLocation;
 	}
 
-	Vector3D RenderableMesh::GetRotation()
+	Rotator RenderableMesh::GetRotation()
 	{
 		return worldRotation;
 	}

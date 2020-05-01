@@ -6,8 +6,12 @@
 namespace ReeeEngine
 {
 	/* Define common numbers. */
-	#define PI 3.14159265f 
-    #define PID 3.1415926535897932
+	#define PI            3.14159265f 
+    #define PID           3.1415926535897932
+	#define SMALL_NUMBER  1.e-8f
+	#define BIG_NUMBER    3.4e+38f
+	#define EULERS_NUMBER 2.71828182845904523536f
+	#define GOLDEN_RATIO  1.61803398874989484820f
 
 	/* Will contain any extra classes or structures that are easier to use or not included with DirectXMath.h */
 	class ReeeMath
@@ -23,7 +27,7 @@ namespace ReeeEngine
 
 		/* Squared function. */
 		template <typename T>
-		static T Sqrt(const T& val)
+		static T Squared(const T& val)
 		{
 			return val * val;
 		}
@@ -84,6 +88,31 @@ namespace ReeeEngine
 		static inline float Abs(float value)
 		{
 			return std::abs(value);
+		}
+
+		/* Interpolate a given value towards a given target. */
+		template<class T>
+		static T InterpTo(T curr, T target, float deltaTime, float speed, float tolerence = SMALL_NUMBER)
+		{
+			// If the speed is 0 return target.
+			if (speed <= 0.0f) return target;
+
+			// Distance away.
+			const T distance = target - curr;
+
+			// If we are already close enough to the tolerence return the target.
+			if (Squared<T>(distance) < tolerence) return target;
+
+			// Interpolate towards target and return value.
+			const T amountInterped = distance * Clamp<T>(deltaTime * speed, 0.0f, 1.0f);
+			return curr + amountInterped;
+		}
+
+		/* Lerp a given value towards a given target. */
+		template<class T>
+		static T Lerp(const T& A, const T& B, const float alpha)
+		{
+			return (T)(A + alpha * (B - A));
 		}
 	};
 }
