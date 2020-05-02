@@ -157,6 +157,12 @@ namespace ReeeEngine
 			return stream.str();
 		}
 
+		/* Return DirectX based XMFloat3 vector from this vector. */
+		DirectX::XMFLOAT3 ToFloat3() const
+		{
+			return { X, Y, Z };
+		}
+
 		/* Override and setup equals operator. */
 		inline bool operator==(const Vector3D& otherVector) const
 		{

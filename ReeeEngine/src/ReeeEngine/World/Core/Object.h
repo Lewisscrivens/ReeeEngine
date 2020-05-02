@@ -7,11 +7,17 @@ namespace ReeeEngine
 	 * NOTE: For example GameObjects and components will be the main subclasses. */
 	class REEE_API Object
 	{
+		friend class SceneComponent;
+		friend class GameObject;
+
 	public:
 
 		/* Default constructor and destructor. */
 		Object(const std::string objectName) : name(objectName) {}
 		~Object() = default;
+
+		/* Level start function. */
+		virtual void LevelStart() = 0;
 
 		/* Ticking function for updating the object per frame. */
 		virtual void Tick(float DeltaTime) = 0;

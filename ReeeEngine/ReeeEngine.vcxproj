@@ -89,10 +89,12 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ReeeEngine\Objects\Components\SceneComponent.h" />
-    <ClInclude Include="src\ReeeEngine\Objects\Components\Component.h" />
-    <ClInclude Include="src\ReeeEngine\Objects\Core\GameObject.h" />
-    <ClInclude Include="src\ReeeEngine\Objects\Core\Object.h" />
+    <ClInclude Include="src\ReeeEngine\World\Components\MeshComponent.h" />
+    <ClInclude Include="src\ReeeEngine\Math\Transform.h" />
+    <ClInclude Include="src\ReeeEngine\World\Components\SceneComponent.h" />
+    <ClInclude Include="src\ReeeEngine\World\Components\Component.h" />
+    <ClInclude Include="src\ReeeEngine\World\Core\GameObject.h" />
+    <ClInclude Include="src\ReeeEngine\World\Core\Object.h" />
     <ClInclude Include="src\PCH.h" />
     <ClInclude Include="src\ReeeEngine\Math\Rotator.h" />
     <ClInclude Include="src\ReeeEngine\Module\Module.h" />
@@ -140,11 +142,13 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\Rendering\Context\VertexShader.h" />
     <ClInclude Include="src\ReeeEngine\Delegates\WindowDelegates.h" />
     <ClInclude Include="src\ReeeEngine\Module\UserInterfaceModule.h" />
+    <ClInclude Include="src\ReeeEngine\World\World.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ReeeEngine\Objects\Components\SceneComponent.cpp" />
-    <ClCompile Include="src\ReeeEngine\Objects\Components\Component.cpp" />
-    <ClCompile Include="src\ReeeEngine\Objects\Core\GameObject.cpp" />
+    <ClCompile Include="src\ReeeEngine\World\Components\MeshComponent.cpp" />
+    <ClCompile Include="src\ReeeEngine\World\Components\SceneComponent.cpp" />
+    <ClCompile Include="src\ReeeEngine\World\Components\Component.cpp" />
+    <ClCompile Include="src\ReeeEngine\World\Core\GameObject.cpp" />
     <ClCompile Include="src\PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
@@ -176,6 +180,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexShader.cpp" />
     <ClCompile Include="src\ReeeEngine\Delegates\WindowDelegates.cpp" />
     <ClCompile Include="src\ReeeEngine\Module\UserInterfaceModule.cpp" />
+    <ClCompile Include="src\ReeeEngine\World\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PixelShader.hlsl">

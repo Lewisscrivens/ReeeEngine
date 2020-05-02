@@ -159,16 +159,25 @@
     <ClInclude Include="src\ReeeEngine\Math\Rotator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Objects\Core\GameObject.h">
+    <ClInclude Include="src\ReeeEngine\Math\Transform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Objects\Core\Object.h">
+    <ClInclude Include="src\ReeeEngine\World\Components\Component.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Objects\Components\Component.h">
+    <ClInclude Include="src\ReeeEngine\World\Components\SceneComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Objects\Components\SceneComponent.h">
+    <ClInclude Include="src\ReeeEngine\World\Core\GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\World\Core\Object.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\World\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\World\Components\MeshComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -260,13 +269,19 @@
     <ClCompile Include="src\ReeeEngine\Module\UserInterfaceModule.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Objects\Core\GameObject.cpp">
+    <ClCompile Include="src\ReeeEngine\World\Components\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Objects\Components\Component.cpp">
+    <ClCompile Include="src\ReeeEngine\World\Components\SceneComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Objects\Components\SceneComponent.cpp">
+    <ClCompile Include="src\ReeeEngine\World\Core\GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\World\World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\World\Components\MeshComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
