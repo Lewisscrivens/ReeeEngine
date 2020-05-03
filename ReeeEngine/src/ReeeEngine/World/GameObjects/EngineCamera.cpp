@@ -40,7 +40,7 @@ namespace ReeeEngine
 			// Handle positional movement of the camera.
 			if (inputComponent.IsKeyDown(KEY_W))
 			{
-				camera->SetRelativeLocation(Vector3D(0.0f, 0.0f, -10.0f));
+				SetWorldLocation(Vector3D(0.0f, 0.0f, -0.1f), true);
 			}
 
 			// Update last mouse location.

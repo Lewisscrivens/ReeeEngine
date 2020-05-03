@@ -111,6 +111,7 @@ namespace ReeeEngine
 	{
 		for (auto it = childrenComponents.begin(); it != childrenComponents.end(); ++it)
 		{
+			// Update childrens world location from change.
 			SceneComponent* currComp = *it;
 			currComp->SetWorldLocation(change, true);
 		}
@@ -120,8 +121,12 @@ namespace ReeeEngine
 	{
 		for (auto it = childrenComponents.begin(); it != childrenComponents.end(); ++it)
 		{
+			// Update childrens components rotations from rotation change in this parent.
 			SceneComponent* currComp = *it;
 			currComp->SetWorldRotation(change, true);
+
+			// Update new world positions after a rotation is applied to the children.
+			currComp->SetRelativeLocation(currComp->GetRelativeLocation());
 		}
 	}
 
@@ -129,6 +134,7 @@ namespace ReeeEngine
 	{
 		for (auto it = childrenComponents.begin(); it != childrenComponents.end(); ++it)
 		{
+			// Update childrens world scale from change.
 			SceneComponent* currComp = *it;
 			currComp->SetWorldScale(change, true);
 		}
@@ -141,21 +147,10 @@ namespace ReeeEngine
 
 	Vector3D SceneComponent::GetRelativeLocation() const
 	{
-		// Find the relative location while accounting for the rotation.
+		// Return the relative transform to the attach parent if there is one.
 		if (attachParent)
 		{
-			// Find and rotate relative location to parents world rotation.
-			DirectX::XMVECTOR relativePos = DirectX::XMLoadFloat3(&(transform.GetLocation() - attachParent->GetWorldTransform().GetLocation()).ToFloat3());
-			Rotator parentRotation = attachParent->GetWorldRotation().ToRadians();
-			DirectX::XMVECTOR parentRotationVec = DirectX::XMQuaternionRotationRollPitchYaw(parentRotation.Pitch, parentRotation.Yaw, parentRotation.Roll);
-			DirectX::XMVECTOR relativeWithRot = DirectX::XMVector3Rotate(relativePos, parentRotationVec);
-			
-			// Get readable relative location with rotation.
-			DirectX::XMFLOAT3 rotatedRelativeLocation;
-			DirectX::XMStoreFloat3(&rotatedRelativeLocation, relativeWithRot);
-			
-			// Return as vector 3D.
-			return Vector3D(rotatedRelativeLocation.x, rotatedRelativeLocation.y, rotatedRelativeLocation.z);
+			return relativeTransform.GetLocation();
 		}
 		// If there is no parent just return the world location...
 		else return transform.GetLocation();
@@ -163,6 +158,7 @@ namespace ReeeEngine
 
 	void SceneComponent::SetWorldLocation(const Vector3D& newLocation, bool addToCurrent)
 	{
+		if (addToCurrent && newLocation.IsZero()) return;
 		const Vector3D newLoc = addToCurrent ? transform.GetLocation() + newLocation : newLocation;
 		const Vector3D diff = newLoc - GetWorldLocation();
 		transform.SetLocation(newLoc);
@@ -171,11 +167,12 @@ namespace ReeeEngine
 
 	void SceneComponent::SetRelativeLocation(const Vector3D& newRelativeLocation, bool addToCurrent)
 	{
+		if (addToCurrent && newRelativeLocation.IsZero()) return;
 		if (attachParent)
 		{
 			// Get new relative location in terms of the parents rotation.
-			Vector3D newRelLocation = attachParent->GetWorldLocation() + newRelativeLocation;
-			DirectX::XMVECTOR newRelVector = DirectX::XMLoadFloat3(&newRelLocation.ToFloat3());
+			const Vector3D relativeOffset = addToCurrent ? relativeTransform.GetLocation() + newRelativeLocation : newRelativeLocation;
+			DirectX::XMVECTOR newRelVector = DirectX::XMLoadFloat3(&relativeOffset.ToFloat3());
 			Rotator parentRotation = attachParent->GetWorldRotation().ToRadians();
 			DirectX::XMVECTOR parentRotationVec = DirectX::XMQuaternionRotationRollPitchYaw(parentRotation.Pitch, parentRotation.Yaw, parentRotation.Roll);
 			DirectX::XMVECTOR relativeWithRot = DirectX::XMVector3Rotate(newRelVector, parentRotationVec);
@@ -184,9 +181,10 @@ namespace ReeeEngine
 			DirectX::XMFLOAT3 rotatedRelativeLocation;
 			DirectX::XMStoreFloat3(&rotatedRelativeLocation, relativeWithRot);
 
-			// Get new relative location and convert to world location and set in transform.
+			// Get new relative location and set the relative transform...
 			Vector3D relativeWorldLocation = Vector3D(rotatedRelativeLocation.x, rotatedRelativeLocation.y, rotatedRelativeLocation.z);
-			SetWorldLocation(attachParent->GetWorldLocation() + relativeWorldLocation, addToCurrent);
+			relativeTransform.SetLocation(relativeOffset);
+			SetWorldLocation(attachParent->GetWorldLocation() + relativeWorldLocation);
 		}
 		else
 		{
@@ -203,11 +201,12 @@ namespace ReeeEngine
 	Rotator SceneComponent::GetRelativeRotation() const
 	{
 		// Return world rotation if relative doesn't exist.
-		return attachParent ? transform.GetRotation() - attachParent->GetWorldRotation() : transform.GetRotation();
+		return attachParent ? relativeTransform.GetRotation() : transform.GetRotation();
 	}
 
 	void SceneComponent::SetWorldRotation(const Rotator& newRotation, bool addToCurrent)
 	{
+		if (addToCurrent && newRotation.IsZero()) return;
 		const Rotator newRot = addToCurrent ? transform.GetRotation() + newRotation : newRotation;
 		const Rotator diff = newRot - GetWorldRotation();
 		transform.SetRotation(newRot);
@@ -216,10 +215,13 @@ namespace ReeeEngine
 
 	void SceneComponent::SetRelativeRotation(const Rotator& newRelativeRotation, bool addToCurrent)
 	{
+		if (addToCurrent && newRelativeRotation.IsZero()) return;
 		if (attachParent)
 		{
 			// Set world rotation from relative.
-			SetWorldRotation(attachParent->GetWorldRotation() + newRelativeRotation, addToCurrent);
+			Rotator relativeOffset = addToCurrent ? relativeTransform.GetRotation() + newRelativeRotation : newRelativeRotation;
+			relativeTransform.SetRotation(relativeOffset);
+			SetWorldRotation(attachParent->GetWorldRotation() + relativeOffset);
 		}
 		else
 		{
@@ -241,6 +243,7 @@ namespace ReeeEngine
 
 	void SceneComponent::SetWorldScale(const Vector3D& newScale, bool addToCurrent)
 	{
+		if (addToCurrent && newScale.IsZero()) return;
 		const Vector3D newS = addToCurrent ? transform.GetScale() + newScale : newScale;
 		const Vector3D diff = newS - GetWorldScale();
 		transform.SetScale(newS);
@@ -249,6 +252,7 @@ namespace ReeeEngine
 
 	void SceneComponent::SetRelativeScale(const Vector3D& newRelativeScale, bool addToCurrent)
 	{
+		if (addToCurrent && newRelativeScale.IsZero()) return;
 		if (attachParent)
 		{
 			// Set world scale from relative.

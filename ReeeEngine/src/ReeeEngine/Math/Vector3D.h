@@ -51,7 +51,7 @@ namespace ReeeEngine
 		/* @Param tolerance, the tolerance to check from 0.
 		 * @Returns if nearly equal to 0 with the given tolerance.
 		 * True if the vector is zero, if parameter is > 0 then it will check with a tollerence. */
-		bool IsZero(float tolerance = 0.0f)
+		bool IsZero(float tolerance = 0.0f) const
 		{
 			if (tolerance != 0.0f)
 			{
