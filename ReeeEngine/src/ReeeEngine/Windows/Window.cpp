@@ -71,6 +71,18 @@ namespace ReeeEngine
 		graphics = CreateReff<Graphics>(hWnd, width, height);
 	}
 
+	void Window::BeginFrame()
+	{
+		// Clear render buffer before each render call.
+		graphics->ClearRenderBuffer();
+	}
+
+	void Window::EndFrame()
+	{
+		// Present the frame to the render target.
+		graphics->EndFrame();
+	}
+
 	Window::~Window()
 	{
 		// Shutdown the window.
@@ -289,42 +301,42 @@ namespace ReeeEngine
 		}
 		case WM_LBUTTONDOWN:
 		{
-			input.OnMousePressed(WindowsInput::EMouseButton::Left);
+			input.OnMousePressed(EMouseButton::Left);
 			MousePressedDelegate mousePressed(EMouseKey::Left);
 			delegates.push_back(&mousePressed);
 			break;
 		}
 		case WM_RBUTTONDOWN:
 		{
-			input.OnMousePressed(WindowsInput::EMouseButton::Right);
+			input.OnMousePressed(EMouseButton::Right);
 			MousePressedDelegate mousePressed(EMouseKey::Right);
 			delegates.push_back(&mousePressed);
 			break;
 		}
 		case WM_MBUTTONDOWN:
 		{
-			input.OnMousePressed(WindowsInput::EMouseButton::Middle);
+			input.OnMousePressed(EMouseButton::Middle);
 			MousePressedDelegate mousePressed(EMouseKey::Middle);
 			delegates.push_back(&mousePressed);
 			break;
 		}
 		case WM_LBUTTONUP:
 		{
-			input.OnMouseReleased(WindowsInput::EMouseButton::Left);
+			input.OnMouseReleased(EMouseButton::Left);
 			MouseReleasedDelegate mouseReleased(EMouseKey::Left);
 			delegates.push_back(&mouseReleased);
 			break;
 		}
 		case WM_RBUTTONUP:
 		{
-			input.OnMouseReleased(WindowsInput::EMouseButton::Right);
+			input.OnMouseReleased(EMouseButton::Right);
 			MouseReleasedDelegate mouseReleased(EMouseKey::Right);
 			delegates.push_back(&mouseReleased);
 			break;
 		}
 		case WM_MBUTTONUP:
 		{
-			input.OnMouseReleased(WindowsInput::EMouseButton::Middle);
+			input.OnMouseReleased(EMouseButton::Middle);
 			MouseReleasedDelegate mouseReleased(EMouseKey::Middle);
 			delegates.push_back(&mouseReleased);
 			break;

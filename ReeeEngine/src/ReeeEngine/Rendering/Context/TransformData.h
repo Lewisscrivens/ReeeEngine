@@ -5,6 +5,13 @@
 
 namespace ReeeEngine
 {
+	/* Model transform constant value for shaders. */
+	struct MeshTransform
+	{
+		DirectX::XMMATRIX modelView;
+		DirectX::XMMATRIX modelViewProj;
+	};
+
 	/* Transform data for any context data being passed into the rendering pipeline. */
 	class TransformData : public ContextData
 	{
@@ -18,7 +25,7 @@ namespace ReeeEngine
 
 	private:
 
-		static std::unique_ptr<VertexConstantBuffer<DirectX::XMMATRIX>> transformData;
+		static std::unique_ptr<VertexConstantBuffer<MeshTransform>> transformData;
 		const RenderableMesh& parent;
 	};
 }

@@ -24,13 +24,13 @@ namespace ReeeEngine
 		// Return if the mouse button is currently down.
 		switch (button)
 		{
-		case WindowsInput::EMouseButton::Left:
+		case EMouseButton::Left:
 			return leftMouseDown;
 			break;
-		case WindowsInput::EMouseButton::Right:
+		case EMouseButton::Right:
 			return rightMouseDown;
 			break;
-		case WindowsInput::EMouseButton::Middle:
+		case EMouseButton::Middle:
 			return middleMouseDown;
 			break;
 		}
@@ -123,15 +123,15 @@ namespace ReeeEngine
 		// Add event to mouse buffer.
 		switch (buttonPressed)
 		{
-		case WindowsInput::EMouseButton::Left:
+		case EMouseButton::Left:
 			leftMouseDown = true;
 			mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::LeftDown, *this));
 			break;
-		case WindowsInput::EMouseButton::Right:
+		case EMouseButton::Right:
 			rightMouseDown = true;
 			mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::RightDown, *this));
 			break;
-		case WindowsInput::EMouseButton::Middle:
+		case EMouseButton::Middle:
 			middleMouseDown = true;
 			mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::MiddleDown, *this));
 			break;
@@ -146,15 +146,15 @@ namespace ReeeEngine
 		// Add event to mouse buffer.
 		switch (buttonReleased)
 		{
-		case WindowsInput::EMouseButton::Left:
+		case EMouseButton::Left:
 			leftMouseDown = false;
 			mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::LeftUp, *this));
 			break;
-		case WindowsInput::EMouseButton::Right:
+		case EMouseButton::Right:
 			rightMouseDown = false;
 			mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::RightUp, *this));
 			break;
-		case WindowsInput::EMouseButton::Middle:
+		case EMouseButton::Middle:
 			middleMouseDown = false;
 			mouseBuffer.push(WindowsInput::MouseEvent(MouseEvent::Type::MiddleUp, *this));
 			break;

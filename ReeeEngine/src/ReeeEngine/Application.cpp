@@ -3,7 +3,8 @@
 #include "Rendering/Renderables/RenderableMesh.h"
 #include "Rendering/Renderables/Shapes/Box.h"
 #include "Rendering/Renderables/Shapes/Sphere.h"
-#include "Profiling/DebugTimer.h"
+#include "World/World.h"
+#include "World/Components/CameraComponent.h"
 
 namespace ReeeEngine
 {
@@ -13,19 +14,13 @@ namespace ReeeEngine
 	// Main window created here.
 	Application::Application()
 	{
-		// Set static pointer.
+		// Set static app pointer.
 		app = this;
-
-		// Create engine window.
-		engineWindow = CreateReff<Window>(1280, 720, "Reee Editor");
-		auto delegateDispatcher = BIND_DELEGATE(Application::OnDelegate);
-		engineWindow->SetDelegateBroadcastEvent(delegateDispatcher);
 	}
 
 	Application::~Application()
 	{
-		//...
-
+		// Shutdown any engine management classes.
 
 	}
 
@@ -66,7 +61,14 @@ namespace ReeeEngine
 
 	void Application::Init()
 	{
-		REEE_LOG(Log, "Intialised Engine....");
+		// Create and initalise the world.
+		world = new World();
+		world->LevelStart();
+
+		// Create engine window.
+		engineWindow = CreateReff<Window>(1280, 720, "Reee Editor");
+		auto delegateDispatcher = BIND_DELEGATE(Application::OnDelegate);
+		engineWindow->SetDelegateBroadcastEvent(delegateDispatcher);
 
 		// Initalise the imgui module.
 		userInterface = new UserInterfaceModule();
@@ -76,6 +78,9 @@ namespace ReeeEngine
 		// NOTE: Testing code....
 		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Rotator(0.0f), Vector3D(5.0f)));
 		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f), Rotator(0.0f), Vector3D(5.0f)));
+
+		// Log initialization...
+		REEE_LOG(Log, "Intialised Engine....");
 	}
 
 	void Application::Tick()
@@ -83,8 +88,14 @@ namespace ReeeEngine
 		// Create delta time.
 		const auto deltaTime = timer.GetDeltaTime();
 
-		// Clear render buffer before each render call.
-		engineWindow->GetGraphics().ClearRenderBuffer();
+		// Begin rendering window frame.
+		engineWindow->BeginFrame();
+
+		// Tick the world and objects within it.
+		if (!gamePaused)
+		{
+			world->Tick(deltaTime);
+		}
 
 		// Tick and render each renderable object active in the engine window.
 		for (auto& renderable : renderables)
@@ -102,8 +113,8 @@ namespace ReeeEngine
 		}
 		userInterface->EndFrame();
 
-		// Present the frame to the window after dispatching input messages.
-		engineWindow->GetGraphics().EndFrame();
+		// End rendering window frame.
+		engineWindow->EndFrame();
 	}
 
 	void Application::OnDelegate(Delegate& del)
@@ -148,6 +159,9 @@ namespace ReeeEngine
 		// Update render target size's in graphics.
 		engineWindow->GetGraphics().ResizeRenderTargets(del.GetNewWidth(), del.GetNewHeight());
 
+		// Update active cameras FOV from the new width and height.
+		world->GetActiveCamera().SetWindowSize(del.GetNewWidth(), del.GetNewHeight());
+
 		// Update ticking function so the rendering updates while scaling....
 		Tick();
 
@@ -161,5 +175,10 @@ namespace ReeeEngine
 		REEE_LOG(Log, "Engine closed.");
 		appRunning = false;
 		return true;
+	}
+
+	World* Application::GetWorld()
+	{
+		return app->world;
 	}
 }

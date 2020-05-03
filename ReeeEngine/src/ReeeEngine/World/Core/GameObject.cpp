@@ -48,19 +48,19 @@ namespace ReeeEngine
 		return rootComponent->GetWorldScale();
 	}
 
-	void GameObject::SetWorldLocation(const Vector3D& newLocation)
+	void GameObject::SetWorldLocation(const Vector3D& newLocation, bool addToCurrent)
 	{
-		rootComponent->SetWorldLocation(newLocation);
+		rootComponent->SetWorldLocation(newLocation, addToCurrent);
 	}
 
-	void GameObject::SetWorldRotation(const Rotator& newRotation)
+	void GameObject::SetWorldRotation(const Rotator& newRotation, bool addToCurrent)
 	{
-		rootComponent->SetWorldRotation(newRotation);
+		rootComponent->SetWorldRotation(newRotation, addToCurrent);
 	}
 
-	void GameObject::SetWorldScale(const Vector3D& newScale)
+	void GameObject::SetWorldScale(const Vector3D& newScale, bool addToCurrent)
 	{
-		rootComponent->SetWorldScale(newScale);
+		rootComponent->SetWorldScale(newScale, addToCurrent);
 	}
 
 	int GameObject::GetNumChildren() const

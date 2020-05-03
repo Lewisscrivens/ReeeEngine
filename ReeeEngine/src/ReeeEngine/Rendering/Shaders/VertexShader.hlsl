@@ -1,9 +1,19 @@
 cbuffer CBuf
 {
-	matrix transform;
+	matrix modelView;
+	matrix modelViewProj;
+}
+
+struct VSOut
+{
+	float3 ViewPos : Position;
+	float4 Pos : SV_Position;
 };
 
-float4 main( float3 pos : Position ) : SV_Position
+VSOut main( float3 pos : Position )
 {
-	return mul( float4(pos,1.0f),transform );
+	VSOut vsOut;
+	vsOut.ViewPos = (float3) mul(float4(pos, 1.0f), modelView);
+	vsOut.Pos = mul(float4(pos, 1.0f), modelViewProj);
+	return vsOut;
 }

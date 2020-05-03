@@ -56,7 +56,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;DEBUG_ENABLED;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DISABLE_EXTENDED_ALIGNED_STORAGE;PLATFORM_WINDOWS;REEE_BUILD;DEBUG_ENABLED;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
@@ -73,7 +73,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DISABLE_EXTENDED_ALIGNED_STORAGE;PLATFORM_WINDOWS;REEE_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -89,6 +89,8 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ReeeEngine\World\GameObjects\EngineCamera.h" />
+    <ClInclude Include="src\ReeeEngine\World\Components\CameraComponent.h" />
     <ClInclude Include="src\ReeeEngine\World\Components\MeshComponent.h" />
     <ClInclude Include="src\ReeeEngine\Math\Transform.h" />
     <ClInclude Include="src\ReeeEngine\World\Components\SceneComponent.h" />
@@ -145,6 +147,8 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\World\World.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ReeeEngine\World\GameObjects\EngineCamera.cpp" />
+    <ClCompile Include="src\ReeeEngine\World\Components\CameraComponent.cpp" />
     <ClCompile Include="src\ReeeEngine\World\Components\MeshComponent.cpp" />
     <ClCompile Include="src\ReeeEngine\World\Components\SceneComponent.cpp" />
     <ClCompile Include="src\ReeeEngine\World\Components\Component.cpp" />

@@ -56,6 +56,10 @@ namespace ReeeEngine
 		Window(const Window&) = delete;
 		Window& operator = (const Window&) = delete;
 
+		/* Begin and end rendering for the window. */
+		void BeginFrame();
+		void EndFrame();
+
 		/* Window functions. NOTE: Set the windows title. */
 		void SetTitle(const std::string& newTitle);
 

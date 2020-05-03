@@ -119,11 +119,6 @@ namespace ReeeEngine
 		viewport.TopLeftX = 0.0f;
 		viewport.TopLeftY = 0.0f;
 		context->RSSetViewports(1u, &viewport);
-
-		// Init default projection matrix.
-		projectionSettings.width = (float)width;
-		projectionSettings.height = (float)height;
-		SetProjectionSettings();
 	}
 
 	void Graphics::ResizeRenderTargets(int width, int height)
@@ -187,11 +182,6 @@ namespace ReeeEngine
 		viewport.TopLeftX = 0.0f;
 		viewport.TopLeftY = 0.0f;
 		context->RSSetViewports(1u, &viewport);
-
-		// Setup new projection matrix values and re-initalise.
-		projectionSettings.width = viewportSize.X;
-		projectionSettings.height = viewportSize.Y;
-		SetProjectionSettings();
 	}
 
 	void Graphics::EndFrame()
@@ -212,30 +202,6 @@ namespace ReeeEngine
 	void Graphics::Draw(UINT numberOfIndex)
 	{
 		context->DrawIndexed(numberOfIndex, 0u, 0u);
-	}
-
-	void Graphics::SetProjectionSettings(float fov, float newWidth, float newHeight, float nearClip, float farClip) noexcept
-	{
-		// Update current projection settings if changed.
-		if (fov != 0.0f) projectionSettings.fov = fov;
-		if (newWidth != 0.0f) projectionSettings.width = newWidth;
-		if (newHeight != 0.0f) projectionSettings.height = newHeight;
-		if (nearClip != 0.0f) projectionSettings.nearClip = nearClip;
-		if (farClip != 0.0f) projectionSettings.farClip = farClip;
-
-		// Set new matrix.
-		auto newMatrix = DirectX::XMMatrixPerspectiveFovLH(ReeeMath::Radians(projectionSettings.fov), ReeeMath::GetAspectRatio(projectionSettings.width, projectionSettings.height), projectionSettings.nearClip, projectionSettings.farClip);
-		SetProjectionMatrix(newMatrix);
-	}
-
-	void Graphics::SetProjectionMatrix(DirectX::FXMMATRIX projectionMat) noexcept
-	{
-		projectionMatrix = projectionMat;
-	}
-
-	DirectX::XMMATRIX Graphics::GetProjectionMatrix() const noexcept
-	{
-		return projectionMatrix;
 	}
 }
 

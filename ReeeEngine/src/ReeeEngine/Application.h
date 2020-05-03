@@ -38,6 +38,9 @@ namespace ReeeEngine
 		/* Window getter. */
 		Window& GetWindow() { return *engineWindow; };
 
+		/* Get a pointer to the world. */
+		static class World* GetWorld();
+
 		/* Static getters for the application for access by subclasses. */
 		static Application& GetApp() { return *app; }
 
@@ -57,6 +60,9 @@ namespace ReeeEngine
 		/* Refference to the user interface module. */
 		UserInterfaceModule* userInterface;
 
+		/* The engine world that will load levels from .txt files when fully implemented. */
+		World* world;
+
 		/* Timer for calculating engine time and delta time. */
 		Timer timer;
 
@@ -68,6 +74,7 @@ namespace ReeeEngine
 
 		/* Information about the state of the application. */
 		bool appRunning = true;
+		bool gamePaused = false;
 		bool minimised = false;
 	};
 

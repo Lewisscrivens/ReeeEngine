@@ -28,13 +28,13 @@ namespace ReeeEngine
 
 	void SceneComponent::AddChild(SceneComponent* child)
 	{
-		COMPONENT_CHECK_RETURN(!child, "AddChild: child is null cannot add returning...");
+		COMPONENT_CHECK_RETURN(child, "AddChild: child is null cannot add returning...");
 		childrenComponents.push_back(child);
 	}
 
 	void SceneComponent::RemoveChild(SceneComponent* child)
 	{
-		COMPONENT_CHECK_RETURN(!child, "RemoveChild: child is null cannot remove returning...");
+		COMPONENT_CHECK_RETURN(child, "RemoveChild: child is null cannot remove returning...");
 		
 		// Find child and remove from array if it is there.
 		auto it = std::find(childrenComponents.begin(), childrenComponents.end(), child);
@@ -46,7 +46,7 @@ namespace ReeeEngine
 
 	void SceneComponent::AttachToComponent(SceneComponent* newParent, const AttachProperties& props)
 	{
-		COMPONENT_CHECK_RETURN(!newParent, "AttachToComponent: newParent is null cannot attach.");
+		COMPONENT_CHECK_RETURN(newParent, "AttachToComponent: newParent is null cannot attach.");
 
 		// If already attached clear old parent and remove child from children list.
 		if (attachParent)

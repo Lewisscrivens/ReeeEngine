@@ -103,5 +103,8 @@ namespace ReeeEngine
 
 		// The components world transform.
 		Transform transform;
+
+		// The components relative transform to its attachParent if it has one.
+		Transform relativeTransform;
 	};
 }

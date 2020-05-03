@@ -149,6 +149,24 @@ namespace ReeeEngine
 			return Vector3D(std::abs(X), std::abs(Y), std::abs(Z));
 		}
 
+		/* Returns world up vector. */
+		static Vector3D GetWorldUpVector()
+		{
+			return Vector3D(0.0f, 1.0f, 0.0f);
+		}
+
+		/* Returns world forward vector. */
+		static Vector3D GetWorldForwardVector()
+		{
+			return Vector3D(0.0f, 0.0f, 1.0f);
+		}
+
+		/* Returns world right vector. */
+		static Vector3D GetWorldRightVector()
+		{
+			return Vector3D(1.0f, 0.0f, 0.0f);
+		}
+
 		/* Returns a string of this vector. */
 		std::string ToString()
 		{

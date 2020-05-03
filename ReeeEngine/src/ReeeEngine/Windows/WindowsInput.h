@@ -10,6 +10,14 @@ namespace ReeeEngine
 	#define KEYBOARD_ENABLED 1;
 	#define MOUSE_ENABLED 1;
 
+	/* Enum to declare specific mouse buttons for input events. */
+	enum class EMouseButton
+	{
+		Left,
+		Right,
+		Middle
+	};
+
 	/* Class to receive and manage input from the keyboard through the window class. Each window has a window input and graphics class. */
 	class REEE_API WindowsInput
 	{
@@ -106,14 +114,6 @@ namespace ReeeEngine
 		WindowsInput& operator = (const WindowsInput&) = delete;
 
 		/* MOUSE FUNCTIONALITY. */
-
-		/* Enum to declare specific mouse buttons for input events. */
-		enum class EMouseButton
-		{
-			Left,
-			Right,
-			Middle
-		};
 
 		Vector2D GetMousePosition() const noexcept;// Returns the mouse position.
 		float GetMouseXPosition() const noexcept;// Returns the mouse x position.

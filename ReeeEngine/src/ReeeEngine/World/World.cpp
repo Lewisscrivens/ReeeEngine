@@ -1,11 +1,15 @@
 #include "World.h"
 #include "Core/GameObject.h"
+#include "Components/CameraComponent.h"
+#include "GameObjects/EngineCamera.h"
 
 namespace ReeeEngine
 {
 	World::World()
 	{
-		//...
+		// Initalise the editor camera object.
+		engineCamera = NewObject<EngineCamera>("EngineCameraObject");
+		activeCamera = &engineCamera->GetCamera();
 	}
 
 	World::~World()
@@ -30,6 +34,16 @@ namespace ReeeEngine
 		{
 			obj->Tick(deltaTime);
 		}
+	}
+
+	CameraComponent& World::GetActiveCamera()
+	{
+		return *activeCamera;
+	}
+
+	void World::SetActiveCamera(CameraComponent* camera)
+	{
+		activeCamera = camera;
 	}
 }
 
