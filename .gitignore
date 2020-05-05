@@ -40,11 +40,11 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
-!Assets/*.obj
-!Assets/*.png
 *.tlog
 *.lastbuildstate
 *.obj
+!Assets/*.obj
+!Assets/*.png
 *_i.c
 *_p.c
 *_i.h
