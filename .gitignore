@@ -11,14 +11,9 @@
 *.userprefs
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
 x64/
 x86/
 bld/
-[Bb]in/
 [Oo]bj/
 [Ll]og/
 
@@ -45,15 +40,14 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+*.tlog
+*.lastbuildstate
+*.obj
 *_i.c
 *_p.c
 *_i.h
 *.ilk
 *.meta
-*.obj
-*.dll
-!hw3d/Models/**/*.obj
-!hw3d/assimp/bin/*
 *.pch
 *.pdb
 *.pgc
