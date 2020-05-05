@@ -14,14 +14,15 @@ EngineApp::~EngineApp()
 
 void EngineApp::Init()
 {
-	Application::Init();// Call parent important...
+	Application::Init();
+
 
 	REEE_LOG(Log, "Intialised Application....");
 }
 
-void EngineApp::Tick()
+void EngineApp::Tick(float deltaTime)
 {
-	Application::Tick();// Call parent important...
+	Application::Tick(deltaTime);
 
 
 }

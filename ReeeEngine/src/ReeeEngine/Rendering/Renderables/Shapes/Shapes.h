@@ -4,21 +4,15 @@
 
 namespace ReeeEngine
 {
-	// Create vertex struct.
-	struct Vertex
-	{
-		DirectX::XMFLOAT3 pos;
-	};
-
 	/* List of indeces base class for other shapes. */
 	template<class T>
-	class Mesh
+	class MeshBase
 	{
 	public:
 
 		/* Default constructors for creating a new triangle list. */
-		Mesh() = default;
-		Mesh(std::vector<T> vertexList, std::vector<unsigned short> indexList) : vertices(std::move(vertexList)), indices(std::move(indexList))
+		MeshBase() = default;
+		MeshBase(std::vector<T> vertexList, std::vector<unsigned short> indexList) : vertices(std::move(vertexList)), indices(std::move(indexList))
 		{
 			assert(vertices.size() > 2);
 			assert(indices.size() % 3 == 0);
@@ -35,6 +29,26 @@ namespace ReeeEngine
 			}
 		}
 
+		/* Set up face-independent vertices w/ normals cleared to zero... 
+		 * NOTE: Planet chilli function... */
+		void SetNormalsIndependentFlat()
+		{
+			assert(indices.size() % 3 == 0 && indices.size() > 0);
+			for (size_t i = 0; i < indices.size(); i += 3)
+			{
+				auto& v0 = vertices[indices[i]];
+				auto& v1 = vertices[indices[i + 1]];
+				auto& v2 = vertices[indices[i + 2]];
+				const auto p0 = DirectX::XMLoadFloat3(&v0.pos);
+				const auto p1 = DirectX::XMLoadFloat3(&v1.pos);
+				const auto p2 = DirectX::XMLoadFloat3(&v2.pos);
+				const auto n = DirectX::XMVector3Normalize(DirectX::XMVector3Cross((p1 - p0), (p2 - p0)));
+				DirectX::XMStoreFloat3(&v0.n, n);
+				DirectX::XMStoreFloat3(&v1.n, n);
+				DirectX::XMStoreFloat3(&v2.n, n);
+			}
+		}
+
 	public:
 
 		// The indeces and vertices within this triangulated mesh object.
@@ -48,7 +62,7 @@ namespace ReeeEngine
 	public:
 
 		template<class V>
-		static Mesh<V> NewCube()
+		static MeshBase<V> NewCube()
 		{
 			// Create each vertex of a cube and add it to the verteces list.
 			constexpr float side = 1.0f / 2.0f;
@@ -89,7 +103,7 @@ namespace ReeeEngine
 		/* Function to create a plane with any given x and y divisions.
 		 * NOTE: Default is 1 division in the x and y with no input into the constructor... */
 		template<class V>
-		static Mesh<V> MakePlane(int xDiv = 1, int yDiv = 1)
+		static MeshBase<V> MakePlane(int xDiv = 1, int yDiv = 1)
 		{
 			// Make sure that the number of x and y divisions are above 1.
 			assert(xDiv >= 1);
@@ -159,7 +173,7 @@ namespace ReeeEngine
 		/* Function to create a sphere mesh with any given horizontal and vertical divisions.
 		 * NOTE: Default is 12 divisions horizontally and 24 divisions vertically with no constructor input... */
 		template<class V>
-		static Mesh<V> MakeSphere(float radius = 1.0f, int horizonalDiv = 12, int verticalDiv = 24)
+		static MeshBase<V> MakeSphere(float radius = 1.0f, int horizonalDiv = 12, int verticalDiv = 24)
 		{
 			// Ensure that the horizontal and vertical divisions are both above 3 as its the minimum required to make a sphere.
 			assert(horizonalDiv >= 3);

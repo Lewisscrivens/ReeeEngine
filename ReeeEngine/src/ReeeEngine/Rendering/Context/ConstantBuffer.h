@@ -21,7 +21,7 @@ namespace ReeeEngine
 		}
 
 		/* Constant buffer constructor to setup default buffer using C template. */
-		ConstantBuffer(Graphics& graphics, const C& consts)
+		ConstantBuffer(Graphics& graphics, const C& consts, UINT slot = 0u) : slot(slot)
 		{
 			// Setup constant buffer settings.
 			D3D11_BUFFER_DESC constantBufferSettings;
@@ -40,7 +40,7 @@ namespace ReeeEngine
 		}
 
 		/* Default constructor to setup default buffer with no constants. */
-		ConstantBuffer(Graphics& graphics)
+		ConstantBuffer(Graphics& graphics, UINT slot = 0u) : slot(slot)
 		{
 			// Create the buffer in the D3D device...
 			D3D11_BUFFER_DESC constantBufferSettings;
@@ -58,19 +58,24 @@ namespace ReeeEngine
 
 		// Created constant buffer pointer.
 		Microsoft::WRL::ComPtr<ID3D11Buffer> constantBuffer;
+		UINT slot;
 	};
 
 	/* Vertex constant buffer class derived from the base class. */
 	template<typename C>
 	class VertexConstantBuffer : public ConstantBuffer<C>
 	{
+		using ConstantBuffer<C>::constantBuffer;
+		using ConstantBuffer<C>::slot;
+		using ContextData::GetContext;
+
 	public:
 
 		/* Overridden bind function for binding a vertex constant buffer to the render pipeline. */
 		using ConstantBuffer<C>::ConstantBuffer;
 		virtual void Add(Graphics& graphics) noexcept override
 		{
-			ContextData::GetContext(graphics)->VSSetConstantBuffers(0u, 1u, ConstantBuffer<C>::constantBuffer.GetAddressOf());
+			GetContext(graphics)->VSSetConstantBuffers(slot, 1u, constantBuffer.GetAddressOf());
 		}
 	};
 
@@ -78,13 +83,17 @@ namespace ReeeEngine
 	template<typename C>
 	class PixelConstantBuffer : public ConstantBuffer<C>
 	{
+		using ConstantBuffer<C>::constantBuffer;
+		using ConstantBuffer<C>::slot;
+		using ContextData::GetContext;
+
 	public:
 
 		/* Overridden bind function for binding a constant constant buffer to the render pipeline. */
 		using ConstantBuffer<C>::ConstantBuffer;
 		virtual void Add(Graphics& graphics) noexcept override
 		{
-			ContextData::GetContext(graphics)->PSSetConstantBuffers(0u, 1u, ConstantBuffer<C>::constantBuffer.GetAddressOf());
+			GetContext(graphics)->PSSetConstantBuffers(slot, 1u, constantBuffer.GetAddressOf());
 		}
 	};
 }

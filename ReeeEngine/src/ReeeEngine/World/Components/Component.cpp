@@ -20,7 +20,7 @@ namespace ReeeEngine
 
 	}
 
-	void Component::Tick(float DeltaTime)
+	void Component::Tick(float deltaTime)
 	{
 		//...
 	}

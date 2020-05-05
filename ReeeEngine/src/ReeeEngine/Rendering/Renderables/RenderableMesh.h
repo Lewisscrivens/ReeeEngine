@@ -29,9 +29,6 @@ namespace ReeeEngine
 		/* Render the position of the renderable to the render texture on the pipeline. */
 		void Render(Graphics& graphics) const noexcept;
 
-		/* Tick the renderable and update per frame. */
-		virtual void Tick(float deltaTime) noexcept = 0;	
-
 		/* Set location after init. */
 		void SetLocation(Vector3D newRotation);
 
@@ -78,6 +75,6 @@ namespace ReeeEngine
 		Rotator worldRotation = Rotator(0.0f, 0.0f, 0.0f);
 
 		// Scale of the mesh within the world.
-		Vector3D worldScale = Vector3D(0.0f, 0.0f, 0.0f);
+		Vector3D worldScale = Vector3D(1.0f, 1.0f, 1.0f);
 	};
 }

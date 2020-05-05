@@ -82,6 +82,16 @@ namespace ReeeEngine
 		/* Resize the given window. */
 		void ForceResizeWindow(int newWidth = 0, int newHeight = 0);
 
+		/* Cursor functionality for enabling and disabling over the window for game based raw mouse input... */
+		void EnableCursor() noexcept;
+		void DisableCursor() noexcept;
+		bool CursorEnabled() const noexcept;
+		bool CursorHidden() const noexcept;
+		void ConfineCursor() noexcept;
+		void FreeCursor() noexcept;
+		void HideCursor() noexcept;
+		void ShowCursor() noexcept;
+
 	private:
 
 		/* Create callback function for windows message events. */
@@ -103,6 +113,9 @@ namespace ReeeEngine
 
 		/* Extra input variables. */
 		int keyRepeatCount = 0;
+		bool cursorEnabled = true;
+		bool cursorHidden = false;
+		std::vector<BYTE> rawBuffer;
 
 	public:
 

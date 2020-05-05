@@ -57,6 +57,41 @@ namespace ReeeEngine
 			currScale = newScale;
 		}
 
+		/* Get the transforms up vector while taking world rotation into account. */
+		Vector3D GetUpVector()
+		{
+			// Calculate and return the up vector based off rotation.
+			return TransformVector(Vector3D(0.0f, 1.0f, 0.0f));
+		}
+
+		/* Get the transforms forward vector while taking world rotation into account. */
+		Vector3D GetForwardVector()
+		{
+			// Calculate and return the forward vector based off rotation.
+			return TransformVector(Vector3D(0.0f, 0.0f, 1.0f));
+		}
+
+		/* Get the transforms right vector while taking world rotation into account. */
+		Vector3D GetRightVector()
+		{
+			// Calculate and return the right vector based off rotation.
+			return TransformVector(Vector3D(1.0f, 0.0f, 0.0f));
+		}
+
+		Vector3D TransformVector(const Vector3D& vector)
+		{
+			// Calculate and return the vector based off rotation.
+			DirectX::XMVECTOR baseVector = DirectX::XMLoadFloat3(&vector.ToFloat3());
+			Rotator rotation = currRotation.ToRadians();
+			DirectX::XMVECTOR rotationVec = DirectX::XMQuaternionRotationRollPitchYaw(rotation.Pitch, rotation.Yaw, rotation.Roll);
+			DirectX::XMVECTOR rotatedVec = DirectX::XMVector3Rotate(baseVector, rotationVec);
+
+			// Get readable vector as Vector3D and return.
+			DirectX::XMFLOAT3 readableVector;
+			DirectX::XMStoreFloat3(&readableVector, rotatedVec);
+			return Vector3D(readableVector.x, readableVector.y, readableVector.z);
+		}
+
 		/* Get the DirectX transform from this vector for performing matrix calculations. */
 		DirectX::XMMATRIX GetTransformAsMatrix()
 		{

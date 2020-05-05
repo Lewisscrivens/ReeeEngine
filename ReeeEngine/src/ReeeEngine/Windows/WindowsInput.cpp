@@ -9,6 +9,14 @@ namespace ReeeEngine
 		return currMousePos;
 	}
 
+	Vector2D WindowsInput::GetMouseRawDelta() noexcept
+	{
+		if (rawInputBuffer.empty()) return Vector2D();
+		const Vector2D delta = rawInputBuffer.front();
+		rawInputBuffer.pop();
+		return delta;
+	}
+
 	float WindowsInput::GetMouseXPosition() const noexcept
 	{
 		return currMousePos.X;
@@ -92,6 +100,21 @@ namespace ReeeEngine
 		mouseBuffer = std::queue<MouseEvent>();
 	}
 
+	void WindowsInput::EnableRawMouseInput() noexcept
+	{
+		rawEnabled = true;
+	}
+
+	void WindowsInput::DisableRawMouseInput() noexcept
+	{
+		rawEnabled = false;
+	}
+
+	bool WindowsInput::IsRawMouseInputEnabled() const noexcept
+	{
+		return rawEnabled;
+	}
+
 	void WindowsInput::OnMouseMove(int x, int y) noexcept
 	{
 		// Update mouse x and y.
@@ -116,6 +139,12 @@ namespace ReeeEngine
 		mouseInsideWindow = false;
 		mouseBuffer.push(MouseEvent(MouseEvent::Type::OutsideWindow, *this));
 		TrimMouseBuffer();
+	}
+
+	void WindowsInput::OnRawInput(int x, int y) noexcept
+	{
+		rawInputBuffer.push(Vector2D(x, y));
+		TrimRawInputBuffer();
 	}
 
 	void WindowsInput::OnMousePressed(EMouseButton buttonPressed) noexcept
@@ -203,6 +232,14 @@ namespace ReeeEngine
 		while (mouseBuffer.size() > bufferSize)
 		{
 			mouseBuffer.pop();
+		}
+	}
+
+	void WindowsInput::TrimRawInputBuffer() noexcept
+	{
+		while (rawInputBuffer.size() > bufferSize)
+		{
+			rawInputBuffer.pop();
 		}
 	}
 

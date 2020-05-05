@@ -17,7 +17,7 @@ namespace ReeeEngine
 		virtual void LevelStart() override;
 
 		/* Ticking function. */
-		virtual void Tick(float DeltaTime) override;
+		virtual void Tick(float deltaTime) override;
 
 		/* Owning game object getter and setter. */
 		class GameObject* GetOwner() const;

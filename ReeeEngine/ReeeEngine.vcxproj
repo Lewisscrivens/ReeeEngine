@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -56,14 +56,20 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_DISABLE_EXTENDED_ALIGNED_STORAGE;PLATFORM_WINDOWS;REEE_BUILD;DEBUG_ENABLED;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;DEBUG_ENABLED;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\opencv2;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\dxtex\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\assimp\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
+      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
     <PostBuildEvent>
       <Command>xcopy /y "$(OutDir)ReeeEngine.dll" "$(SolutionDir)bin\$(Configuration)-$(Platform)\EngineProject"
-xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin\$(Configuration)-$(Platform)\ReeeEngine"</Command>
+xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin\$(Configuration)-$(Platform)\ReeeEngine"
+</Command>
     </PostBuildEvent>
+    <Link>
+      <AdditionalLibraryDirectories>$(SolutionDir)ReeeEngine\ThirdParty\OpenCV\Debug\Lib;$(SolutionDir)ReeeEngine\ThirdParty\DXTex\Bin\Debug;$(SolutionDir)ReeeEngine\ThirdParty\Assimp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core430d.lib;opencv_highgui430d.lib;opencv_imgproc430d.lib;opencv_tracking430d.lib;opencv_videoio430d.lib;DirectXTexd.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -73,8 +79,8 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_DISABLE_EXTENDED_ALIGNED_STORAGE;PLATFORM_WINDOWS;REEE_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;REEE_BUILD;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\opencv2;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\dxtex\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>PCH.h</PrecompiledHeaderFile>
@@ -89,6 +95,10 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Mesh.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Lights\PointLight.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\SampleState.h" />
+    <ClInclude Include="src\ReeeEngine\OpenCV\OpenCVInput.h" />
     <ClInclude Include="src\ReeeEngine\World\GameObjects\EngineCamera.h" />
     <ClInclude Include="src\ReeeEngine\World\Components\CameraComponent.h" />
     <ClInclude Include="src\ReeeEngine\World\Components\MeshComponent.h" />
@@ -106,7 +116,6 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\Profiling\DebugTimer.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\ContextIncludes.h" />
-    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.h" />
     <ClInclude Include="src\ReeeEngine\Math\Vector2D.h" />
     <ClInclude Include="src\ReeeEngine\Math\Vector3D.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\PixelShader.h" />
@@ -145,8 +154,15 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\Delegates\WindowDelegates.h" />
     <ClInclude Include="src\ReeeEngine\Module\UserInterfaceModule.h" />
     <ClInclude Include="src\ReeeEngine\World\World.h" />
+    <ClInclude Include="src\ReeeEngine\World\Components\TextComponent.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\Texture.h" />
+    <ClInclude Include="src\ReeeEngine\Rendering\AssetTypes\TextureAsset.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Mesh.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Lights\PointLight.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\SampleState.cpp" />
+    <ClCompile Include="src\ReeeEngine\OpenCV\OpenCVInput.cpp" />
     <ClCompile Include="src\ReeeEngine\World\GameObjects\EngineCamera.cpp" />
     <ClCompile Include="src\ReeeEngine\World\Components\CameraComponent.cpp" />
     <ClCompile Include="src\ReeeEngine\World\Components\MeshComponent.cpp" />
@@ -159,7 +175,6 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\Delegates\InputDelegates.cpp" />
     <ClCompile Include="src\ReeeEngine\Module\ModuleManager.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Sphere.cpp" />
-    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\PixelShader.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\RenderableMesh.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\InputLayout.cpp" />
@@ -185,8 +200,29 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\Delegates\WindowDelegates.cpp" />
     <ClCompile Include="src\ReeeEngine\Module\UserInterfaceModule.cpp" />
     <ClCompile Include="src\ReeeEngine\World\World.cpp" />
+    <ClCompile Include="src\ReeeEngine\World\Components\TextComponent.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\Texture.cpp" />
+    <ClCompile Include="src\ReeeEngine\Rendering\AssetTypes\TextureAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitColorPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitColorVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PhongVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>

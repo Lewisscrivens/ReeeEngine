@@ -4,6 +4,14 @@
 
 namespace ReeeEngine
 {
+	// Create vertex struct.
+	struct Vertex
+	{
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 n;
+		DirectX::XMFLOAT2 tex;
+	};
+
 	/* Template class for creating a renderable object that is added to the rendering pipeline and drawn 
 	 * using data from classes such as the topology, transform, vertex and constant buffers. */
 	template<class T>

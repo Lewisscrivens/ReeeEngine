@@ -5,7 +5,7 @@
 
 namespace ReeeEngine
 {
-	/* Controlled camera object for moving around the editor. */
+	/* Controlled camera object for moving around the editor. TEMP FOR TESTING NEW FEATURES. */
 	class REEE_API EngineCamera : public GameObject 
 	{
 	public:
@@ -32,6 +32,6 @@ namespace ReeeEngine
 		bool firstMovement = true;
 		Vector2D lastMousePos;
 		float mouseSpeed = 1.0f;
-	
+		float movementSpeed = 0.2f;
 	};
 }

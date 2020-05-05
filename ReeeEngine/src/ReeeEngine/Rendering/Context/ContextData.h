@@ -4,7 +4,7 @@
 namespace ReeeEngine
 {
 	/* Class to implement graphics binding from the context for context objects like the vertex shader, vertex buffer etc. */
-	class  ContextData
+	class ContextData
 	{
 	public:
 

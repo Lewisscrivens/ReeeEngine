@@ -1,10 +1,13 @@
 #include "Application.h"
 #include "ReeeLog.h"
 #include "Rendering/Renderables/RenderableMesh.h"
-#include "Rendering/Renderables/Shapes/Box.h"
 #include "Rendering/Renderables/Shapes/Sphere.h"
+#include "Rendering/Renderables/Mesh.h"
+#include "Rendering/Lights/PointLight.h"
 #include "World/World.h"
 #include "World/Components/CameraComponent.h"
+#include "Profiling/DebugTimer.h"
+#include <thread>
 
 namespace ReeeEngine
 {
@@ -21,7 +24,11 @@ namespace ReeeEngine
 	Application::~Application()
 	{
 		// Shutdown any engine management classes.
-
+		if (initOpenCVThread)
+		{
+			initOpenCVThread->join();
+			delete initOpenCVThread;
+		}
 	}
 
 	int Application::Start()
@@ -42,8 +49,12 @@ namespace ReeeEngine
 					return *optionalReturn;
 				}
 
+				// Create delta time.
+				deltaTime = timer.GetDeltaTime();
+				framerate = 1.0f / deltaTime;
+
 				// Update frame.
-				Tick();
+				Tick(deltaTime);
 			}
 		}
 		catch (const std::exception& e)
@@ -61,6 +72,10 @@ namespace ReeeEngine
 
 	void Application::Init()
 	{
+		// Initalise the visual input manager for opencv on a separate thread to prevent opening delay...
+		// Best tracking types are either MOSSE for speed and KCF for a balance between speed and accuracy.
+		initOpenCVThread = new std::thread([this]() mutable { visualInput = CreatePointer<OpenCVInput>(TrackType::MOSSE); });
+
 		// Create and initalise the world.
 		world = new World();
 		world->LevelStart();
@@ -69,39 +84,48 @@ namespace ReeeEngine
 		engineWindow = CreateReff<Window>(1280, 720, "Reee Editor");
 		auto delegateDispatcher = BIND_DELEGATE(Application::OnDelegate);
 		engineWindow->SetDelegateBroadcastEvent(delegateDispatcher);
+		pointLight = new PointLight(engineWindow->GetGraphics());
 
 		// Initalise the imgui module.
 		userInterface = new UserInterfaceModule();
 		AddModuleFront(userInterface);
 
-		// Add a box and setup the projection matrix.
-		// NOTE: Testing code....
-		renderables.push_back(CreateReff<Box>(engineWindow->GetGraphics(), Vector3D(1.0f, 10.0f, 0.0f), Rotator(0.0f), Vector3D(5.0f)));
-		renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, 0.0, 0.0f), Rotator(0.0f), Vector3D(5.0f)));
+		// Test drawing solid sphere colored.
+		// Lit objects drawn after unlit objects setup...
+		// renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, -10.0f, 0.0f), Rotator(0.0f), Vector3D(5.0f)));
+		
+		// Test model loading from mesh.
+		const DirectX::XMFLOAT3 mat = { 1.0f, 0.5f, 0.0f };
+		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/test", Vector3D(0.0f), Rotator(0.0f), Vector3D(1.0f), mat, 1.0f));
 
 		// Log initialization...
 		REEE_LOG(Log, "Intialised Engine....");
 	}
 
-	void Application::Tick()
+	void Application::Tick(float deltaTime)
 	{
-		// Create delta time.
-		const auto deltaTime = timer.GetDeltaTime();
-
 		// Begin rendering window frame.
 		engineWindow->BeginFrame();
 
 		// Tick the world and objects within it.
-		if (!gamePaused)
-		{
-			world->Tick(deltaTime);
-		}
+		if (!gamePaused) world->Tick(deltaTime);
 
+		// Update visual input device once it has been created and intialised.
+		if (visualInput && visualInput->IsInitialised())
+		{
+			visualInput->Update();
+		}
+		
+		// Bind point light information to the pipeline to be accessed by renderables during rendering/binding of there
+		// individual pixel shaders.
+		pointLight->SetPosition(Vector3D(0.0f, 0.0f, -10.0f));
+		pointLight->Add(engineWindow->GetGraphics(), world->GetActiveCamera().GetViewMatrix());
+		
 		// Tick and render each renderable object active in the engine window.
 		for (auto& renderable : renderables)
 		{
-			renderable->Tick(deltaTime);
 			renderable->Render(engineWindow->GetGraphics());
+			renderable->SetRotation(Rotator(0.0f, 0.4f, 0.0f) + renderable->GetRotation());
 		}
 
 		// Update user interface module and each other module. Also run tick events.
@@ -122,6 +146,7 @@ namespace ReeeEngine
 		DelegateDispatcher dispatcher(del);
 		dispatcher.Dispatch<WindowResizedDelegate>(BIND_DELEGATE(Application::OnWindowResized));
 		dispatcher.Dispatch<WindowClosedDelegate>(BIND_DELEGATE(Application::OnWindowClosed));
+		dispatcher.Dispatch<KeyPressedDelegate>(BIND_DELEGATE(Application::OnKeyPressed));
 
 		// Send delegate events to each module within the engine in a given update order.
 		for (auto it = modules.end(); it != modules.begin();)
@@ -163,7 +188,8 @@ namespace ReeeEngine
 		world->GetActiveCamera().SetWindowSize(del.GetNewWidth(), del.GetNewHeight());
 
 		// Update ticking function so the rendering updates while scaling....
-		Tick();
+		deltaTime = timer.GetDeltaTime();
+		Tick(deltaTime);
 
 		// Return false as we want the windows resized delegate to be 
 		// handled by all engine modules not just the first one to handle it.
@@ -172,9 +198,25 @@ namespace ReeeEngine
 
 	bool Application::OnWindowClosed(WindowClosedDelegate& del)
 	{
+		// Close the app.
 		REEE_LOG(Log, "Engine closed.");
 		appRunning = false;
 		return true;
+	}
+
+	bool Application::OnKeyPressed(KeyPressedDelegate& del)
+	{
+		// When space is pressed reset open cv tracking...
+		if (del.GetKeyCode() == KEY_SPACE)
+		{
+			if (visualInput && visualInput->IsInitialised())
+			{
+				visualInput->ReinitTracking(5.0f);
+			}
+		}
+
+		// Handle in other areas also.
+		return false;
 	}
 
 	World* Application::GetWorld()

@@ -1,0 +1,23 @@
+Profiling OpenCV
+
+==================================
+
+DEBUG
+
+==================================
+
+Before multithreading:
+UpdateImageCapture  -->  35ms   avg diff to engine.
+New OpenCVInput     -->  1534ms avg diff to engine.
+Update function     -->  107ms  avg diff to engine.
+
+Engine framerate    -->  36 fps.
+
+After multithreading:
+New OpenCVInput     --> 0ms difference to engine.
+UpdateImageCapture  --> 0ms difference to engine.
+UpdateImageCapture  --> 0ms difference to engine.
+
+Engine framerate    -->  157 fps.
+
+Removed opencv input function and there was no noticable change to the framerate...

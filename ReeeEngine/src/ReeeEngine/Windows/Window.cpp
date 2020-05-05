@@ -69,6 +69,15 @@ namespace ReeeEngine
 
 		// Create graphics object.
 		graphics = CreateReff<Graphics>(hWnd, width, height);
+
+		// Register mouse raw input device for game input (Prevents mouse acceleration etc.)
+		RAWINPUTDEVICE rawInput;
+		rawInput.usUsagePage = 0x01;
+		rawInput.usUsage = 0x02;
+		rawInput.dwFlags = 0;
+		rawInput.hwndTarget = nullptr;
+		result = RegisterRawInputDevices(&rawInput, 1, sizeof(rawInput));
+		WINDOW_EXCEPT(result, "Failed to register raw input for the window {0}.", name);
 	}
 
 	void Window::BeginFrame()
@@ -152,6 +161,55 @@ namespace ReeeEngine
 		graphics->ResizeRenderTargets(currWidth, currHeight);
 	}
 
+	void Window::EnableCursor() noexcept
+	{
+		cursorEnabled = true;
+		ShowCursor();
+		FreeCursor();
+	}
+
+	void Window::DisableCursor() noexcept
+	{
+		cursorEnabled = false;
+		HideCursor();
+		ConfineCursor();
+	}
+
+	bool Window::CursorEnabled() const noexcept
+	{
+		return cursorEnabled;
+	}
+
+	bool Window::CursorHidden() const noexcept
+	{
+		return cursorHidden;
+	}
+
+	void Window::ConfineCursor() noexcept
+	{
+		RECT rect;
+		GetClientRect(hWnd, &rect);
+		MapWindowPoints(hWnd, nullptr, reinterpret_cast<POINT*>(&rect), 2);
+		ClipCursor(&rect);
+	}
+
+	void Window::FreeCursor() noexcept
+	{
+		ClipCursor(nullptr);
+	}
+
+	void Window::HideCursor() noexcept
+	{
+		while (::ShowCursor(FALSE) >= 0);
+		cursorHidden = true;
+	}
+
+	void Window::ShowCursor() noexcept
+	{
+		while (::ShowCursor(TRUE) < 0);
+		cursorHidden = false;
+	}
+
 	LRESULT CALLBACK Window::HandleMessageEntry(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept
 	{
 		// Just after creation / on creation store pointers to the windowClass in the windows API user data.
@@ -202,6 +260,23 @@ namespace ReeeEngine
 			currHeight = HIWORD(lParam);
 			WindowResizedDelegate resizedDel(currWidth, currHeight);
 			delegates.push_back(&resizedDel);
+			break;
+		}
+		case WM_ACTIVATE:
+		{
+			if (!cursorEnabled)
+			{
+				if (wParam & WA_ACTIVE)
+				{
+					ConfineCursor();
+					HideCursor();
+				}
+				else
+				{
+					FreeCursor();
+					ShowCursor();
+				}
+			}
 			break;
 		}
 
@@ -262,6 +337,18 @@ namespace ReeeEngine
 			// Get the mouse position within the window.
 			POINTS mousePos = MAKEPOINTS(lParam);
 
+			// If cursor is disabled handle hiding the cursor.
+			if (!cursorEnabled)
+			{
+				if (!input.IsMouseInWindow())
+				{
+					SetCapture(hWnd);
+					input.OnMouseInside();
+					HideCursor();
+				}
+				break;
+			}
+
 			// If the mouse is within the window update mouse move as normal.
 			if (mousePos.x >= 0 && mousePos.x < currWidth && mousePos.y >= 0 && mousePos.y < currHeight)
 			{
@@ -301,6 +388,11 @@ namespace ReeeEngine
 		}
 		case WM_LBUTTONDOWN:
 		{
+			if (!cursorEnabled)
+			{
+				ConfineCursor();
+				HideCursor();
+			}
 			input.OnMousePressed(EMouseButton::Left);
 			MousePressedDelegate mousePressed(EMouseKey::Left);
 			delegates.push_back(&mousePressed);
@@ -348,6 +440,29 @@ namespace ReeeEngine
 			input.OnMouseWheelDelta(wheelDelta);
 			MouseScrolledDelegate mouseScrolled(wheelDelta);
 			delegates.push_back(&mouseScrolled);
+			break;
+		}
+
+		/* RAW MOUSE INPUT MESSAGES. */
+		case WM_INPUT:
+		{
+			// Dont bother reading if raw is enabled.
+			if (!input.IsRawMouseInputEnabled()) break;
+			
+			// Get input size and break if theres an error.
+			UINT size;
+			if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, nullptr, &size, sizeof(RAWINPUTHEADER)) == -1) break;
+			rawBuffer.resize(size);
+
+			// Read the input data break if error.
+			if (GetRawInputData(reinterpret_cast<HRAWINPUT>(lParam), RID_INPUT, rawBuffer.data(), &size, sizeof(RAWINPUTHEADER)) != size) break;
+
+			// Process the raw input data message.
+			auto& rawInput = reinterpret_cast<const RAWINPUT&>(*rawBuffer.data());
+			if (rawInput.header.dwType == RIM_TYPEMOUSE && (rawInput.data.mouse.lLastX != 0 || rawInput.data.mouse.lLastY != 0))
+			{
+				input.OnRawInput(rawInput.data.mouse.lLastX, rawInput.data.mouse.lLastY);
+			}
 			break;
 		}
 #endif

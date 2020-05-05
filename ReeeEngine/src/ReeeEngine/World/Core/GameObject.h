@@ -3,6 +3,7 @@
 #include "../../ReeeLog.h"
 #include "../../Math/Vector3D.h"
 #include "../../Math/Rotator.h"
+#include "../../Math/Transform.h"
 #include "../Components/Component.h"
 
 /* Define used classes. */
@@ -33,11 +34,13 @@ namespace ReeeEngine
 		Vector3D GetWorldLocation() const;
 		Rotator GetWorldRotation() const;
 		Vector3D GetWorldScale() const;
+		Transform GetWorldTransform() const;
 
 		/* Setters for world rotation, scale and rotation from the set root component. */
 		void SetWorldLocation(const Vector3D& newLocation, bool addToCurrent = false);
 		void SetWorldRotation(const Rotator& newRotation, bool addToCurrent = false);
 		void SetWorldScale(const Vector3D& newScale, bool addToCurrent = false);
+		void SetWorldTransform(const Transform& newTransform);
 
 		/* Get the root component. */
 		Pointer<SceneComponent> GetRootComponent() const { return rootComponent; }

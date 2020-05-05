@@ -16,7 +16,7 @@ public:
 private:
 
 	/* Ran on engine frame. */
-	virtual void Tick() override;
+	virtual void Tick(float deltaTime) override;
 };
 
 /* Define create app function to return this app to the engine entry point. */

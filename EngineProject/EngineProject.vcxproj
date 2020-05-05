@@ -20,7 +20,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -56,13 +56,15 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_DISABLE_EXTENDED_ALIGNED_STORAGE;PLATFORM_WINDOWS;DEBUG_ENABLED;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;DEBUG_ENABLED;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\opencv2;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\dxtex\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\assimp\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>
       </SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)ReeeEngine\ThirdParty\OpenCV\Debug\Lib;$(SolutionDir)ReeeEngine\ThirdParty\DXTex\Bin\Debug;$(SolutionDir)ReeeEngine\ThirdParty\Assimp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core430d.lib;opencv_highgui430d.lib;opencv_imgproc430d.lib;opencv_tracking430d.lib;opencv_videoio430d.lib;DirectXTexd.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -73,8 +75,8 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>_DISABLE_EXTENDED_ALIGNED_STORAGE;PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\opencv2;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\dxtex\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>

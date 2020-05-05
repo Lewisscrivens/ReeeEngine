@@ -12,7 +12,8 @@ namespace ReeeEngine
 		/* Constructor. */
 		Timer() noexcept;
 
-		/* TImer functions. */
+		/* Timer functions. */
+		void Reset();
 		float GetDeltaTime() noexcept;// Returns current frame delta time.
 		float GetTime() const noexcept;// Returns current app time as a float.
 

@@ -18,11 +18,11 @@ namespace ReeeEngine
 	void TransformData::Add(Graphics& graphics) noexcept
 	{
 		// Generate model view and project matrix for constant buffer.
-		const DirectX::XMMATRIX modelViewMatrix = parent.GetTransform() * Application::GetApp().GetWorld()->GetActiveCamera().GetViewMatrix();
+		const DirectX::XMMATRIX modelViewMatrix = parent.GetTransform() * Application::GetEngine().GetWorld()->GetActiveCamera().GetViewMatrix();
 		const MeshTransform modelTransform =
 		{
 			DirectX::XMMatrixTranspose(modelViewMatrix),
-			DirectX::XMMatrixTranspose(modelViewMatrix * Application::GetApp().GetWorld()->GetActiveCamera().GetProjectionMatrix())
+			DirectX::XMMatrixTranspose(modelViewMatrix * Application::GetEngine().GetWorld()->GetActiveCamera().GetProjectionMatrix())
 		};
 
 		// Update the models transform and add it to the graphics pipeline.

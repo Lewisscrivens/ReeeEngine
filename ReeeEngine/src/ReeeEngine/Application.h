@@ -3,8 +3,10 @@
 #include "Timer.h"
 #include "Windows/Window.h"
 #include "Delegates/WindowDelegates.h"
+#include "Delegates/InputDelegates.h"
 #include "Module/ModuleManager.h"
 #include "Module/UserInterfaceModule.h"
+#include "OpenCV/OpenCVInput.h"
 
 namespace ReeeEngine
 {
@@ -35,6 +37,9 @@ namespace ReeeEngine
 		/* Ran when the window is closed. */
 		bool OnWindowClosed(WindowClosedDelegate& del);
 
+		/* Key pressed delegate event. */
+		bool OnKeyPressed(KeyPressedDelegate& del);
+
 		/* Window getter. */
 		Window& GetWindow() { return *engineWindow; };
 
@@ -42,12 +47,18 @@ namespace ReeeEngine
 		static class World* GetWorld();
 
 		/* Static getters for the application for access by subclasses. */
-		static Application& GetApp() { return *app; }
+		static Application& GetEngine() { return *app; }
+
+		/* Static getter for opencv input. */
+		static Pointer<OpenCVInput>& GetOpenCVInput() { return app->visualInput; }
+
+		/* Is this application running. */
+		bool IsAppRunning() { return appRunning; }
 
 	protected:
 
 		/* Frame. */
-		virtual void Tick();
+		virtual void Tick(float deltaTime);
 
 	private:
 
@@ -62,6 +73,7 @@ namespace ReeeEngine
 
 		/* The engine world that will load levels from .txt files when fully implemented. */
 		World* world;
+		class PointLight* pointLight;
 
 		/* Timer for calculating engine time and delta time. */
 		Timer timer;
@@ -72,10 +84,16 @@ namespace ReeeEngine
 		/* Engine module manager. */
 		ModuleManager modules;
 
+		/* Visual input manager. */
+		Pointer<OpenCVInput> visualInput;
+		std::thread* initOpenCVThread;
+
 		/* Information about the state of the application. */
 		bool appRunning = true;
 		bool gamePaused = false;
 		bool minimised = false;
+		float deltaTime = 0.0f;
+		float framerate = 0.0f;
 	};
 
 	/* Define in the sub application. */

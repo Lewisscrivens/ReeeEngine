@@ -116,6 +116,7 @@ namespace ReeeEngine
 		/* MOUSE FUNCTIONALITY. */
 
 		Vector2D GetMousePosition() const noexcept;// Returns the mouse position.
+		Vector2D GetMouseRawDelta() noexcept;// Returns raw mouse movement direction.
 		float GetMouseXPosition() const noexcept;// Returns the mouse x position.
 		float GetMouseYPosition() const noexcept;// Returns the mouse y position.
 		bool IsMouseDown(EMouseButton button) const noexcept;// Returns if the specified mouse button is pressed.
@@ -127,17 +128,23 @@ namespace ReeeEngine
 		bool IsMouseBufferEmpty() const noexcept;// Return if the mouse button buffer is empty.
 		void ResetMouseBuffer() noexcept;// Reset the buffer.
 
+		void EnableRawMouseInput() noexcept;// Enable raw mouse input.
+		void DisableRawMouseInput() noexcept;// Disable raw mouse input.
+		bool IsRawMouseInputEnabled() const noexcept;// Is raw mouse input enabled.
+
 	private:
 
 		void OnMouseMove(int x, int y) noexcept;// Ran when the mouse is moved within a window.
 		void OnMouseInside() noexcept;// Called when mouse leaves window.
 		void OnMouseOutside() noexcept;// Called when mouse enters the window.
+		void OnRawInput(int x, int y) noexcept;// Called when the raw mouse input is updated from within a window.
 		void OnMousePressed(EMouseButton buttonPressed) noexcept;// Ran when a mouse button is pressed.
 		void OnMouseReleased(EMouseButton buttonReleased) noexcept;// Ran when a mouse button is released.
 		void OnMouseWheelUp() noexcept;// Ran when mouse scroll wheel is moved up.
 		void OnMouseWheelDown() noexcept;// Ran when mouse scroll wheel is moved down.
 		void OnMouseWheelDelta(int delta) noexcept;// Ran when mouse scroll wheel is moved.
 		void TrimMouseBuffer() noexcept;// Cuts the mouse buffer down to the mouseBufferSize starting with oldest elements.
+		void TrimRawInputBuffer() noexcept;// Cuts the mouse buffer down to the mouseBufferSize starting with oldest elements.
 
 	private:
 
@@ -188,6 +195,10 @@ namespace ReeeEngine
 		std::bitset<keyNum> keyState;
 		std::queue<KeyboardEvent> keyBuffer;
 		std::queue<char> charBuffer;
+
+		/* Raw mouse input variables. */
+		bool rawEnabled = false;
+		std::queue<Vector2D> rawInputBuffer;
 	};
 }
 

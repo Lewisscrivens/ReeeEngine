@@ -3,6 +3,9 @@
 /* Include PCH. */
 #include "../PCH.h"
 
+/* Useful macros. */
+#define CHECK_RETURN(input) if (!input) { return; } ;
+
 /* Is profiling enabled? */
 #define PROFILING 0
 

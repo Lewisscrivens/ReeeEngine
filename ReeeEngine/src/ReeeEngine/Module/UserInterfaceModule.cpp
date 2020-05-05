@@ -6,7 +6,7 @@
 
 namespace ReeeEngine
 {
-	UserInterfaceModule::UserInterfaceModule() : Module("User Interface Module"), appPointer(Application::GetApp()) {}
+	UserInterfaceModule::UserInterfaceModule() : Module("User Interface Module"), appPointer(Application::GetEngine()) {}
 
 	void UserInterfaceModule::InitModule()
 	{

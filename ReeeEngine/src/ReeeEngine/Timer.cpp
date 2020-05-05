@@ -4,6 +4,11 @@ namespace ReeeEngine
 {
 	Timer::Timer() noexcept
 	{
+		Reset();
+	}
+
+	void Timer::Reset()
+	{
 		time = std::chrono::steady_clock::now();
 	}
 

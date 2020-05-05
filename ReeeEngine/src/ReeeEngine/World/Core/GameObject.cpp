@@ -48,6 +48,11 @@ namespace ReeeEngine
 		return rootComponent->GetWorldScale();
 	}
 
+	Transform GameObject::GetWorldTransform() const
+	{
+		return rootComponent->GetWorldTransform();
+	}
+
 	void GameObject::SetWorldLocation(const Vector3D& newLocation, bool addToCurrent)
 	{
 		rootComponent->SetWorldLocation(newLocation, addToCurrent);
@@ -61,6 +66,11 @@ namespace ReeeEngine
 	void GameObject::SetWorldScale(const Vector3D& newScale, bool addToCurrent)
 	{
 		rootComponent->SetWorldScale(newScale, addToCurrent);
+	}
+
+	void GameObject::SetWorldTransform(const Transform& newTransform)
+	{
+		return rootComponent->SetWorldTransform(newTransform);
 	}
 
 	int GameObject::GetNumChildren() const

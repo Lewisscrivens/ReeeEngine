@@ -90,9 +90,6 @@
     <ClInclude Include="src\ReeeEngine\Math\Vector3D.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Shapes\Shapes.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -186,6 +183,27 @@
     <ClInclude Include="src\ReeeEngine\World\GameObjects\EngineCamera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ReeeEngine\OpenCV\OpenCVInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\World\Components\TextComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\SampleState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Context\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\AssetTypes\TextureAsset.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Lights\PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ReeeEngine\Rendering\Renderables\Mesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ReeeEngine\Application.cpp">
@@ -231,9 +249,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ReeeEngine\Rendering\Context\VertexShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Shapes\Box.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\ReeeEngine\Rendering\DXErrors\dxerr.cpp">
@@ -296,6 +311,27 @@
     <ClCompile Include="src\ReeeEngine\World\GameObjects\EngineCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\ReeeEngine\OpenCV\OpenCVInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\World\Components\TextComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\SampleState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\AssetTypes\TextureAsset.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Context\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Lights\PointLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Mesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PixelShader.hlsl">
@@ -304,6 +340,10 @@
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\VertexShader.hlsl">
       <Filter>Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PhongPS.hlsl" />
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PhongVS.hlsl" />
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitColorVS.hlsl" />
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitColorPS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ReeeEngine\Rendering\DXErrors\DXGetErrorDescription.inl">
