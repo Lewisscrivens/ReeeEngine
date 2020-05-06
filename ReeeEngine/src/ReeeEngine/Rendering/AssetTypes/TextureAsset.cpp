@@ -17,7 +17,6 @@ namespace ReeeEngine
 				DirectX::TEX_FILTER_DEFAULT, DirectX::TEX_THRESHOLD_DEFAULT, convertedImage);
 			LOG_DX_ERROR(result);
 		}
-
 		// Return true if load was successful.
 		return true;
 	}
