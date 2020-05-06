@@ -1,5 +1,4 @@
 #pragma once
-#include "Globals.h"
 #include "Timer.h"
 #include "Windows/Window.h"
 #include "Delegates/WindowDelegates.h"

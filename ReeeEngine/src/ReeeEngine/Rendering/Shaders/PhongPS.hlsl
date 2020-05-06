@@ -40,7 +40,8 @@ float4 main(float3 worldPos : Position, float3 n : Normal, float2 tc : Texcoord)
 	const float3 specular = att * (diffuseColor * diffuseIntensity) * specularIntensity * pow(max(0.0f, dot(normalize(-r), normalize(worldPos))), specularPower);
 
 	// Return calculated point light view of pixel.
-	const float4 pointLightOut = float4(saturate(diffuse + ambientColor + specular), 1.0f) * tex.Sample(splr, tc);
+	float2 flippedTexCoord = float2(tc.x, tc.y * -1);// Quick fix....
+	const float4 pointLightOut = float4(saturate(diffuse + ambientColor + specular), 1.0f) * tex.Sample(splr, flippedTexCoord);
 
 	// Return final color of pixel.
 	return pointLightOut;

@@ -90,13 +90,10 @@ namespace ReeeEngine
 		userInterface = new UserInterfaceModule();
 		AddModuleFront(userInterface);
 
-		// Test drawing solid sphere colored.
-		// Lit objects drawn after unlit objects setup...
-		// renderables.push_back(CreateReff<Sphere>(engineWindow->GetGraphics(), 1.0f, Vector3D(1.0f, -10.0f, 0.0f), Rotator(0.0f), Vector3D(5.0f)));
-		
 		// Test model loading from mesh.
-		const DirectX::XMFLOAT3 mat = { 1.0f, 0.5f, 0.0f };
-		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/test", Vector3D(0.0f), Rotator(0.0f), Vector3D(1.0f), mat, 1.0f));
+		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/PlayerCar", Vector3D(0.0f, -2.0f, -2.0f), Rotator(0.0f), Vector3D(1.0f), 1.0f));
+		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/PoliceCar", Vector3D(0.0f, -2.0f, 2.0f), Rotator(0.0f), Vector3D(1.0f), 1.0f));
+		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/skybox", Vector3D(0.0f, 10.0f, 0.0f), Rotator(0.0f), Vector3D(-1000.0f), 1.0f, true));
 
 		// Log initialization...
 		REEE_LOG(Log, "Intialised Engine....");
@@ -118,14 +115,12 @@ namespace ReeeEngine
 		
 		// Bind point light information to the pipeline to be accessed by renderables during rendering/binding of there
 		// individual pixel shaders.
-		pointLight->SetPosition(Vector3D(0.0f, 0.0f, -10.0f));
 		pointLight->Add(engineWindow->GetGraphics(), world->GetActiveCamera().GetViewMatrix());
 		
 		// Tick and render each renderable object active in the engine window.
 		for (auto& renderable : renderables)
 		{
 			renderable->Render(engineWindow->GetGraphics());
-			renderable->SetRotation(Rotator(0.0f, 0.4f, 0.0f) + renderable->GetRotation());
 		}
 
 		// Update user interface module and each other module. Also run tick events.

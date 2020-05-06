@@ -344,6 +344,8 @@
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\PhongVS.hlsl" />
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitColorVS.hlsl" />
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitColorPS.hlsl" />
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitTexturePS.hlsl" />
+    <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitTextureVS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ReeeEngine\Rendering\DXErrors\DXGetErrorDescription.inl">

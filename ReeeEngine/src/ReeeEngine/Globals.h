@@ -1,7 +1,24 @@
 #pragma once
 
-/* Include PCH. */
-#include "../PCH.h"
+/* Include api. */
+#include <iostream>
+#include <memory>
+#include <utility>
+#include <algorithm>
+#include <functional>
+#include <optional>
+
+/* Include common types. */
+#include <string>
+#include <sstream>
+#include <ostream>
+#include <array>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+
+/* Include windows. */
+#include "ReeeEngine/Windows/ReeeWin.h"
 
 /* Useful macros. */
 #define CHECK_RETURN(input) if (!input) { return; } ;

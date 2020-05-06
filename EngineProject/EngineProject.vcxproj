@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>PLATFORM_WINDOWS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\opencv2;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\dxtex\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)ReeeEngine\src;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\spdlog\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\opencv2;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\dxtex\include;$(SolutionDir)ReeeEngine\src\ReeeEngine\ThirdParty\assimp\include</AdditionalIncludeDirectories>
       <AdditionalOptions>/std:c++17 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
@@ -84,6 +84,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <SubSystem>
       </SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)ReeeEngine\ThirdParty\OpenCV\Release\Lib;$(SolutionDir)ReeeEngine\ThirdParty\DXTex\Bin\Release;$(SolutionDir)ReeeEngine\ThirdParty\Assimp\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opencv_core430.lib;opencv_highgui430.lib;opencv_imgproc430.lib;opencv_tracking430.lib;opencv_videoio430.lib;DirectXTex.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

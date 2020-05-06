@@ -8,7 +8,7 @@ namespace ReeeEngine
 	PointLight::PointLight(Graphics& graphics) : constantBuffer(graphics) 
 	{
 		pointLightSetting.pos = { 0.0f, 0.0f, 0.0f };
-		pointLightSetting.ambientColor = { 0.05f, 0.05f, 0.05f };
+		pointLightSetting.ambientColor = { 0.15f, 0.15f, 0.15f };
 		pointLightSetting.diffuseColor = { 1.0f, 1.0f, 1.0f };
 		pointLightSetting.diffuseIntensity = 5.0f;
 		pointLightSetting.attConst = 1.0f;

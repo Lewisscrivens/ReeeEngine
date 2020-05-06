@@ -9,7 +9,7 @@ namespace ReeeEngine
 	{
 		camera = CreateSubobject<CameraComponent>("EditorCamera");
 		camera->AttachToComponent(rootComponent.get());
-		SetWorldLocation(Vector3D(0.0f, 0.0f, -50.0f));
+		SetWorldLocation(Vector3D(0.0f, 0.0f, -10.0f));
 	}
 	
 	EngineCamera::~EngineCamera()
