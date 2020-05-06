@@ -21,11 +21,15 @@ namespace ReeeEngine
 	
 	void EngineCamera::LevelStart()
 	{
-	
+		GameObject::LevelStart();
+
 	}
 	
 	void EngineCamera::Tick(float DeltaTime)
 	{
+		GameObject::Tick(DeltaTime);
+
+		// Handle input for the camera.
 		Window& engineWindow = Application::GetEngine().GetWindow();
 		WindowsInput& inputComponent = engineWindow.input;
 		if (inputComponent.IsMouseDown(EMouseButton::Left))

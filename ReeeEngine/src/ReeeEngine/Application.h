@@ -72,13 +72,9 @@ namespace ReeeEngine
 
 		/* The engine world that will load levels from .txt files when fully implemented. */
 		World* world;
-		class PointLight* pointLight;
 
 		/* Timer for calculating engine time and delta time. */
 		Timer timer;
-
-		/* Reference to all renderable's within the current application to be rendered by graphics. */
-		std::vector<Refference<class RenderableMesh>> renderables;
 
 		/* Engine module manager. */
 		ModuleManager modules;

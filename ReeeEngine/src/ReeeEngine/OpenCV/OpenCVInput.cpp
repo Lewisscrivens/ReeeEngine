@@ -96,6 +96,7 @@ namespace ReeeEngine
 			{
 				// Read the current camera frame into our opencv::mat
 				currentCamera.read(currentFrame);
+				cv::cvtColor(currentFrame, currentFrameBW, cv::COLOR_BGR2GRAY);
 			}
 		});
 	}
@@ -108,7 +109,7 @@ namespace ReeeEngine
 			while (runningTrackers)
 			{
 				// Run update algorithm...
-				leftTracker.tracker->update(currentFrame, leftTracker.trackedPosition);
+				leftTracker.tracker->update(currentFrameBW, leftTracker.trackedPosition);
 			}
 		});
 
@@ -118,7 +119,7 @@ namespace ReeeEngine
 			while (runningTrackers)
 			{
 				// Run update algorithm...
-				rightTracker.tracker->update(currentFrame, rightTracker.trackedPosition);
+				rightTracker.tracker->update(currentFrameBW, rightTracker.trackedPosition);
 			}
 		});
 
@@ -147,6 +148,7 @@ namespace ReeeEngine
 	void OpenCVInput::ResetTracking()
 	{
 		// Reset the tracker if created otherwise just create a new one.
+		initialisedTrackers = false;
 		if (leftTracker.tracker.get()) leftTracker.tracker.release();
 		if (rightTracker.tracker.get()) rightTracker.tracker.release();
 		leftTracker.tracker = InitialiseTracker(currentTrackType);
@@ -172,8 +174,8 @@ namespace ReeeEngine
 		rightTracker.originalPosition = rightTracker.trackedPosition;
 
 		// Init trackers and return warning message if anything fails.
-		bool leftResult = leftTracker.tracker->init(currentFrame, leftTracker.trackedPosition);
-		bool rightResult = rightTracker.tracker->init(currentFrame, rightTracker.trackedPosition);
+		bool leftResult = leftTracker.tracker->init(currentFrameBW, leftTracker.trackedPosition);
+		bool rightResult = rightTracker.tracker->init(currentFrameBW, rightTracker.trackedPosition);
 		if (leftResult && rightResult) initialisedTrackers = true;
 		else REEE_LOG(Warning, "Failed to reset tracking system for opencv.");
 	}
@@ -187,8 +189,12 @@ namespace ReeeEngine
 			return false;
 		}
 
-		// If not yet initialized initalise the tracker from the first image.
-		if (!initialisedTrackers) ResetTracking();
+		// If first update reset trackers to start tracking in 5 seconds.
+		if (!initialisedTrackers)
+		{
+			ResetTracking();
+			ReinitTracking(5.0f);
+		}
 
 		// If waiting for reset, reset when ready.
 		if (currentResetDelay > 0.0f && timer)

@@ -115,6 +115,7 @@ namespace ReeeEngine
 			SceneComponent* currComp = *it;
 			currComp->SetWorldLocation(change, true);
 		}
+		TransformChanged();
 	}
 
 	void SceneComponent::InitNewRotation(const Rotator& change)
@@ -128,6 +129,7 @@ namespace ReeeEngine
 			// Update new world positions after a rotation is applied to the children.
 			currComp->SetRelativeLocation(currComp->GetRelativeLocation());
 		}
+		TransformChanged();
 	}
 
 	void SceneComponent::InitNewScale(const Vector3D& change)
@@ -138,6 +140,7 @@ namespace ReeeEngine
 			SceneComponent* currComp = *it;
 			currComp->SetWorldScale(change, true);
 		}
+		TransformChanged();
 	}
 
 	Vector3D SceneComponent::GetWorldLocation() const
@@ -287,6 +290,11 @@ namespace ReeeEngine
 		SetRelativeLocation(newRelativeTransform.GetLocation());
 		SetRelativeRotation(newRelativeTransform.GetRotation());
 		SetRelativeScale(newRelativeTransform.GetScale());
+	}
+
+	void SceneComponent::TransformChanged()
+	{
+		//...
 	}
 
 	std::vector<SceneComponent*> SceneComponent::GetChildren() const

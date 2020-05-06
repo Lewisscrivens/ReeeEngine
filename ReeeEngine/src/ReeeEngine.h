@@ -1,5 +1,8 @@
 #pragma once
 
+/* Globals. */
+#include "ReeeEngine/Globals.h"
+
 /* Includes for sub applications. */
 
 #include "ReeeEngine/Application.h"

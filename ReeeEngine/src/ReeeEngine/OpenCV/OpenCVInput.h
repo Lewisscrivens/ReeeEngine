@@ -26,7 +26,7 @@ namespace ReeeEngine
 	};
 
 	/* Wrapper class for the use of OpenCV tracking features as input to drive game mechanics. */
-	class OpenCVInput
+	class REEE_API OpenCVInput
 	{
 	public:
 
@@ -95,5 +95,6 @@ namespace ReeeEngine
 
 		cv::VideoCapture currentCamera;		 // Current camera device capturing and writing to the currentFrame cv::mat.
 		cv::Mat currentFrame;				 // Latest frame updated from the video capture device.
+		cv::Mat currentFrameBW;				 // Black and white currentFrame for tracking.
 	};
 }

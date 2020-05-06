@@ -1,5 +1,7 @@
 #pragma once
 #include <ReeeEngine.h>
+#include "..\..\World\GameObjects\StaticMeshObject.h"
+#include "GameObjects\PlayerObject.h"
 
 /* Extended application class for this app from the ReeeEngine. */
 class EngineApp : public ReeeEngine::Application
@@ -14,6 +16,11 @@ public:
 	virtual void Init() override;
 
 private:
+
+	// Demo assets.
+	ReeeEngine::Pointer<ReeeEngine::StaticMeshObject> skybox;
+	ReeeEngine::Pointer<ReeeEngine::StaticMeshObject> road;
+	ReeeEngine::Pointer<PlayerObject> player;
 
 	/* Ran on engine frame. */
 	virtual void Tick(float deltaTime) override;

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>E:\Documents\Projects\ReeeEngine\ReeeEngine\src\ReeeEngine\Delegates\</FILEPATH>
+      <FILENAME>InputDelegates.h</FILENAME>
+      <LINE>186</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'ReeeEngine::KeyDelegate::currKeyCode' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>ReeeEngine::KeyDelegate::{ctor}</FUNCTION>
+    <DECORATED>??0KeyDelegate@ReeeEngine@@IEAA@XZ</DECORATED>
+    <FUNCLINE>186</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>ReeeEngine::KeyDelegate::currKeyCode</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>E:\Documents\Projects\ReeeEngine\ReeeEngine\src\ReeeEngine\Windows\</FILEPATH>
+      <FILENAME>WindowsInput.h</FILENAME>
+      <LINE>51</LINE>
+      <COLUMN>3</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'ReeeEngine::WindowsInput::KeyboardEvent::eventCount' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>ReeeEngine::WindowsInput::KeyboardEvent::{ctor}</FUNCTION>
+    <DECORATED>??0KeyboardEvent@WindowsInput@ReeeEngine@@QEAA@XZ</DECORATED>
+    <FUNCLINE>51</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>ReeeEngine::WindowsInput::KeyboardEvent::eventCount</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>E:\Documents\Projects\ReeeEngine\ReeeEngine\src\ReeeEngine\Windows\</FILEPATH>
+      <FILENAME>WindowsInput.h</FILENAME>
+      <LINE>112</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'ReeeEngine::WindowsInput::rightMouseDown' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>ReeeEngine::WindowsInput::{ctor}</FUNCTION>
+    <DECORATED>??0WindowsInput@ReeeEngine@@QEAA@XZ</DECORATED>
+    <FUNCLINE>112</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>ReeeEngine::WindowsInput::rightMouseDown</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>E:\Documents\Projects\ReeeEngine\ReeeEngine\src\ReeeEngine\Windows\</FILEPATH>
+      <FILENAME>WindowsInput.h</FILENAME>
+      <LINE>112</LINE>
+      <COLUMN>2</COLUMN>
+    </SFA>
+    <DEFECTCODE>26495</DEFECTCODE>
+    <DESCRIPTION>Variable 'ReeeEngine::WindowsInput::leftMouseDown' is uninitialized. Always initialize a member variable (type.6).</DESCRIPTION>
+    <FUNCTION>ReeeEngine::WindowsInput::{ctor}</FUNCTION>
+    <DECORATED>??0WindowsInput@ReeeEngine@@QEAA@XZ</DECORATED>
+    <FUNCLINE>112</FUNCLINE>
+    <ADDITIONALINFO>
+      <targetSymbol>ReeeEngine::WindowsInput::leftMouseDown</targetSymbol>
+    </ADDITIONALINFO>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

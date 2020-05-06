@@ -161,6 +161,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClInclude Include="src\ReeeEngine\World\Components\TextComponent.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\Context\Texture.h" />
     <ClInclude Include="src\ReeeEngine\Rendering\AssetTypes\TextureAsset.h" />
+    <ClInclude Include="src\ReeeEngine\World\GameObjects\StaticMeshObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ReeeEngine\Rendering\Renderables\Mesh.cpp" />
@@ -207,6 +208,7 @@ xcopy /y "$(ProjectDir)src\ReeeEngine\Resources\ReeeIcon.ico" "$(SolutionDir)bin
     <ClCompile Include="src\ReeeEngine\World\Components\TextComponent.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\Context\Texture.cpp" />
     <ClCompile Include="src\ReeeEngine\Rendering\AssetTypes\TextureAsset.cpp" />
+    <ClCompile Include="src\ReeeEngine\World\GameObjects\StaticMeshObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ReeeEngine\Rendering\Shaders\LitColorPS.hlsl">

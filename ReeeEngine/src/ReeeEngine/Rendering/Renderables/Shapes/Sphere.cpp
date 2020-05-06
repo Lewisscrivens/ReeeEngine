@@ -5,13 +5,8 @@
 
 namespace ReeeEngine
 {
-	Sphere::Sphere(Graphics& graphics, float sphereRadius, Vector3D location , Rotator rotation , Vector3D scale)
+	Sphere::Sphere(Graphics& graphics, float sphereRadius)
 	{
-		// Set starting world location/rotation/scale.
-		SetLocation(location);
-		SetRotation(rotation);
-		SetScale(scale);
-
 		// Is Intialised.
 		if (!IsInitialised())
 		{

@@ -97,7 +97,7 @@ namespace ReeeEngine
 		{
 			Rotator rotRad = currRotation.ToRadians();
 			return DirectX::XMMatrixScaling(currScale.X, currScale.Y, currScale.Z) * DirectX::XMMatrixRotationRollPitchYaw(rotRad.Pitch, rotRad.Yaw, rotRad.Roll) *
-				DirectX::XMMatrixTranslation(currLocation.X, currLocation.Y, currLocation.X);
+				DirectX::XMMatrixTranslation(currLocation.X, currLocation.Y, currLocation.Z);
 		}
 
 		/* Setup this transform from a given matrix transform. */

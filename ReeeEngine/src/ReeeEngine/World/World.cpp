@@ -2,6 +2,10 @@
 #include "Core/GameObject.h"
 #include "Components/CameraComponent.h"
 #include "GameObjects/EngineCamera.h"
+#include "../Application.h"
+#include "../Rendering/Lights/PointLight.h"
+#include "GameObjects/StaticMeshObject.h"
+#include "Components/MeshComponent.h"
 
 namespace ReeeEngine
 {
@@ -20,6 +24,9 @@ namespace ReeeEngine
 
 	void World::LevelStart()
 	{
+		// Temp only supports one point-light default created can be moved.
+		pointLight = new PointLight(Application::GetEngine().GetWindow().GetGraphics());
+
 		// For each loaded object run level start.
 		for (auto& obj : objects)
 		{
@@ -29,7 +36,10 @@ namespace ReeeEngine
 
 	void World::Tick(float deltaTime)
 	{
-		// For each loaded object tick.
+		// Bind point light information to pipeline for mesh components to later access through the constant buffer.
+		pointLight->Add(Application::GetEngine().GetWindow().GetGraphics(), GetActiveCamera().GetViewMatrix());
+
+		// For each loaded object tick/render.
 		for (auto& obj : objects)
 		{
 			obj->Tick(deltaTime);
@@ -44,6 +54,11 @@ namespace ReeeEngine
 	void World::SetActiveCamera(CameraComponent* camera)
 	{
 		activeCamera = camera;
+	}
+
+	void World::SetLightWorldPosition(const Vector3D& newPosition)
+	{
+		pointLight->SetPosition(newPosition);
 	}
 }
 

@@ -5,6 +5,13 @@
 
 namespace ReeeEngine
 {
+	RenderableMesh::RenderableMesh()
+	{
+		// Set default transform to 0 rotation/rotation in all axis with 1 scale in all axis.
+		meshTransform = DirectX::XMMatrixScaling(1.0f, 1.0f, 1.0f) * DirectX::XMMatrixRotationRollPitchYaw(0.0f, 0.0f, 0.0f) *
+			DirectX::XMMatrixTranslation(0.0f, 0.0f, 0.0f);
+	}
+
 	void RenderableMesh::Render(Graphics& graphics) const noexcept
 	{
 		// Bind the context data to the graphics pipeline.
@@ -20,43 +27,15 @@ namespace ReeeEngine
 		// Draw the index array of this renderable mesh.
 		graphics.Draw(pIndexData->GetNum());
 	}
-	
+
+	void RenderableMesh::SetTransform(const DirectX::XMMATRIX& newTransform)
+	{
+		meshTransform = newTransform;
+	}
+
 	DirectX::XMMATRIX RenderableMesh::GetTransform() const noexcept
 	{
-		Rotator rotRad = worldRotation.ToRadians();
-		return DirectX::XMMatrixScaling(worldScale.X, worldScale.Y, worldScale.Z) * 
-			   DirectX::XMMatrixRotationRollPitchYaw(rotRad.Pitch, rotRad.Yaw, rotRad.Roll) *
-			   DirectX::XMMatrixTranslation(worldLocation.X, worldLocation.Y, worldLocation.Z);
-	}
-
-	void RenderableMesh::SetLocation(Vector3D newLocation)
-	{
-		worldLocation = newLocation;
-	}
-
-	void RenderableMesh::SetRotation(Rotator newRotation)
-	{
-		worldRotation = newRotation;
-	}
-
-	void RenderableMesh::SetScale(Vector3D newScale)
-	{
-		worldScale = newScale;
-	}
-
-	Vector3D RenderableMesh::GetLocation()
-	{
-		return worldLocation;
-	}
-
-	Rotator RenderableMesh::GetRotation()
-	{
-		return worldRotation;
-	}
-
-	Vector3D RenderableMesh::GetScale()
-	{
-		return worldScale;
+		return meshTransform;
 	}
 
 	void RenderableMesh::AddData(Refference<ContextData> data) noexcept

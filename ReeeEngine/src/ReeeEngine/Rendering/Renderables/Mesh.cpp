@@ -10,13 +10,8 @@
 
 namespace ReeeEngine
 {
-	Mesh::Mesh(Graphics& graphics, const std::string& filePath, Vector3D location, Rotator rotation, Vector3D scale, float importScale, bool lit)
+	Mesh::Mesh(Graphics& graphics, const std::string& filePath, float importScale, bool lit)
 	{
-		// Set starting world location/rotation/scale.
-		SetLocation(location);
-		SetRotation(rotation);
-		SetScale(scale);
-
 		// If not yet intialised add the index data.
 		if (!IsInitialised())
 		{

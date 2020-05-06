@@ -19,34 +19,16 @@ namespace ReeeEngine
 	public:
 
 		/* Use default constructors/destructors. */
-		RenderableMesh() = default;
+		RenderableMesh();
 		RenderableMesh(const RenderableMesh&) = delete;
 		virtual ~RenderableMesh() = default;
 
-		/* Get the renderable transform position. */
+		/* Get/Set the renderable transform position. */
+		void SetTransform(const DirectX::XMMATRIX& newTransform);
 		virtual DirectX::XMMATRIX GetTransform() const noexcept;
 
 		/* Render the position of the renderable to the render texture on the pipeline. */
 		void Render(Graphics& graphics) const noexcept;
-
-		/* Set location after init. */
-		void SetLocation(Vector3D newRotation);
-
-		/* Set rotation after init.
-		 * NOTE: In degrees. GetTransform will convert it to radians. */
-		void SetRotation(Rotator newRotation);
-
-		/* Function to adjust mesh scale after initializations. */
-		void SetScale(Vector3D newScale);
-
-		/* Get location in the world. */
-		Vector3D GetLocation();
-
-		/* Get rotation in the world. */
-		Rotator GetRotation();
-
-		/* Get scale in the world. */
-		Vector3D GetScale();
 
 	protected:
 
@@ -67,14 +49,7 @@ namespace ReeeEngine
 		const class IndexData* pIndexData = nullptr;
 		std::vector<Refference<ContextData>> pContextData;
 
-		// Position of the mesh in the world.
-		Vector3D worldLocation = Vector3D(0.0f, 0.0f, 0.0f);
-
-		// Rotation of the mesh around its own origin.
-		// NOTE: In degrees. Use ToRadians function to convert to radian rotator.
-		Rotator worldRotation = Rotator(0.0f, 0.0f, 0.0f);
-
-		// Scale of the mesh within the world.
-		Vector3D worldScale = Vector3D(1.0f, 1.0f, 1.0f);
+		// Position of the mesh in the world for rendering purposes.
+		DirectX::XMMATRIX meshTransform;
 	};
 }

@@ -87,6 +87,9 @@ namespace ReeeEngine
 		void SetWorldTransform(const Transform& newTransform);
 		void SetRelativeTransform(const Transform& newRelativeTransform);
 
+		/* Virtual overridable function for updating any unattached subcomponents from the transform of this scene component. */
+		virtual void TransformChanged();
+
 		/* Get vector array of attached children components. */
 		std::vector<SceneComponent*> GetChildren() const;
 

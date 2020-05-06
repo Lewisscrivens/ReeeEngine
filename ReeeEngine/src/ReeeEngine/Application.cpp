@@ -1,9 +1,5 @@
 #include "Application.h"
 #include "ReeeLog.h"
-#include "Rendering/Renderables/RenderableMesh.h"
-#include "Rendering/Renderables/Shapes/Sphere.h"
-#include "Rendering/Renderables/Mesh.h"
-#include "Rendering/Lights/PointLight.h"
 #include "World/World.h"
 #include "World/Components/CameraComponent.h"
 #include "Profiling/DebugTimer.h"
@@ -78,25 +74,16 @@ namespace ReeeEngine
 
 		// Create and initalise the world.
 		world = new World();
-		world->LevelStart();
-
+		
 		// Create engine window.
 		engineWindow = CreateReff<Window>(1280, 720, "Reee Editor");
 		auto delegateDispatcher = BIND_DELEGATE(Application::OnDelegate);
 		engineWindow->SetDelegateBroadcastEvent(delegateDispatcher);
-		pointLight = new PointLight(engineWindow->GetGraphics());
-
+		world->LevelStart();
+		
 		// Initalise the imgui module.
 		userInterface = new UserInterfaceModule();
 		AddModuleFront(userInterface);
-
-		// Test model loading from mesh.
-		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/PlayerCar", Vector3D(0.0f, -2.0f, -2.0f), Rotator(0.0f), Vector3D(1.0f), 1.0f));
-		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/PoliceCar", Vector3D(0.0f, -2.0f, 2.0f), Rotator(0.0f), Vector3D(1.0f), 1.0f));
-		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/RoadMesh", Vector3D(0.0f, -2.0f, 0.0f), Rotator(0.0f), Vector3D(0.8f), 1.0f));
-		renderables.push_back(CreateReff<Mesh>(engineWindow->GetGraphics(), "../Assets/skybox", Vector3D(0.0f, 10.0f, 0.0f), Rotator(0.0f), Vector3D(-1000.0f), 1.0f, true));
-
-
 
 		// Log initialization...
 		REEE_LOG(Log, "Intialised Engine....");
@@ -107,24 +94,14 @@ namespace ReeeEngine
 		// Begin rendering window frame.
 		engineWindow->BeginFrame();
 
-		// Tick the world and objects within it.
-		if (!gamePaused) world->Tick(deltaTime);
-
 		// Update visual input device once it has been created and intialised.
 		if (visualInput && visualInput->IsInitialised())
 		{
 			visualInput->Update();
 		}
-		
-		// Bind point light information to the pipeline to be accessed by renderables during rendering/binding of there
-		// individual pixel shaders.
-		pointLight->Add(engineWindow->GetGraphics(), world->GetActiveCamera().GetViewMatrix());
-		
-		// Tick and render each renderable object active in the engine window.
-		for (auto& renderable : renderables)
-		{
-			renderable->Render(engineWindow->GetGraphics());
-		}
+
+		// Tick the world and objects within it.
+		if (!gamePaused) world->Tick(deltaTime);
 
 		// Update user interface module and each other module. Also run tick events.
 		userInterface->BeginFrame();
@@ -204,7 +181,8 @@ namespace ReeeEngine
 
 	bool Application::OnKeyPressed(KeyPressedDelegate& del)
 	{
-		// When space is pressed reset open cv tracking...
+		// Reset game state when pressed.
+		// NOTE: Move to engineApp instead...
 		if (del.GetKeyCode() == KEY_SPACE)
 		{
 			if (visualInput && visualInput->IsInitialised())

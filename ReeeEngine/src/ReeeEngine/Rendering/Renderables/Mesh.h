@@ -9,8 +9,7 @@ namespace ReeeEngine
 	public:
 
 		/* Mesh constructor from a given file. */
-		Mesh(Graphics& graphics, const std::string& filePath, Vector3D location, Rotator rotation, 
-			Vector3D scale, float importScale = 1.0f, bool lit = false);
+		Mesh(Graphics& graphics, const std::string& filePath, float importScale = 1.0f, bool lit = false);
 	};
 }
 

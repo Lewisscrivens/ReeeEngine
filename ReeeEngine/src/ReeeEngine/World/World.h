@@ -1,6 +1,7 @@
 #pragma once
 #include "../Globals.h"
 #include "../ReeeLog.h"
+#include "../Math/Vector3D.h"
 
 namespace ReeeEngine
 {
@@ -43,7 +44,13 @@ namespace ReeeEngine
 			return newGameObject;
 		}
 
+		// TEMP LIGHT POSITIONING FUNCTION FOR DEMO GAME.
+		void SetLightWorldPosition(const Vector3D& newPosition);
+
 	private:
+
+		// TEMP LIGHT FOR DEMO GAME.
+		class PointLight* pointLight;
 
 		// Array of intialised game objects.
 		std::vector<Pointer<GameObject>> objects;
