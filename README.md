@@ -13,10 +13,10 @@ I have tried to build on what they have done as much as possible in all areas as
 way you program in Unreal Engine 4 C++.
 
 I currently have a simple game object and component system that I am still improving and working on alongside adding more rendering
- features to the engine such as textures, dynamic lighting etc.
+features to the engine such as textures, dynamic lighting etc.
  
 NOTE: Project currently on hold but I plan to come back whenever I can as I am using it as an educational tool to get a lower level
- understanding of both rendering pipelines and low level C++ programming.
+understanding of both rendering pipelines and low level C++ programming.
  
 ----------------------------------------------------------------------------------
  
