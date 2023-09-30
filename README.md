@@ -33,8 +33,3 @@ Implemnted Third part API:
 OpenCVDemo build:
 
 https://drive.google.com/file/d/1kmIGfAd9d1KP6pPpWzYoiIhx9xmCeC0N/view?usp=sharing
-
-----------------------------------------------------------------------------------
-
-[![logo](Readme/DEMO.png)](https://youtu.be/K-IRAicDvbI)
-
